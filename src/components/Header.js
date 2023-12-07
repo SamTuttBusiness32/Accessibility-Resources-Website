@@ -18,7 +18,7 @@ const StyledInner = styled.div`
 
 const Header = () => (
   <StyledHeader>
-    <Container>
+    <Container wide={true}>
       <StyledInner>
         <Logo />
         <Navigation />

@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { breakpointSizes, fluidFontSize } from '../../styles';
+import { brandColours, breakpointSizes, fluidFontSize } from '../../styles';
 
 export const headingStyles = () => {
   return css`
@@ -7,7 +7,8 @@ export const headingStyles = () => {
       '26px',
       '36px',
       breakpointSizes.tiny,
-      breakpointSizes.xxxxlarge
+      breakpointSizes.xxxxlarge,
     )};
+    color: ${brandColours.primary};
   `;
 };

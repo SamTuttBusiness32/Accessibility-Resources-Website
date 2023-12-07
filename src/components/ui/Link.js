@@ -57,6 +57,9 @@ export const LinkFragment = graphql`
         }
       }
     }
+    ... on DatoCmsCategory {
+      slug
+    }
     ... on DatoCmsExternalUrl {
       url
     }

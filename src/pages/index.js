@@ -38,6 +38,9 @@ const IndexPage = () => {
         }
         modularBlocks {
           ...ContentModularBlockFragment
+          ...CtasModularBlockFragment
+          ...ImageContentModularBlockV1Fragment
+          ...ImageContentModularBlockV2Fragment
         }
       }
     }
@@ -51,6 +54,7 @@ const IndexPage = () => {
           text={bannerText}
           image={bannerImage}
         />
+        <img alt="Test" />
         <ModularBlocks items={modularBlocks} />
       </main>
     </Layout>

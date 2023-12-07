@@ -2,14 +2,18 @@ import React from 'react';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import styled, { css } from 'styled-components';
 import {
+  brandColours,
   maxBreakpointQuery,
   minBreakpointQuery,
   sectionMargins,
+  sectionPaddings,
+  standardColours,
 } from '../styles';
 import { Button, Container, Heading, HtmlContent } from './ui';
 
 const StyledImageContent = styled.section`
-  ${sectionMargins()};
+  background-color: ${brandColours.primary};
+  color: ${standardColours.white};
 `;
 
 const StyledInner = styled.div`
@@ -82,6 +86,10 @@ const StyledImage = styled(GatsbyImage)`
 `;
 
 const StyledContent = styled.div`
+  ${maxBreakpointQuery.smedium`
+   padding-bottom: 30px;
+  `}
+
   ${minBreakpointQuery.smedium`
     margin-top: 30px;
     margin-bottom: 30px;
@@ -97,6 +105,10 @@ const StyledContent = styled.div`
       `;
     }
   }}
+`;
+
+const StyledHeading = styled(Heading)`
+  color: ${standardColours.white};
 `;
 
 const StyledText = styled(HtmlContent)`
@@ -134,7 +146,7 @@ const ImageContent = ({ image, heading, text, link, flip, version }) => (
           version={version}
         />
         <StyledContent flip={flip} version={version}>
-          <Heading>{heading}</Heading>
+          <StyledHeading>{heading}</StyledHeading>
           <StyledText content={text} />
           {link && <StyledButton to={link.pageUrl}>{link.text}</StyledButton>}
         </StyledContent>

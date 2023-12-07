@@ -25,13 +25,12 @@ const StyledInner = styled.div`
   `}
 
   ${minBreakpointQuery.medium`
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1.25fr 1fr;
     align-items: center;
   `}
 
   ${minBreakpointQuery.mlarge`
-    
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1.5fr 1fr;
   `}
 
   ${minBreakpointQuery.large`

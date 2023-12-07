@@ -16,9 +16,9 @@ const commonButtonStyles = () => {
     ${fontSize(16)};
     line-height: 1.5;
     text-align: center;
-    background-color: ${brandColours.secondary};
-    border-radius: 22px;
+    background-color: #ff7f7f;
     transition: ${standardTransition('background-color')};
+    border-radius: 5px;
 
     &:hover {
       background-color: ${brandColours.primary};

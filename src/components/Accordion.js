@@ -120,7 +120,7 @@ const Accordion = ({ heading, items, isFaqs }) => {
                         '@type': 'Answer',
                         text: content,
                       },
-                    })
+                    }),
                   )}
                 ]
               }`,
@@ -133,7 +133,6 @@ const Accordion = ({ heading, items, isFaqs }) => {
           <StyledHeading>{heading}</StyledHeading>
           {items.map(({ heading, content }, i) => {
             const display = activeItem === i;
-
             return (
               <StyledItem key={i}>
                 <StyledSubHeading

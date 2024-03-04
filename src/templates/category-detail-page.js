@@ -4,9 +4,9 @@ import Layout from '../components/Layout';
 import Banner from '../components/Banner';
 import ModularBlocks from '../components/ModularBlocks';
 
-const DefaultPageTemplate = ({
+const CategoryDetailPageTemplate = ({
   data: {
-    datoCmsPage: {
+    datoCmsCategory: {
       seoMetaTags,
       noIndex,
       title,
@@ -14,6 +14,7 @@ const DefaultPageTemplate = ({
       bannerText,
       bannerImage,
       modularBlocks,
+      guides,
     },
   },
 }) => (
@@ -25,13 +26,14 @@ const DefaultPageTemplate = ({
         image={bannerImage}
       />
       <ModularBlocks items={modularBlocks} />
+      <ModularBlocks items={guides[0].modularBlocks} />
     </main>
   </Layout>
 );
 
-export const DefaultPageTemplateQuery = graphql`
-  query DefaultPageTemplateQuery($id: String!) {
-    datoCmsPage(id: { eq: $id }) {
+export const CategoryDetailPageTemplateQuery = graphql`
+  query CategoryDetailPageTemplateQuery($id: String!) {
+    datoCmsCategory(id: { eq: $id }) {
       seoMetaTags {
         ...GatsbyDatoCmsSeoMetaTags
       }
@@ -55,10 +57,17 @@ export const DefaultPageTemplateQuery = graphql`
       modularBlocks {
         ...ContentModularBlockFragment
         ...CtasModularBlockFragment
-        ...StatisticsModularBlockFragment
+      }
+      guides {
+        title
+        modularBlocks {
+          ...ContentModularBlockFragment
+          ...CtasModularBlockFragment
+          ...ImageContentModularBlockV2Fragment
+        }
       }
     }
   }
 `;
 
-export default DefaultPageTemplate;
+export default CategoryDetailPageTemplate;

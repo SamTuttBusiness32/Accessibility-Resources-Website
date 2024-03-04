@@ -4,6 +4,9 @@ const fs = require(`fs`);
 exports.createPages = ({ graphql, actions }) => {
   const { createPage, createRedirect } = actions;
   const DefaultPageTemplate = path.resolve(`src/templates/default-page.js`);
+  const CategoryDetailPageTemplate = path.resolve(
+    `src/templates/category-detail-page.js`,
+  );
 
   return graphql(`
     {
@@ -31,6 +34,14 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       }
+      allDatoCmsCategory {
+        edges {
+          node {
+            id
+            slug
+          }
+        }
+      }
       datoCmsSeo {
         redirects {
           fromPath
@@ -44,7 +55,7 @@ exports.createPages = ({ graphql, actions }) => {
       throw result.errors;
     }
 
-    const { allDatoCmsPage, datoCmsSeo } = result.data;
+    const { allDatoCmsPage, allDatoCmsCategory, datoCmsSeo } = result.data;
 
     if (allDatoCmsPage) {
       allDatoCmsPage.edges.forEach(
@@ -96,6 +107,16 @@ exports.createPages = ({ graphql, actions }) => {
         },
       );
     }
+
+    allDatoCmsCategory.edges.forEach(({ node: { slug, id } }) => {
+      createPage({
+        path: `/category/${slug}/`,
+        component: CategoryDetailPageTemplate,
+        context: {
+          id: id,
+        },
+      });
+    });
 
     if (datoCmsSeo) {
       datoCmsSeo.redirects.forEach(({ fromPath, toPath, statusCode }) => {

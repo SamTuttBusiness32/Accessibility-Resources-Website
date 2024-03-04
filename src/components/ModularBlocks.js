@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import Content from './Content';
 import Ctas from './Ctas';
 import ImageContent from './ImageContent';
+import Statistics from './Statistics';
 
 const ModularBlocks = ({ items }) =>
   items.map(item => (
@@ -36,6 +37,14 @@ const ModularBlocks = ({ items }) =>
           link={item.link}
           flip={item.flip}
           version={2}
+        />
+      )}
+      {item.model.apiKey === 'statistics_modular_block' && (
+        <Statistics
+          heading={item.heading}
+          items={item.statistics}
+          text={item.statisticsText}
+          invert={item.invert}
         />
       )}
     </React.Fragment>
@@ -148,5 +157,19 @@ export const ModularBlockFragments = graphql`
       }
     }
     flip
+  }
+
+  fragment StatisticsModularBlockFragment on DatoCmsStatisticsModularBlock {
+    id
+    model {
+      apiKey
+    }
+    heading
+    statistics {
+      statistic
+      caption
+    }
+    statisticsText: text
+    invert
   }
 `;

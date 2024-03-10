@@ -14,7 +14,6 @@ const CategoryDetailPageTemplate = ({
       bannerText,
       bannerImage,
       modularBlocks,
-      guides,
     },
   },
 }) => (
@@ -26,7 +25,6 @@ const CategoryDetailPageTemplate = ({
         image={bannerImage}
       />
       <ModularBlocks items={modularBlocks} />
-      <ModularBlocks items={guides[0].modularBlocks} />
     </main>
   </Layout>
 );
@@ -57,14 +55,6 @@ export const CategoryDetailPageTemplateQuery = graphql`
       modularBlocks {
         ...ContentModularBlockFragment
         ...CtasModularBlockFragment
-      }
-      guides {
-        title
-        modularBlocks {
-          ...ContentModularBlockFragment
-          ...CtasModularBlockFragment
-          ...ImageContentModularBlockV2Fragment
-        }
       }
     }
   }

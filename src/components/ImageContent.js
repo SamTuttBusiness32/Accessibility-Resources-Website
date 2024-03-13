@@ -12,8 +12,19 @@ import {
 import { Button, Container, Heading, HtmlContent } from './ui';
 
 const StyledImageContent = styled.section`
-  background-color: ${brandColours.primary};
-  color: ${standardColours.white};
+  ${({ version }) => {
+    if (version === 2) {
+      return css`
+        background-color: ${brandColours.primary};
+        color: ${standardColours.white};
+      `;
+    } else {
+      return css`
+        color: ${brandColours.primary};
+        ${sectionMargins()};
+      `;
+    }
+  }}
 `;
 
 const StyledInner = styled.div`
@@ -81,6 +92,10 @@ const StyledImage = styled(GatsbyImage)`
             flip ? 'margin-left: -30px;' : 'margin-right: -30px;'}
         `}
       `;
+    } else {
+      return `
+        border-radius: 15px;
+      `;
     }
   }}
 `;
@@ -108,7 +123,17 @@ const StyledContent = styled.div`
 `;
 
 const StyledHeading = styled(Heading)`
-  color: ${standardColours.white};
+  ${({ version }) => {
+    if (version === 2) {
+      return css`
+        color: ${standardColours.white};
+      `;
+    } else {
+      return `
+      color: ${brandColours.primary};
+      `;
+    }
+  }}
 `;
 
 const StyledText = styled(HtmlContent)`
@@ -136,7 +161,7 @@ const StyledButton = styled(Button)`
 `;
 
 const ImageContent = ({ image, heading, text, link, flip, version }) => (
-  <StyledImageContent>
+  <StyledImageContent version={version}>
     <Container wide={version === 2}>
       <StyledInner>
         <StyledImage
@@ -146,7 +171,7 @@ const ImageContent = ({ image, heading, text, link, flip, version }) => (
           version={version}
         />
         <StyledContent flip={flip} version={version}>
-          <StyledHeading>{heading}</StyledHeading>
+          <StyledHeading version={version}>{heading}</StyledHeading>
           <StyledText content={text} />
           {link && <StyledButton to={link.pageUrl}>{link.text}</StyledButton>}
         </StyledContent>

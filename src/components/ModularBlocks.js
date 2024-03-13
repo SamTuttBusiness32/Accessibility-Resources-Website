@@ -112,10 +112,9 @@ export const ModularBlockFragments = graphql`
     }
     image {
       gatsbyImageData(
-        width: 500
-        height: 850
-        layout: FULL_WIDTH
-        imgixParams: { fit: "crop", w: "710", h: "770" }
+        width: 710
+        height: 800
+        imgixParams: { fit: "crop", w: "710", h: "800" }
       )
       alt
     }
@@ -141,7 +140,7 @@ export const ModularBlockFragments = graphql`
       gatsbyImageData(
         width: 1200
         height: 900
-
+        layout: FULL_WIDTH
         imgixParams: { fit: "crop", w: "1200", h: "900" }
       )
       alt

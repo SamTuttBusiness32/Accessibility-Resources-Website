@@ -19,13 +19,13 @@ const StyledStatistics = styled.section`
   ${({ invert }) => {
     if (invert) {
       return css`
-        ${sectionPaddings()};
+        ${sectionPaddings(`30px`, `60px`)};
         background-color: ${brandColours.primary};
         color: ${standardColours.white};
       `;
     } else {
       return css`
-        ${sectionMargins()};
+        ${sectionMargins(`30px`, `60px`)};
         color: ${brandColours.primary};
       `;
     }
@@ -64,7 +64,8 @@ const StyledItem = styled.li`
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  align-items: center;
 
   ${maxBreakpointQuery.medium`
     max-width: 250px;
@@ -72,10 +73,46 @@ const StyledItem = styled.li`
   `}
 `;
 
-const StyledStatistic = styled.span`
+const StyledStatistic = styled.div`
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: #444
+    linear-gradient(to right, transparent 50%, ${brandColours.primary} 50%);
+
+  &:before {
+    content: '';
+    display: block;
+    height: 100%;
+    margin-left: 50%;
+    transform-origin: left;
+    border-radius: 0 100% 100% 0/50%;
+    background: ${({ value }) => (value > 50 ? brandColours.primary : `#444`)};
+    transform: ${({ value }) =>
+      value > 50
+        ? `rotate(calc(((${value} - 50) * 0.01turn)))`
+        : `rotate(calc(((${value} - 0) * 0.01turn)))`};
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    background: ${standardColours.white};
+  }
+`;
+
+const StyledValue = styled.p`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
   ${fluidFontSize(
     '40px',
-    '80px',
+    '60px',
     breakpointSizes.tiny,
     breakpointSizes.xxxxlarge,
   )};
@@ -115,7 +152,9 @@ const Statistics = ({ heading, items, text, invert }) => (
       <StyledItems>
         {items.map(({ statistic, caption }) => (
           <StyledItem>
-            <StyledStatistic>{statistic}</StyledStatistic>
+            <StyledStatistic value={statistic}>
+              <StyledValue>{statistic}%</StyledValue>
+            </StyledStatistic>
             <StyledCaption>{caption}</StyledCaption>
           </StyledItem>
         ))}

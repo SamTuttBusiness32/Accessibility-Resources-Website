@@ -6,6 +6,9 @@ export const standardColours = {
   transparentBlack: value => {
     return `rgba(0, 0, 0, ${value})`;
   },
+  transparentBlue: value => {
+    return `rgba(0, 128, 128, ${value})`;
+  },
   transparentWhite: value => {
     return `rgba(255, 255, 255, ${value})`;
   },

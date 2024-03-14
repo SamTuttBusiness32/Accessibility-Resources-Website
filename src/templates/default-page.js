@@ -49,7 +49,12 @@ export const DefaultPageTemplateQuery = graphql`
         }
       }
       bannerImage {
-        url
+        gatsbyImageData(
+          width: 1920
+          height: 580
+          layout: FULL_WIDTH
+          imgixParams: { fit: "crop", w: "1920", h: "580" }
+        )
         alt
       }
       modularBlocks {

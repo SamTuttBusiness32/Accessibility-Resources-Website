@@ -45,6 +45,12 @@ export const LinkFragment = graphql`
     ... on DatoCmsHome {
       slug
     }
+    ... on DatoCmsChecklist {
+      slug
+    }
+    ... on DatoCmsLogin {
+      slug
+    }
     ... on DatoCmsPage {
       slug
       treeParent {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
 import {
   brandColours,
@@ -11,38 +12,22 @@ import {
 import { Container, HtmlContent } from './ui';
 
 const StyledBanner = styled.section`
-  ${sectionPaddings('30px', '80px')};
   background-color: ${brandColours.primary};
   color: ${standardColours.white};
-`;
-
-const StyledInner = styled.div`
   display: grid;
-  gap: 40px;
-
-  ${minBreakpointQuery.small`
-    gap: 60px;
-  `}
-
-  ${minBreakpointQuery.medium`
-    grid-template-columns: 1.25fr 1fr;
-    align-items: center;
-  `}
-
-  ${minBreakpointQuery.mlarge`
-    grid-template-columns: 1.5fr 1fr;
-  `}
-
-  ${minBreakpointQuery.large`
-    gap: 80px;
-  `}
-
-  ${minBreakpointQuery.xxlarge`
-    gap: 100px;
-  `}
+  align-items: center;
+  justify-items: center;
 `;
 
-const StyledContent = styled.div``;
+const StyledOuter = styled.div`
+  grid-area: 1/1/1/1;
+  z-index: 2;
+`;
+
+const StyledContent = styled.div`
+  text-align: center;
+  padding: 30px 0;
+`;
 
 const StyledHeading = styled.h1`
   ${fluidFontSize(
@@ -66,45 +51,43 @@ const StyledText = styled(HtmlContent)`
   `}
 `;
 
-const StyledImageWrapper = styled.div`
-  display: grid;
-`;
-
-const StyledImage = styled.img`
+const StyledImage = styled(GatsbyImage)`
   grid-area: 1/1/1/1;
   width: 100%;
-  max-height: 320px;
+  height: 100%;
 
-  ${minBreakpointQuery.tiny`
-    max-height: 360px;
-  `}
-
-  ${minBreakpointQuery.small`
-    max-height: 400px;
-  `}
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: ${standardColours.transparentBlack(0.5)};
+    z-index: 1;
+  }
 
   ${minBreakpointQuery.large`
-    max-height: 440px;
-  `}
-
-  ${minBreakpointQuery.xxlarge`
-    max-height: 480px;
+    max-height: 580px;
   `}
 `;
 
 const Banner = ({ heading, text, image }) => (
   <StyledBanner>
-    <Container>
-      <StyledInner>
+    <StyledOuter>
+      {console.log(image)}
+      <Container>
         <StyledContent>
           <StyledHeading>{heading}</StyledHeading>
           <StyledText content={text} />
         </StyledContent>
-        <StyledImageWrapper>
-          <StyledImage src={image.url} alt={image.alt} loading="eager" />
-        </StyledImageWrapper>
-      </StyledInner>
-    </Container>
+      </Container>
+    </StyledOuter>
+    <StyledImage
+      image={image.gatsbyImageData}
+      alt={image.alt}
+      loading="eager"
+    />
   </StyledBanner>
 );
 

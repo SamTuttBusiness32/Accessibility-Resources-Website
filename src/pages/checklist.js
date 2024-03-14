@@ -4,9 +4,9 @@ import Layout from '../components/Layout';
 import Banner from '../components/Banner';
 import ModularBlocks from '../components/ModularBlocks';
 
-const IndexPage = () => {
+const ChecklistPage = () => {
   const {
-    datoCmsHome: {
+    datoCmsChecklist: {
       seoMetaTags,
       title,
       bannerHeading,
@@ -15,8 +15,8 @@ const IndexPage = () => {
       modularBlocks,
     },
   } = useStaticQuery(graphql`
-    query IndexPageQuery {
-      datoCmsHome {
+    query ChecklistPageQuery {
+      datoCmsChecklist {
         seoMetaTags {
           ...GatsbyDatoCmsSeoMetaTags
         }
@@ -66,4 +66,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default ChecklistPage;

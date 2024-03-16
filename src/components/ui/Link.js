@@ -45,7 +45,7 @@ export const LinkFragment = graphql`
     ... on DatoCmsHome {
       slug
     }
-    ... on DatoCmsChecklist {
+    ... on DatoCmsChecklistArchive {
       slug
     }
     ... on DatoCmsLogin {

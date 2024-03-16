@@ -12,7 +12,7 @@ import {
 import { Button, Container, HtmlContent } from './ui';
 
 const StyledLoginForm = styled.section`
-  ${sectionMargins('30px', '70px')}
+  ${sectionMargins()}
 `;
 
 const StyledInner = styled.div`
@@ -72,7 +72,7 @@ const StyledButton = styled(Button)`
   width: 100%;
 `;
 
-const LoginForm = () => {
+const LoginForm = ({ isLogin }) => {
   return (
     <StyledLoginForm>
       <Container extraNarrow={true}>
@@ -88,6 +88,12 @@ const LoginForm = () => {
                   required
                 />
               </StyledLabel>
+              {!isLogin && (
+                <StyledLabel>
+                  Email*
+                  <StyledInput type="email" name="email" id="email" required />
+                </StyledLabel>
+              )}
               <StyledLabel>
                 Password*
                 <StyledInput
@@ -100,7 +106,9 @@ const LoginForm = () => {
             </StyledFieldset>
             <StyledButtons>
               <StyledButton>Sign In</StyledButton>
-              <a>Create account</a>
+              <a href={isLogin ? '/sign-up' : '/login'}>
+                {isLogin ? 'Create account' : 'Login In'}
+              </a>
             </StyledButtons>
           </StyledForm>
         </StyledInner>

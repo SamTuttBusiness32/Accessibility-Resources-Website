@@ -56,12 +56,8 @@ const LoginPage = () => {
   return (
     <Layout seo={seoMetaTags}>
       <main>
-        <Banner
-          heading={bannerHeading ? bannerHeading : title}
-          text={bannerText}
-          image={bannerImage}
-        />
-        <LoginForm />
+        <Banner heading="Login" text={bannerText} image={bannerImage} />
+        <LoginForm isLogin={true} />
       </main>
     </Layout>
   );

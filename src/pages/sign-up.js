@@ -2,21 +2,20 @@ import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import Banner from '../components/Banner';
-import Checklist from '../components/Checklist';
+import LoginForm from '../components/LoginForm';
 
-const ChecklistPage = () => {
+const SignUpPage = () => {
   const {
-    datoCmsChecklistArchive: {
+    datoCmsLogin: {
       seoMetaTags,
       title,
       bannerHeading,
       bannerText,
       bannerImage,
     },
-    allDatoCmsChecklist: { nodes },
   } = useStaticQuery(graphql`
-    query ChecklistPageQuery {
-      datoCmsChecklistArchive {
+    query SignUpPageQuery {
+      datoCmsLogin {
         seoMetaTags {
           ...GatsbyDatoCmsSeoMetaTags
         }
@@ -42,44 +41,17 @@ const ChecklistPage = () => {
           alt
         }
       }
-      allDatoCmsChecklist(filter: { root: { eq: true } }) {
-        nodes {
-          title
-          content {
-            value
-          }
-          treeChildren {
-            title
-            content {
-              value
-            }
-            treeChildren {
-              title
-              level
-              content {
-                value
-              }
-            }
-          }
-        }
-      }
     }
   `);
-
-  console.log(nodes);
 
   return (
     <Layout seo={seoMetaTags}>
       <main>
-        <Banner
-          heading={bannerHeading ? bannerHeading : title}
-          text={bannerText}
-          image={bannerImage}
-        />
-        <Checklist items={nodes} />
+        <Banner heading="Sign Up" text={bannerText} image={bannerImage} />
+        <LoginForm />
       </main>
     </Layout>
   );
 };
 
-export default ChecklistPage;
+export default SignUpPage;

@@ -7,12 +7,23 @@ const StyledContainer = styled.div`
   padding-left: 30px;
   padding-right: 30px;
   width: 100%;
-  max-width: ${({ narrow, wide }) =>
-    narrow ? '1000' : wide ? '1800' : '1200'}px;
+  max-width: ${({ extraNarrow, narrow, wide }) =>
+    extraNarrow ? '600' : narrow ? '1000' : wide ? '1800' : '1200'}px;
 `;
 
-export const Container = ({ narrow, wide, children, ...props }) => (
-  <StyledContainer narrow={narrow} wide={wide} {...props}>
+export const Container = ({
+  extraNarrow,
+  narrow,
+  wide,
+  children,
+  ...props
+}) => (
+  <StyledContainer
+    extraNarrow={extraNarrow}
+    narrow={narrow}
+    wide={wide}
+    {...props}
+  >
     {children}
   </StyledContainer>
 );

@@ -1,4 +1,5 @@
 export * from './FontSizes';
+export * from './FormStyles';
 export * from './MediaQueries';
 export * from './SectionMargins';
 export * from './SectionPaddings';

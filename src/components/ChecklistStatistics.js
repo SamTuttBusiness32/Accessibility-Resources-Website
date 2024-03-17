@@ -1,4 +1,5 @@
 import React from 'react';
+import { graphql, useStaticQuery } from 'gatsby';
 import styled, { css } from 'styled-components';
 import {
   brandColours,
@@ -137,22 +138,48 @@ const StyledText = styled.p`
   `}
 `;
 
-const ChecklistStatistics = ({ items }) => (
-  <StyledChecklistStatistics>
-    <Container>
-      <StyledHeading>Percentage Completed</StyledHeading>
-      <StyledItems>
-        {items.map(({ statistic, caption }) => (
-          <StyledItem>
-            <StyledStatistic value={statistic}>
-              <StyledValue>{statistic}%</StyledValue>
-            </StyledStatistic>
-            <StyledCaption>{caption}</StyledCaption>
-          </StyledItem>
-        ))}
-      </StyledItems>
-    </Container>
-  </StyledChecklistStatistics>
-);
+const ChecklistStatistics = ({ items, parentPercentages }) => {
+  const {
+    allDatoCmsChecklist: { nodes },
+  } = useStaticQuery(graphql`
+    query ChecklistStatisticsQuery {
+      allDatoCmsChecklist(
+        filter: { root: { eq: true } }
+        sort: { position: ASC }
+      ) {
+        nodes {
+          title
+        }
+      }
+    }
+  `);
+
+  let processedItems = items;
+
+  if (parentPercentages.length === 0) {
+    processedItems = nodes.map(node => ({
+      statistic: 0,
+      caption: node.title,
+    }));
+  }
+
+  return (
+    <StyledChecklistStatistics>
+      <Container>
+        <StyledHeading>Percentage Completed</StyledHeading>
+        <StyledItems>
+          {processedItems.map(({ statistic, caption }, index) => (
+            <StyledItem key={index}>
+              <StyledStatistic value={statistic}>
+                <StyledValue>{statistic}%</StyledValue>
+              </StyledStatistic>
+              <StyledCaption>{caption}</StyledCaption>
+            </StyledItem>
+          ))}
+        </StyledItems>
+      </Container>
+    </StyledChecklistStatistics>
+  );
+};
 
 export default ChecklistStatistics;

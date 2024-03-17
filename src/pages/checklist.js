@@ -42,7 +42,10 @@ const ChecklistPage = () => {
           alt
         }
       }
-      allDatoCmsChecklist(filter: { root: { eq: true } }) {
+      allDatoCmsChecklist(
+        filter: { root: { eq: true } }
+        sort: { position: ASC }
+      ) {
         nodes {
           title
           content {

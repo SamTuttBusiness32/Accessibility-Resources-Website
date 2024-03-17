@@ -1,18 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import {
+  brandColours,
   fontSize,
   fontWeights,
+  maxBreakpointQuery,
   minBreakpointQuery,
   sectionMargins,
+  standardColours,
   visuallyHidden,
 } from '../styles';
-import { Button, Container, HtmlContent } from './ui';
+import { Button, Container, Heading, HtmlContent } from './ui';
 import { slugify } from '../utils';
 import ChecklistStatistics from './ChecklistStatistics';
 
-const StyledChecklist = styled.section`
-  ${sectionMargins()};
+const StyledChecklist = styled.section``;
+
+const StyledButtonWrapper = styled.div`
+  background-color: ${brandColours.primary};
+  padding: 15px 0;
+`;
+
+const StyledButtonInner = styled.div`
+  display: flex;
+  gap: 15px;
+
+  ${maxBreakpointQuery.small`
+    flex-direction: column;
+  `}
+`;
+
+const StyledButton = styled(Button)`
+  width: 100%;
+  background-color: ${standardColours.white};
+  color: ${brandColours.primary};
+  border-radius: 0;
+
+  &:hover {
+    color: ${standardColours.white};
+  }
+`;
+
+const StyledInner = styled.div`
+  ${sectionMargins(`30px`, `60px`)};
+`;
+
+const StyledHeading = styled(Heading)`
+  text-align: center;
 `;
 
 const StyledItem = styled.div`
@@ -196,10 +230,62 @@ const Checklist = ({ checkboxOptions }) => {
     setParentChecked(updatedParentChecked);
   };
 
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeSubcategory, setActiveSubcategory] = useState(0);
-  const [activeItem, setActiveItem] = useState(0);
+  const [activeCategory, setActiveCategory] = useState();
+  const [activeSubcategory, setActiveSubcategory] = useState();
+  const [activeItem, setActiveItem] = useState();
   const [parentPercentages, setParentPercentages] = useState([]);
+
+  useEffect(() => {
+    const parentCheckedState = localStorage.getItem('parentChecked');
+    const childCheckedState = localStorage.getItem('childChecked');
+    const subChildCheckedState = localStorage.getItem('subChildChecked');
+    const parentPercentagesState = localStorage.getItem('parentPercentages');
+
+    if (parentCheckedState) setParentChecked(JSON.parse(parentCheckedState));
+    if (childCheckedState) setChildChecked(JSON.parse(childCheckedState));
+    if (subChildCheckedState)
+      setSubChildChecked(JSON.parse(subChildCheckedState));
+    if (parentPercentagesState) {
+      setParentPercentages(JSON.parse(parentPercentagesState));
+    }
+  }, []);
+
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('parentChecked', JSON.stringify(parentChecked));
+    localStorage.setItem('childChecked', JSON.stringify(childChecked));
+    localStorage.setItem('subChildChecked', JSON.stringify(subChildChecked));
+    localStorage.setItem(
+      'parentPercentages',
+      JSON.stringify(parentPercentages),
+    );
+  }, [
+    parentChecked,
+    childChecked,
+    subChildChecked,
+    activeCategory,
+    activeSubcategory,
+    activeItem,
+    parentPercentages,
+  ]);
+
+  const handleReset = () => {
+    setParentChecked(new Array(checkboxOptions.length).fill(false));
+    setChildChecked(
+      checkboxOptions.map(parent =>
+        new Array(parent.treeChildren.length).fill(false),
+      ),
+    );
+    setSubChildChecked(
+      checkboxOptions.map(parent =>
+        parent.treeChildren.map(child =>
+          child.treeChildren && child.treeChildren.length > 0
+            ? new Array(child.treeChildren.length).fill(false)
+            : [],
+        ),
+      ),
+    );
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -242,128 +328,140 @@ const Checklist = ({ checkboxOptions }) => {
 
   return (
     <StyledChecklist>
-      <Container>
-        <form
-          id="checklist-form"
-          onSubmit={e => {
-            handleSubmit(e);
-          }}
-        >
-          {parentPercentages && (
-            <ChecklistStatistics items={parentPercentages} />
-          )}
-          <Button>Reset</Button>
-          <Button>Save</Button>
-          {checkboxOptions.map((parent, parentIndex) => {
-            const display = activeCategory === parentIndex;
-            return (
-              <StyledItem key={parentIndex}>
-                <StyledCheckboxWrapper>
-                  <StyledCheckboxLabel>
-                    <StyledCheckbox
-                      name={slugify(parent.title)}
-                      type="checkbox"
-                      checked={parentChecked[parentIndex]}
-                      onChange={() => handleParentCheckboxChange(parentIndex)}
-                    />
-                    <StyledCheckboxLabelText>
+      <ChecklistStatistics
+        items={parentPercentages}
+        parentPercentages={parentPercentages}
+      />
+      <form
+        id="checklist-form"
+        onSubmit={e => {
+          handleSubmit(e);
+        }}
+      >
+        <StyledButtonWrapper>
+          <Container>
+            <StyledButtonInner>
+              <StyledButton onClick={handleReset}>Reset</StyledButton>
+              <StyledButton>Save</StyledButton>
+            </StyledButtonInner>
+          </Container>
+        </StyledButtonWrapper>
+        <Container>
+          <StyledInner>
+            <StyledHeading>Percentage Completed</StyledHeading>
+            {checkboxOptions.map((parent, parentIndex) => {
+              const display = activeCategory === parentIndex;
+              return (
+                <StyledItem key={parentIndex}>
+                  <StyledCheckboxWrapper>
+                    <StyledCheckboxLabel>
+                      <StyledCheckbox
+                        name={slugify(parent.title)}
+                        type="checkbox"
+                        checked={parentChecked[parentIndex]}
+                        onChange={() => handleParentCheckboxChange(parentIndex)}
+                      />
+                      <StyledCheckboxLabelText>
+                        {parent.title}
+                      </StyledCheckboxLabelText>
+                    </StyledCheckboxLabel>
+                    <StyledCheckboxCategoryText
+                      onClick={() =>
+                        setActiveCategory(display ? undefined : parentIndex)
+                      }
+                    >
                       {parent.title}
-                    </StyledCheckboxLabelText>
-                  </StyledCheckboxLabel>
-                  <StyledCheckboxCategoryText
-                    onClick={() =>
-                      setActiveCategory(display ? undefined : parentIndex)
-                    }
-                  >
-                    {parent.title}
-                  </StyledCheckboxCategoryText>
-                </StyledCheckboxWrapper>
-                <StyledContentWrapper $display={display}>
-                  <StyledContent content={parent.content} />
-                  {parent.treeChildren.map((child, childIndex) => {
-                    const display = activeSubcategory === childIndex;
-                    return (
-                      <div key={childIndex}>
-                        <StyledCheckboxWrapper>
-                          <StyledCheckboxLabel>
-                            <StyledCheckbox
-                              name={slugify(child.title)}
-                              type="checkbox"
-                              checked={childChecked[parentIndex][childIndex]}
-                              onChange={() =>
-                                handleChildCheckboxChange(
-                                  parentIndex,
-                                  childIndex,
+                    </StyledCheckboxCategoryText>
+                  </StyledCheckboxWrapper>
+                  <StyledContentWrapper $display={display}>
+                    <StyledContent content={parent.content} />
+                    {parent.treeChildren.map((child, childIndex) => {
+                      const display = activeSubcategory === childIndex;
+                      return (
+                        <div key={childIndex}>
+                          <StyledCheckboxWrapper>
+                            <StyledCheckboxLabel>
+                              <StyledCheckbox
+                                name={slugify(child.title)}
+                                type="checkbox"
+                                checked={childChecked[parentIndex][childIndex]}
+                                onChange={() =>
+                                  handleChildCheckboxChange(
+                                    parentIndex,
+                                    childIndex,
+                                  )
+                                }
+                              />
+                            </StyledCheckboxLabel>
+                            <StyledCheckboxSubcategoryText
+                              onClick={() =>
+                                setActiveSubcategory(
+                                  display ? undefined : childIndex,
                                 )
                               }
-                            />
-                          </StyledCheckboxLabel>
-                          <StyledCheckboxSubcategoryText
-                            onClick={() =>
-                              setActiveSubcategory(
-                                display ? undefined : childIndex,
-                              )
-                            }
-                          >
-                            {child.title}
-                          </StyledCheckboxSubcategoryText>
-                        </StyledCheckboxWrapper>
-                        <StyledContentWrapper $display={display}>
-                          <StyledContent content={child.content} />
-                          {child.treeChildren &&
-                            child.treeChildren.length > 0 &&
-                            child.treeChildren.map(
-                              (subChild, subChildIndex) => {
-                                const display = activeItem === subChildIndex;
-                                return (
-                                  <div key={subChildIndex}>
-                                    <StyledCheckboxWrapper>
-                                      <StyledCheckboxLabel>
-                                        <StyledCheckbox
-                                          type="checkbox"
-                                          checked={
-                                            subChildChecked[parentIndex][
-                                              childIndex
-                                            ][subChildIndex]
-                                          }
-                                          onChange={() =>
-                                            handleSubChildCheckboxChange(
-                                              parentIndex,
-                                              childIndex,
-                                              subChildIndex,
+                            >
+                              {child.title}
+                            </StyledCheckboxSubcategoryText>
+                          </StyledCheckboxWrapper>
+                          <StyledContentWrapper $display={display}>
+                            <StyledContent content={child.content} />
+                            {child.treeChildren &&
+                              child.treeChildren.length > 0 &&
+                              child.treeChildren.map(
+                                (subChild, subChildIndex) => {
+                                  const display = activeItem === subChildIndex;
+                                  return (
+                                    <div key={subChildIndex}>
+                                      <StyledCheckboxWrapper>
+                                        <StyledCheckboxLabel>
+                                          <StyledCheckbox
+                                            type="checkbox"
+                                            checked={
+                                              subChildChecked[parentIndex][
+                                                childIndex
+                                              ][subChildIndex]
+                                            }
+                                            onChange={() =>
+                                              handleSubChildCheckboxChange(
+                                                parentIndex,
+                                                childIndex,
+                                                subChildIndex,
+                                              )
+                                            }
+                                          />
+                                        </StyledCheckboxLabel>
+                                        <StyledCheckboxItemText
+                                          onClick={() =>
+                                            setActiveItem(
+                                              display
+                                                ? undefined
+                                                : subChildIndex,
                                             )
                                           }
+                                        >
+                                          {subChild.title} ({subChild.level})
+                                        </StyledCheckboxItemText>
+                                      </StyledCheckboxWrapper>
+                                      <StyledContentWrapper $display={display}>
+                                        <StyledContent
+                                          content={subChild.content}
                                         />
-                                      </StyledCheckboxLabel>
-                                      <StyledCheckboxItemText
-                                        onClick={() =>
-                                          setActiveItem(
-                                            display ? undefined : subChildIndex,
-                                          )
-                                        }
-                                      >
-                                        {subChild.title} ({subChild.level})
-                                      </StyledCheckboxItemText>
-                                    </StyledCheckboxWrapper>
-                                    <StyledContentWrapper $display={display}>
-                                      <StyledContent
-                                        content={subChild.content}
-                                      />
-                                    </StyledContentWrapper>
-                                  </div>
-                                );
-                              },
-                            )}
-                        </StyledContentWrapper>
-                      </div>
-                    );
-                  })}
-                </StyledContentWrapper>
-              </StyledItem>
-            );
-          })}
-        </form>
-      </Container>
+                                      </StyledContentWrapper>
+                                    </div>
+                                  );
+                                },
+                              )}
+                          </StyledContentWrapper>
+                        </div>
+                      );
+                    })}
+                  </StyledContentWrapper>
+                </StyledItem>
+              );
+            })}
+          </StyledInner>
+        </Container>
+      </form>
     </StyledChecklist>
   );
 };

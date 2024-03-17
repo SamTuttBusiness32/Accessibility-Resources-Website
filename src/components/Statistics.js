@@ -1,5 +1,4 @@
 import React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
 import styled, { css } from 'styled-components';
 import {
   brandColours,

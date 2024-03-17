@@ -4,10 +4,9 @@ import {
   brandColours,
   fontSize,
   minBreakpointQuery,
-  sectionMargins,
   standardColours,
 } from '../styles';
-import { Button, Container, Heading, HtmlContent } from './ui';
+import { Button, HtmlContent } from './ui';
 
 const StyledCtaCard = styled.article`
   border-radius: 15px;

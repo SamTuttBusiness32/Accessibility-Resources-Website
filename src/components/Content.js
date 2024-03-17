@@ -8,8 +8,8 @@ const StyledContent = styled.section`
 `;
 
 const StyledInner = styled.div`
-  ${({ twoColumns }) => {
-    if (twoColumns) {
+  ${({ $twoColumns }) => {
+    if ($twoColumns) {
       return css`
         ${minBreakpointQuery.mlarge`
           column-count: 2;
@@ -27,8 +27,8 @@ const StyledInner = styled.div`
     }
   }};
 
-  ${({ highlight }) => {
-    if (highlight) {
+  ${({ $highlight }) => {
+    if ($highlight) {
       return css`
         padding: 30px;
         background-color: ${brandColours.tertiary};
@@ -56,7 +56,7 @@ const StyledInner = styled.div`
 const Content = ({ content, twoColumns, highlight, contain }) => (
   <StyledContent>
     <Container narrow={contain && !highlight}>
-      <StyledInner twoColumns={twoColumns} highlight={highlight}>
+      <StyledInner $twoColumns={twoColumns} $highlight={highlight}>
         <HtmlContent content={content} />
       </StyledInner>
     </Container>

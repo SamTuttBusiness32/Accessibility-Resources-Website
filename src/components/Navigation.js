@@ -45,7 +45,7 @@ const StyledList = styled.ul`
     right: 0;
     left: 0;
     z-index: ${zIndexLayers.fourth};
-    display: ${({ displayNav }) => (displayNav ? 'block' : 'none')};
+    display: ${({ $displayNav }) => ($displayNav ? 'block' : 'none')};
     padding-top: 20px;
     padding-bottom: 20px;
     background-color: ${brandColours.secondary};
@@ -120,7 +120,7 @@ const Navigation = () => {
         <span />
         <span />
       </StyledToggle>
-      <StyledList displayNav={displayNav}>
+      <StyledList $displayNav={displayNav}>
         {navigation.map(({ text, pageUrl }, id) => (
           <StyledItem key={id}>
             <StyledLink to={pageUrl} activeClassName="current-page">

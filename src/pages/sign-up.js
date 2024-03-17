@@ -6,13 +6,7 @@ import LoginForm from '../components/LoginForm';
 
 const SignUpPage = () => {
   const {
-    datoCmsLogin: {
-      seoMetaTags,
-      title,
-      bannerHeading,
-      bannerText,
-      bannerImage,
-    },
+    datoCmsLogin: { seoMetaTags, bannerText, bannerImage },
   } = useStaticQuery(graphql`
     query SignUpPageQuery {
       datoCmsLogin {

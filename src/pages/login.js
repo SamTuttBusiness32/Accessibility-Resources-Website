@@ -2,19 +2,11 @@ import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import Banner from '../components/Banner';
-import ModularBlocks from '../components/ModularBlocks';
 import LoginForm from '../components/LoginForm';
 
 const LoginPage = () => {
   const {
-    datoCmsLogin: {
-      seoMetaTags,
-      title,
-      bannerHeading,
-      bannerText,
-      bannerImage,
-      modularBlocks,
-    },
+    datoCmsLogin: { seoMetaTags, bannerText, bannerImage },
   } = useStaticQuery(graphql`
     query LoginPageQuery {
       datoCmsLogin {

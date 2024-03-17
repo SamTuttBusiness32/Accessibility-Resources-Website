@@ -6,7 +6,6 @@ import {
   breakpointSizes,
   fluidFontSize,
   minBreakpointQuery,
-  sectionPaddings,
   standardColours,
 } from '../styles';
 import { Container, HtmlContent } from './ui';
@@ -75,7 +74,6 @@ const StyledImage = styled(GatsbyImage)`
 const Banner = ({ heading, text, image }) => (
   <StyledBanner>
     <StyledOuter>
-      {console.log(image)}
       <Container>
         <StyledContent>
           <StyledHeading>{heading}</StyledHeading>

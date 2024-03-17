@@ -89,8 +89,8 @@ const StyledContent = styled(HtmlContent)`
     margin-top: 30px;
   `}
 
-  ${({ display }) => {
-    if (!display) {
+  ${({ $display }) => {
+    if (!$display) {
       return css`
         ${visuallyHidden()};
       `;
@@ -136,12 +136,12 @@ const Accordion = ({ heading, items, isFaqs }) => {
             return (
               <StyledItem key={i}>
                 <StyledSubHeading
-                  display={display}
+                  $display={display}
                   onClick={() => setActiveItem(display ? undefined : i)}
                 >
                   {heading}
                 </StyledSubHeading>
-                <StyledContent content={content} display={display} />
+                <StyledContent content={content} $display={display} />
               </StyledItem>
             );
           })}

@@ -1,15 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import {
   brandColours,
   buttonStyles,
   inputStyles,
   labelStyles,
-  maxBreakpointQuery,
   minBreakpointQuery,
   sectionMargins,
 } from '../styles';
-import { Button, Container, HtmlContent } from './ui';
+import { Button, Container } from './ui';
 
 const StyledLoginForm = styled.section`
   ${sectionMargins()}

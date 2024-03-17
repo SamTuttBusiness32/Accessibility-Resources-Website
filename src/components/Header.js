@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { standardColours } from '../styles';
 import { Container } from './ui';
 import Logo from './Logo';
 import Navigation from './Navigation';
-import { brandColours, standardColours } from '../styles';
 
 const StyledHeader = styled.header`
   background-color: ${standardColours.lightGrey};

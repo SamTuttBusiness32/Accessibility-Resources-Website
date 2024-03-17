@@ -6,7 +6,6 @@ import {
   maxBreakpointQuery,
   minBreakpointQuery,
   sectionMargins,
-  sectionPaddings,
   standardColours,
 } from '../styles';
 import { Button, Container, Heading, HtmlContent } from './ui';

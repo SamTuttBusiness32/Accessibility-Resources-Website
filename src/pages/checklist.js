@@ -66,8 +66,6 @@ const ChecklistPage = () => {
     }
   `);
 
-  console.log(nodes);
-
   return (
     <Layout seo={seoMetaTags}>
       <main>
@@ -76,7 +74,7 @@ const ChecklistPage = () => {
           text={bannerText}
           image={bannerImage}
         />
-        <Checklist items={nodes} />
+        <Checklist checkboxOptions={nodes} />
       </main>
     </Layout>
   );

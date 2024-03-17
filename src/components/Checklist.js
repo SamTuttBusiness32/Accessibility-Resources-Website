@@ -348,7 +348,7 @@ const Checklist = ({ checkboxOptions }) => {
         </StyledButtonWrapper>
         <Container>
           <StyledInner>
-            <StyledHeading>Percentage Completed</StyledHeading>
+            <StyledHeading>Checklist</StyledHeading>
             {checkboxOptions.map((parent, parentIndex) => {
               const display = activeCategory === parentIndex;
               return (

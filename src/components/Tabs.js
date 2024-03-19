@@ -83,13 +83,15 @@ const StyledContentHeading = styled.h3`
 
 export const Tabs = ({ heading, items }) => {
   const [activeTabId, setActiveTabId] = useState(0);
+  const [activeTab2Id, setActiveTab2Id] = useState(0);
+  const [activeTab3Id, setActiveTab3Id] = useState(0);
 
   return (
     <StyledTabs>
       <Container narrow={true}>
         <StyledHeading alt={true}>{heading}</StyledHeading>
         <StyledList>
-          {items.map(({ heading }, id) => (
+          {items.map(({ title }, id) => (
             <StyledItem key={id}>
               <StyledTab
                 active={id === activeTabId}
@@ -97,15 +99,55 @@ export const Tabs = ({ heading, items }) => {
                   setActiveTabId(id);
                 }}
               >
-                {heading}
+                {title}
               </StyledTab>
             </StyledItem>
           ))}
         </StyledList>
-        {items.map(({ heading, content }, id) => (
+        {items.map(({ title, content, treeChildren }, id) => (
           <StyledContent key={id} active={id === activeTabId}>
-            <StyledContentHeading>{heading}</StyledContentHeading>
+            <StyledContentHeading>{title}</StyledContentHeading>
             <HtmlContent content={content} />
+            <StyledList>
+              {treeChildren.map(({ title }, id) => (
+                <StyledItem key={id}>
+                  <StyledTab
+                    active={id === activeTab2Id}
+                    onClick={() => {
+                      setActiveTab2Id(id);
+                    }}
+                  >
+                    {title}
+                  </StyledTab>
+                </StyledItem>
+              ))}
+            </StyledList>
+            {treeChildren.map(({ title, content, treeChildren }, id) => (
+              <StyledContent key={id} active={id === activeTab2Id}>
+                <StyledContentHeading>{title}</StyledContentHeading>
+                <HtmlContent content={content} />
+                <StyledList>
+                  {treeChildren.map(({ title }, id) => (
+                    <StyledItem key={id}>
+                      <StyledTab
+                        active={id === activeTab3Id}
+                        onClick={() => {
+                          setActiveTab3Id(id);
+                        }}
+                      >
+                        {title}
+                      </StyledTab>
+                    </StyledItem>
+                  ))}
+                </StyledList>
+                {treeChildren.map(({ title, content }, id) => (
+                  <StyledContent key={id} active={id === activeTab3Id}>
+                    <StyledContentHeading>{title}</StyledContentHeading>
+                    <HtmlContent content={content} />
+                  </StyledContent>
+                ))}
+              </StyledContent>
+            ))}
           </StyledContent>
         ))}
       </Container>

@@ -1,10 +1,14 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { brandColours, minBreakpointQuery, sectionMargins } from '../styles';
+import { brandColours, minBreakpointQuery } from '../styles';
 import { Container, HtmlContent } from './ui';
 
 const StyledContent = styled.section`
-  ${sectionMargins()};
+  margin: 30px 0;
+
+  ${minBreakpointQuery.large`
+    margin: 45px 0;
+  `}
 `;
 
 const StyledInner = styled.div`

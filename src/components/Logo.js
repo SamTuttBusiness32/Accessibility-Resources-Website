@@ -6,10 +6,11 @@ import logo from '../images/logo.svg';
 
 const StyledLogo = styled(Link)`
   display: inline-block;
+  max-width: 240px;
 `;
 
 const StyledImage = styled.img`
-  max-width: 240px;
+  width: 100%;
 `;
 
 const Logo = () => {

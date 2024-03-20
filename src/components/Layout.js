@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import GlobalStyle from '../styles/GlobalStyle';
 import Header from './Header';
 import Footer from './Footer';
 import CookieNotice from './CookieNotice';
+import AccessibilityCta from './AccessibilityCta';
+import AccessibilityOverlay from './AccessibilityOverlay';
 
 const Layout = ({ seo, noIndex, children }) => {
   const {
@@ -18,6 +20,7 @@ const Layout = ({ seo, noIndex, children }) => {
       }
     }
   `);
+  const [overlayActive, setOverlayActive] = useState(false);
 
   return (
     <>
@@ -30,6 +33,14 @@ const Layout = ({ seo, noIndex, children }) => {
       {children}
       <Footer />
       <CookieNotice />
+      <AccessibilityCta
+        overlayActive={overlayActive}
+        setOverlayActive={setOverlayActive}
+      />
+      <AccessibilityOverlay
+        overlayActive={overlayActive}
+        setOverlayActive={setOverlayActive}
+      />
     </>
   );
 };

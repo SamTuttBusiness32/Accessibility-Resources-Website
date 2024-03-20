@@ -4,4 +4,5 @@ export const zIndexLayers = {
   third: 30,
   fourth: 40,
   fifth: 50,
+  sixth: 60,
 };

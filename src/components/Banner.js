@@ -16,6 +16,12 @@ const StyledBanner = styled.section`
   display: grid;
   align-items: center;
   justify-items: center;
+
+  margin-top: 90px;
+
+  ${minBreakpointQuery.mlarge`
+    margin-top: 80px;
+  `}
 `;
 
 const StyledOuter = styled.div`

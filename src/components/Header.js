@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { standardColours } from '../styles';
+import { minBreakpointQuery, standardColours, zIndexLayers } from '../styles';
 import { Container } from './ui';
 import Logo from './Logo';
 import Navigation from './Navigation';
 
 const StyledHeader = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   background-color: ${standardColours.lightGrey};
+  z-index: ${zIndexLayers.fifth};
 `;
 
 const StyledInner = styled.div`
@@ -14,6 +19,11 @@ const StyledInner = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
+  height: 90px;
+
+  ${minBreakpointQuery.mlarge`
+    height: 80px;
+  `}
 `;
 
 const Header = () => (

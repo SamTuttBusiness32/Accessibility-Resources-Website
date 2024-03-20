@@ -80,7 +80,6 @@ const ChecklistPage = () => {
           image={bannerImage}
         />
         <Checklist checkboxOptions={nodes} />
-        <Test checkboxOptions={nodes} />
       </main>
     </Layout>
   );

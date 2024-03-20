@@ -99,6 +99,7 @@ const StyledItemText = styled.span`
   display: block;
   padding-left: 14px;
   font-weight: ${fontWeights.bold};
+  text-align: center;
 `;
 
 const StyledCheckboxLabelText = styled.span`
@@ -246,9 +247,9 @@ const Test = ({ checkboxOptions }) => {
     setParentChecked(updatedParentChecked);
   };
 
-  const [activeCategory, setActiveCategory] = useState();
-  const [activeSubcategory, setActiveSubcategory] = useState();
-  const [activeItem, setActiveItem] = useState();
+  const [activeCategory, setActiveCategory] = useState(0);
+  const [activeSubcategory, setActiveSubcategory] = useState(0);
+  const [activeItem, setActiveItem] = useState(0);
   const [parentPercentages, setParentPercentages] = useState([]);
 
   useEffect(() => {
@@ -386,9 +387,7 @@ const Test = ({ checkboxOptions }) => {
                           </StyledCheckboxLabelText>
                         </StyledCheckboxLabel>
                         <StyledItemText
-                          onClick={() =>
-                            setActiveCategory(display ? undefined : parentIndex)
-                          }
+                          onClick={() => setActiveCategory(parentIndex)}
                         >
                           {parent.title}
                         </StyledItemText>
@@ -424,11 +423,7 @@ const Test = ({ checkboxOptions }) => {
                               />
                             </StyledCheckboxLabel>
                             <StyledItemText
-                              onClick={() =>
-                                setActiveSubcategory(
-                                  display ? undefined : childIndex,
-                                )
-                              }
+                              onClick={() => setActiveSubcategory(childIndex)}
                             >
                               {child.title}
                             </StyledItemText>
@@ -472,11 +467,7 @@ const Test = ({ checkboxOptions }) => {
                                     />
                                   </StyledCheckboxLabel>
                                   <StyledItemText
-                                    onClick={() =>
-                                      setActiveItem(
-                                        display ? undefined : subChildIndex,
-                                      )
-                                    }
+                                    onClick={() => setActiveItem(subChildIndex)}
                                   >
                                     {subChild.title} ({subChild.level})
                                   </StyledItemText>

@@ -6,6 +6,7 @@ import {
   maxBreakpointQuery,
   minBreakpointQuery,
   standardColours,
+  standardTransition,
   visuallyHidden,
   zIndexLayers,
 } from '../styles';
@@ -17,13 +18,13 @@ const StyledAccessibilityOverlay = styled.div`
   z-index: ${zIndexLayers.fifth};
   background-color: ${brandColours.primary};
   top: 0;
-  left: 0;
+  left: -100%;
   height: 100%;
-  opacity: 0;
   margin-top: 90px;
   padding-top: 124px;
   max-width: 520px;
   width: 100%;
+  transition: ${standardTransition('left')};
 
   ${minBreakpointQuery.mlarge`
     margin-top: 80px;
@@ -33,7 +34,7 @@ const StyledAccessibilityOverlay = styled.div`
   ${({ $overlayActive }) => {
     if ($overlayActive) {
       return css`
-        opacity: 1;
+        left: 0;
       `;
     }
   }}

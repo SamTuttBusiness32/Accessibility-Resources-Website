@@ -15,6 +15,15 @@ import {
 import { Container, Heading } from './ui';
 
 const StyledStatistics = styled.section`
+  .textAlignt {
+    text-align: center;
+  }
+  .textAlignRight {
+    ${maxBreakpointQuery.medium`
+      text-align: center;
+    `}
+  }
+
   ${({ invert }) => {
     if (invert) {
       return css`
@@ -32,7 +41,6 @@ const StyledStatistics = styled.section`
 `;
 
 const StyledHeading = styled(Heading)`
-  text-align: center;
   color: ${({ invert }) =>
     invert ? standardColours.white : brandColours.primary};
 `;
@@ -60,7 +68,6 @@ const StyledItems = styled.ul`
 `;
 
 const StyledItem = styled.li`
-  text-align: center;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -133,11 +140,6 @@ const StyledCaption = styled.p`
 
 const StyledText = styled.p`
   margin-top: 40px;
-  text-align: center;
-
-  ${minBreakpointQuery.medium`
-    text-align: right;
-  `}
 
   ${minBreakpointQuery.large`
     margin-top: 80px;
@@ -147,18 +149,25 @@ const StyledText = styled.p`
 const Statistics = ({ heading, items, text, invert }) => (
   <StyledStatistics invert={invert}>
     <Container>
-      <StyledHeading invert={invert}>{heading}</StyledHeading>
-      <StyledItems>
-        {items.map(({ statistic, caption }) => (
-          <StyledItem>
-            <StyledStatistic value={statistic}>
-              <StyledValue>{statistic}%</StyledValue>
-            </StyledStatistic>
-            <StyledCaption>{caption}</StyledCaption>
-          </StyledItem>
-        ))}
-      </StyledItems>
-      {text && <StyledText>{text}</StyledText>}
+      <div class="textAlign">
+        <StyledHeading invert={invert}>{heading}</StyledHeading>
+        <StyledItems>
+          {items.map(({ statistic, caption }) => (
+            <StyledItem>
+              <StyledStatistic value={statistic}>
+                <StyledValue>{statistic}%</StyledValue>
+              </StyledStatistic>
+
+              <StyledCaption>{caption}</StyledCaption>
+            </StyledItem>
+          ))}
+        </StyledItems>
+      </div>
+      {text && (
+        <div class="textAlignRight">
+          <StyledText>{text}</StyledText>
+        </div>
+      )}
     </Container>
   </StyledStatistics>
 );

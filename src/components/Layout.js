@@ -9,25 +9,58 @@ import CookieNotice from './CookieNotice';
 import AccessibilityCta from './AccessibilityCta';
 import AccessibilityOverlay from './AccessibilityOverlay';
 import cursorT from '../images/cursor-t.svg';
-import { standardColours } from '../styles';
 
 const GlobalFontSize = createGlobalStyle`
   html {
     font-size: ${props => 62.5 * props.$fontSizeMultiplier}%; 
-    filter: ${props => `saturate(${props.$saturationValue})`};  
+    filter: ${props => {
+      switch (props.$colourValue) {
+        case 2:
+          return 'grayscale(100%) sepia(100%) hue-rotate(10deg) brightness(1.1) contrast(0.9)';
+        case 3:
+          return 'grayscale(100%) sepia(100%) hue-rotate(75deg) brightness(1.1) contrast(0.9)';
+        case 4:
+          return 'grayscale(100%) sepia(100%) hue-rotate(-50deg) brightness(1.1) contrast(0.9)';
+        case 5:
+          return 'grayscale(100%)';
+        default:
+          return '';
+      }
+    }} ${props => `saturate(${props.$saturationValue})`};
 
-    /* Protanopia/Protanomaly Red color blindness*/
-    //filter: grayscale(100%) sepia(100%) hue-rotate(10deg) brightness(1.1) contrast(0.9);
+    .textAlign{
+      text-align: ${props => {
+        switch (props.$alignTextValue) {
+          case 2:
+            return 'left !important';
+          case 3:
+            return 'center !important';
+          case 4:
+            return 'right !important';
+          case 5:
+            return 'justify !important';
+          default:
+            return 'inherit';
+        }
+      }};
+    }
 
-    /* Deuteranopia/Deuteranomaly Green color blindness*/
-    //filter: grayscale(100%) sepia(100%) hue-rotate(75deg) brightness(1.1) contrast(0.9);
-
-    /* Tritanopia/Tritanomaly Blue color blindness*/
-    //filter: grayscale(100%) sepia(100%) hue-rotate(-50deg) brightness(1.1) contrast(0.9);
-
-    /* Achromatopsia/Achromatomaly Total color blindness or lack of color perception*/
-    //filter: grayscale(100%);
-    
+    .textAlignRight{
+      text-align: ${props => {
+        switch (props.$alignTextValue) {
+          case 2:
+            return 'left !important';
+          case 3:
+            return 'center !important';
+          case 4:
+            return 'right !important';
+          case 5:
+            return 'justify !important';
+          default:
+            return 'right';
+        }
+      }};
+    }
   }
   /* body{
     cursor: url(${cursorT}), auto !important;
@@ -62,6 +95,10 @@ const Layout = ({ seo, noIndex, children }) => {
   const [overlayActive, setOverlayActive] = useState(false);
   const [fontSizeMultiplier, setFontSizeMultiplier] = useState(1);
   const [saturationValue, setSaturationValue] = useState(1);
+  const [colourValue, setColourValue] = useState(1);
+  const [alignTextValue, setAlignTextValue] = useState(1);
+
+  console.log(alignTextValue);
 
   return (
     <>
@@ -72,6 +109,8 @@ const Layout = ({ seo, noIndex, children }) => {
       <GlobalFontSize
         $fontSizeMultiplier={fontSizeMultiplier}
         $saturationValue={saturationValue}
+        $colourValue={colourValue}
+        $alignTextValue={alignTextValue}
       />
       <GlobalStyle />
       <Header />
@@ -89,6 +128,10 @@ const Layout = ({ seo, noIndex, children }) => {
         setFontSizeMultiplier={setFontSizeMultiplier}
         saturationValue={saturationValue}
         setSaturationValue={setSaturationValue}
+        colourValue={colourValue}
+        setColourValue={setColourValue}
+        alignTextValue={alignTextValue}
+        setAlignTextValue={setAlignTextValue}
       />
     </>
   );

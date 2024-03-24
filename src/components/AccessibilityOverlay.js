@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import styled, { css } from 'styled-components';
 import {
@@ -35,14 +35,8 @@ const StyledAccessibilityOverlay = styled.div`
       `;
     }
   }}
-`;
 
-const StyledInner = styled.div`
-  padding: 20px;
-  padding-right: 10px;
-  height: 100%;
-
-  ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 10px;
     border-radius: 5px;
   }
@@ -63,6 +57,12 @@ const StyledInner = styled.div`
   ::-webkit-scrollbar-thumb:hover {
     background: ${standardColours.lightGrey};
   }
+`;
+
+const StyledInner = styled.div`
+  padding: 20px;
+  padding-right: 10px;
+  height: 100%;
 `;
 
 const StyledItems = styled.div`
@@ -167,6 +167,10 @@ const AccessibilityOverlay = ({
   setFontSizeMultiplier,
   saturationValue,
   setSaturationValue,
+  colourValue,
+  setColourValue,
+  alignTextValue,
+  setAlignTextValue,
 }) => {
   const {
     datoCmsAccessibilityOverlay: { text },
@@ -194,6 +198,8 @@ const AccessibilityOverlay = ({
 
   const fontSizeOptions = [1, 1.1, 1.2]; // Define your font size options
   const saturationOptions = [1, 0.5, 3, 0]; // Define your saturation options
+  const colourOptions = [1, 2, 3, 4, 5]; // Define your saturation options
+  const alignTextOptions = [1, 2, 3, 4, 5]; // Define your saturation options
 
   const handleFontSizeClick = option => {
     setFontSizeMultiplier(option);
@@ -201,6 +207,14 @@ const AccessibilityOverlay = ({
 
   const handleSaturationClick = option => {
     setSaturationValue(option);
+  };
+
+  const handleAlignTextClick = option => {
+    setAlignTextValue(option);
+  };
+
+  const handleColourClick = option => {
+    setColourValue(option);
   };
 
   return (
@@ -285,17 +299,58 @@ const AccessibilityOverlay = ({
                     </StyledTextSizeItem>
                   </StyledTextSizeContent>
                 </StyledItemInner>
-              ) : (
+              ) : nodes[id].title === 'Align Text' ? (
                 <StyledItemInner
                   onClick={() => {
                     const currentIndex =
-                      fontSizeOptions.indexOf(fontSizeMultiplier);
+                      alignTextOptions.indexOf(alignTextValue);
                     const nextIndex =
-                      (currentIndex + 1) % fontSizeOptions.length;
-                    const nextOption = fontSizeOptions[nextIndex];
-                    handleFontSizeClick(nextOption);
+                      (currentIndex + 1) % alignTextOptions.length;
+                    const nextOption = alignTextOptions[nextIndex];
+                    handleAlignTextClick(nextOption);
                   }}
                 >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {alignTextValue === 2
+                        ? 'Left'
+                        : alignTextValue === 3
+                        ? 'Center'
+                        : alignTextValue === 4
+                        ? 'Right'
+                        : alignTextValue === 5
+                        ? 'Justify'
+                        : 'Standard'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                </StyledItemInner>
+              ) : nodes[id].title === 'Colour' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex = colourOptions.indexOf(colourValue);
+                    const nextIndex = (currentIndex + 1) % colourOptions.length;
+                    const nextOption = colourOptions[nextIndex];
+                    handleColourClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {colourValue === 2
+                        ? 'Protanopia / Protanomaly'
+                        : colourValue === 3
+                        ? 'Deuteranopia / Deuteranomaly'
+                        : colourValue === 4
+                        ? 'Tritanopia / Tritanomaly'
+                        : colourValue === 5
+                        ? 'Achromatopsia / Achromatomaly'
+                        : 'Standard'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                </StyledItemInner>
+              ) : (
+                <StyledItemInner>
                   <CardHeader {...item} />
                 </StyledItemInner>
               )}

@@ -61,7 +61,9 @@ const Content = ({ content, twoColumns, highlight, contain }) => (
   <StyledContent>
     <Container narrow={contain && !highlight}>
       <StyledInner $twoColumns={twoColumns} $highlight={highlight}>
-        <HtmlContent content={content} />
+        <div class="textAlign">
+          <HtmlContent content={content} />
+        </div>
       </StyledInner>
     </Container>
   </StyledContent>

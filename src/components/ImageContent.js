@@ -170,8 +170,10 @@ const ImageContent = ({ image, heading, text, link, flip, version }) => (
           version={version}
         />
         <StyledContent flip={flip} version={version}>
-          <StyledHeading version={version}>{heading}</StyledHeading>
-          <StyledText content={text} />
+          <div class="textAlign">
+            <StyledHeading version={version}>{heading}</StyledHeading>
+            <StyledText content={text} />
+          </div>
           {link && <StyledButton to={link.pageUrl}>{link.text}</StyledButton>}
         </StyledContent>
       </StyledInner>

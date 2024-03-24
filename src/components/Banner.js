@@ -30,8 +30,11 @@ const StyledOuter = styled.div`
 `;
 
 const StyledContent = styled.div`
-  text-align: center;
   padding: 30px 0;
+
+  .textAlign {
+    text-align: center;
+  }
 `;
 
 const StyledHeading = styled.h1`
@@ -82,8 +85,10 @@ const Banner = ({ heading, text, image }) => (
     <StyledOuter>
       <Container>
         <StyledContent>
-          <StyledHeading>{heading}</StyledHeading>
-          <StyledText content={text} />
+          <div class="textAlign">
+            <StyledHeading>{heading}</StyledHeading>
+            <StyledText content={text} />
+          </div>
         </StyledContent>
       </Container>
     </StyledOuter>

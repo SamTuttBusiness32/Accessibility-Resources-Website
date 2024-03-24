@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import { createGlobalStyle } from 'styled-components';
@@ -78,7 +78,8 @@ const GlobalFontSize = createGlobalStyle`
         default:
           return '1';
       }
-    }}
+    }};
+    transition: ${standardTransition('opacity')};
   }
 
   ${props => {
@@ -119,16 +120,70 @@ const Layout = ({ seo, noIndex, children }) => {
       }
     }
   `);
+  // Function to get stored value from localStorage or use default
+  const getStoredValue = (key, defaultValue) => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+  };
+
+  // Set initial state values using stored values or defaults
   const [overlayActive, setOverlayActive] = useState(false);
-  const [fontSizeMultiplier, setFontSizeMultiplier] = useState(1);
-  const [saturationValue, setSaturationValue] = useState(1);
-  const [textSpacingValue, setTextSpacingValue] = useState(1);
-  const [alignTextValue, setAlignTextValue] = useState(1);
-  const [colourValue, setColourValue] = useState(1);
-  const [lineHeightValue, setLineHeightValue] = useState(1);
-  const [hideImagesValue, setHideImagesValue] = useState(1);
-  const [highlightLinksValue, setHighlightLinksValue] = useState(1);
-  const [fontWeightValue, setFontWeightValue] = useState(1);
+  const [fontSizeMultiplier, setFontSizeMultiplier] = useState(
+    getStoredValue('fontSizeMultiplier', 1),
+  );
+  const [saturationValue, setSaturationValue] = useState(
+    getStoredValue('saturationValue', 1),
+  );
+  const [textSpacingValue, setTextSpacingValue] = useState(
+    getStoredValue('textSpacingValue', 1),
+  );
+  const [alignTextValue, setAlignTextValue] = useState(
+    getStoredValue('alignTextValue', 1),
+  );
+  const [colourValue, setColourValue] = useState(
+    getStoredValue('colourValue', 1),
+  );
+  const [lineHeightValue, setLineHeightValue] = useState(
+    getStoredValue('lineHeightValue', 1),
+  );
+  const [hideImagesValue, setHideImagesValue] = useState(
+    getStoredValue('hideImagesValue', 1),
+  );
+  const [highlightLinksValue, setHighlightLinksValue] = useState(
+    getStoredValue('highlightLinksValue', 1),
+  );
+  const [fontWeightValue, setFontWeightValue] = useState(
+    getStoredValue('fontWeightValue', 1),
+  );
+
+  // UseEffect to update localStorage when state changes
+  useEffect(() => {
+    localStorage.setItem(
+      'fontSizeMultiplier',
+      JSON.stringify(fontSizeMultiplier),
+    );
+    localStorage.setItem('saturationValue', JSON.stringify(saturationValue));
+    localStorage.setItem('textSpacingValue', JSON.stringify(textSpacingValue));
+    localStorage.setItem('alignTextValue', JSON.stringify(alignTextValue));
+    localStorage.setItem('colourValue', JSON.stringify(colourValue));
+    localStorage.setItem('lineHeightValue', JSON.stringify(lineHeightValue));
+    localStorage.setItem('hideImagesValue', JSON.stringify(hideImagesValue));
+    localStorage.setItem(
+      'highlightLinksValue',
+      JSON.stringify(highlightLinksValue),
+    );
+    localStorage.setItem('fontWeightValue', JSON.stringify(fontWeightValue));
+  }, [
+    fontSizeMultiplier,
+    saturationValue,
+    textSpacingValue,
+    alignTextValue,
+    colourValue,
+    lineHeightValue,
+    hideImagesValue,
+    highlightLinksValue,
+    fontWeightValue,
+  ]);
 
   return (
     <ThemeProvider

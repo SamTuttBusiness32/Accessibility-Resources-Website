@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import styled, { css } from 'styled-components';
 import {
@@ -10,7 +10,7 @@ import {
   standardTransition,
   zIndexLayers,
 } from '../styles';
-import { CardFooter, CardHeader, HtmlContent, TextAlignment } from './ui';
+import { Button, CardFooter, CardHeader, HtmlContent } from './ui';
 
 const StyledAccessibilityOverlay = styled.div`
   position: fixed;
@@ -80,11 +80,36 @@ const StyledText = styled(HtmlContent)`
   }
 `;
 
+const StyledButtonWrapper = styled.div`
+  background-color: ${brandColours.primary};
+  display: flex;
+  padding-right: 20px;
+  gap: 20px;
+  margin-top: 20px;
+`;
+
+const StyledButton = styled(Button)`
+  width: 100%;
+  background-color: ${standardColours.white};
+  color: ${brandColours.primary};
+  border-radius: 0;
+  line-height: 1.5;
+  letter-spacing: 0;
+  word-spacing: 0;
+  font-weight: ${fontWeights.regular};
+  text-align: center;
+  ${fontSize(16)}
+
+  &:hover {
+    color: ${standardColours.white};
+  }
+`;
+
 const StyledItems = styled.div`
   margin-top: 20px;
   display: grid;
   gap: 20px;
-  height: calc(100% - 136px);
+  height: calc(100% - 204px);
   padding-right: 10px;
   padding-bottom: 10px;
   overflow-y: scroll;
@@ -94,7 +119,7 @@ const StyledItems = styled.div`
   `};
 
   ${minBreakpointQuery.mlarge`
-    height: calc(100% - 126px);
+    height: calc(100% - 194px);
   `}
 `;
 
@@ -218,10 +243,30 @@ const AccessibilityOverlay = ({
     setFontWeightValue(option);
   };
 
+  // Function to handle saving values to local storage when the "Save" button is clicked
+  const handleSaveClick = () => {};
+
+  const handleResetClick = () => {
+    // Reset all values to 1
+    setFontSizeMultiplier(1);
+    setSaturationValue(1);
+    setColourValue(1);
+    setAlignTextValue(1);
+    setTextSpacingValue(1);
+    setLineHeightValue(1);
+    setHideImagesValue(1);
+    setHighlightLinksValue(1);
+    setFontWeightValue(1);
+  };
+
   return (
     <StyledAccessibilityOverlay $overlayActive={overlayActive}>
       <StyledInner $overlayActive={overlayActive}>
         <StyledText content={text} />
+        <StyledButtonWrapper>
+          <StyledButton onClick={handleResetClick}>Reset</StyledButton>
+          <StyledButton onClick={handleSaveClick}>Save</StyledButton>
+        </StyledButtonWrapper>
         <StyledItems>
           {nodes.map((item, id) => (
             <StyledItem key={id}>

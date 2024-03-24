@@ -10,7 +10,6 @@ const GlobalStyle = createGlobalStyle`
 
   html {
     box-sizing: border-box;
-    font-size: 62.5%;
     -webkit-font-smoothing: antialiased;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;

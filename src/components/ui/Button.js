@@ -13,10 +13,10 @@ const commonButtonStyles = () => {
     display: inline-block;
     padding: 12px 20px;
     color: ${standardColours.white};
+    background-color: ${brandColours.primary};
     ${fontSize(16)};
     line-height: 1.5;
     text-align: center;
-    background-color: #ff7f7f;
     transition: ${standardTransition('background-color')};
     border-radius: 5px;
 

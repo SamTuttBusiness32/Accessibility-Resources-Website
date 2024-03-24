@@ -1,12 +1,15 @@
 import React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
 import styled, { css } from 'styled-components';
 import {
+  brandColours,
   minBreakpointQuery,
+  standardColours,
   standardTransition,
+  visuallyHidden,
   zIndexLayers,
 } from '../styles';
-import { Button } from './ui';
+import { Button, Svg } from './ui';
+import settingsIcon from '../images/gear-solid.inline.svg';
 
 const StyledAccessibilityCta = styled.div`
   position: fixed;
@@ -31,52 +34,83 @@ const StyledAccessibilityCta = styled.div`
   }}
 `;
 
-const StyledInner = styled.div`
-  ${({ $overlayActive }) => {
-    if ($overlayActive) {
-      return css`
-        padding: 20px;
-      `;
-    }
-  }}
+//moved up for hover
+const StyledImage = styled(Svg)`
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  fill: ${standardColours.white};
+  border: solid 1px ${standardColours.white};
+  border-radius: 50%;
+  padding: 8px;
+  transition: ${standardTransition('fill')},
+    ${standardTransition('border-color')};
 `;
 
 const StyledButton = styled(Button)`
   display: flex;
   gap: 10px;
   align-items: center;
-`;
+  padding: 12px;
+  width: 75px;
+  transition: ${standardTransition('width')},
+    ${standardTransition('background-color')};
 
-const StyledImage = styled.img`
-  width: 50px;
-`;
+  &:after {
+    content: ${({ $overlayActive }) => ($overlayActive ? "'Close'" : "'Open'")};
+    display: block;
+    position: relative;
+    transition: ${standardTransition('color')};
+    color: ${standardColours.white};
+  }
 
-const AccessibilityCta = ({ overlayActive, setOverlayActive }) => {
-  const {
-    datoCmsAccessibilityOverlay: { image },
-  } = useStaticQuery(graphql`
-    query AccessibilityCtaQuery {
-      datoCmsAccessibilityOverlay {
-        heading
-        text {
-          value
+  &:hover {
+    width: 130px;
+  }
+
+  ${({ $overlayActive }) => {
+    if (!$overlayActive) {
+      return css`
+        &:not(:hover):after {
+          ${visuallyHidden()};
         }
-        image {
-          url
-          alt
+      `;
+    } else {
+      return css`
+        width: 130px;
+        color: ${brandColours.primary};
+        background-color: ${standardColours.white};
+
+        ${StyledImage} {
+          fill: ${brandColours.primary};
+          border-color: ${brandColours.primary};
         }
-      }
+
+        &:after {
+          color: ${brandColours.primary};
+        }
+
+        &:hover:after {
+          color: ${brandColours.primary};
+        }
+
+        &:hover {
+          background-color: ${standardColours.white};
+        }
+      `;
     }
-  `);
+  }}
+`;
 
-  return (
-    <StyledAccessibilityCta $overlayActive={overlayActive}>
-      <StyledButton onClick={() => setOverlayActive(!overlayActive)}>
-        <StyledImage src={image.url} alt={image.alt} />
-        Customise Accesibilty
-      </StyledButton>
-    </StyledAccessibilityCta>
-  );
-};
+const AccessibilityCta = ({ overlayActive, setOverlayActive }) => (
+  <StyledAccessibilityCta $overlayActive={overlayActive}>
+    <StyledButton
+      $overlayActive={overlayActive}
+      onClick={() => setOverlayActive(!overlayActive)}
+    >
+      <StyledImage image={settingsIcon} />
+    </StyledButton>
+  </StyledAccessibilityCta>
+);
 
 export default AccessibilityCta;

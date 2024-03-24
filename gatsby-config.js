@@ -37,6 +37,7 @@ module.exports = {
             },
           ],
         },
+        formats: ['woff2'],
       },
     },
     {
@@ -66,7 +67,7 @@ module.exports = {
         resolveSiteUrl: () => process.env.SITE_URL,
         resolvePages: ({ allSitePage: { nodes } }) => {
           return nodes.filter(
-            ({ pageContext }) => pageContext.noIndex !== true
+            ({ pageContext }) => pageContext.noIndex !== true,
           );
         },
       },

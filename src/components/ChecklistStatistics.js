@@ -7,7 +7,6 @@ import {
   fluidFontSize,
   fontSize,
   fontWeights,
-  maxBreakpointQuery,
   minBreakpointQuery,
   sectionMargins,
   sectionPaddings,
@@ -122,19 +121,6 @@ const StyledCaption = styled.p`
 
   ${minBreakpointQuery.large`
     ${fontSize(16)};
-  `}
-`;
-
-const StyledText = styled.p`
-  margin-top: 40px;
-  text-align: center;
-
-  ${minBreakpointQuery.medium`
-    text-align: right;
-  `}
-
-  ${minBreakpointQuery.large`
-    margin-top: 80px;
   `}
 `;
 

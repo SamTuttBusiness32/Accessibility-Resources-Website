@@ -3,8 +3,6 @@ import { useStaticQuery, graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import Banner from '../components/Banner';
 import Checklist from '../components/Checklist';
-import Tabs from '../components/Tabs';
-import Test from '../components/Test';
 
 const ChecklistPage = () => {
   const {

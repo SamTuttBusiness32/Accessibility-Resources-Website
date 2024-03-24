@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { minBreakpointQuery, sectionMargins } from '../styles';
-import { Container, Heading } from './ui';
+import { Container, Heading, TextAlignment } from './ui';
 import CtaCard from './CtaCard';
 
 const StyledCtas = styled.section`
@@ -9,7 +9,7 @@ const StyledCtas = styled.section`
 `;
 
 const StyledHeading = styled(Heading)`
-  text-align: center;
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
 `;
 
 const StyledItems = styled.div`

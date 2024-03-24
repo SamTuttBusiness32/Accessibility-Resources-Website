@@ -8,7 +8,7 @@ import {
   sectionMargins,
   standardColours,
 } from '../styles';
-import { Button, Container, Heading, HtmlContent } from './ui';
+import { Button, Container, Heading, HtmlContent, TextAlignment } from './ui';
 
 const StyledImageContent = styled.section`
   ${({ version }) => {
@@ -24,6 +24,7 @@ const StyledImageContent = styled.section`
       `;
     }
   }}
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'left')};
 `;
 
 const StyledInner = styled.div`
@@ -159,7 +160,7 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-const ImageContent = ({ image, heading, text, link, flip, version }) => (
+const ImageContent = ({ image, heading, text, link, flip, version, theme }) => (
   <StyledImageContent version={version}>
     <Container wide={version === 2}>
       <StyledInner>
@@ -170,10 +171,8 @@ const ImageContent = ({ image, heading, text, link, flip, version }) => (
           version={version}
         />
         <StyledContent flip={flip} version={version}>
-          <div class="textAlign">
-            <StyledHeading version={version}>{heading}</StyledHeading>
-            <StyledText content={text} />
-          </div>
+          <StyledHeading version={version}>{heading}</StyledHeading>
+          <StyledText content={text} />
           {link && <StyledButton to={link.pageUrl}>{link.text}</StyledButton>}
         </StyledContent>
       </StyledInner>

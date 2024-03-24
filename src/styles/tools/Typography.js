@@ -3,12 +3,14 @@ import { brandColours, breakpointSizes, fluidFontSize } from '../../styles';
 
 export const headingStyles = () => {
   return css`
-    ${fluidFontSize(
-      '26px',
-      '36px',
-      breakpointSizes.tiny,
-      breakpointSizes.xxxxlarge,
-    )};
+    ${({ theme }) =>
+      fluidFontSize(
+        26,
+        36,
+        breakpointSizes.tiny,
+        breakpointSizes.xxxxlarge,
+        theme.fontSizeMultiplier,
+      )};
     color: ${brandColours.primary};
   `;
 };

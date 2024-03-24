@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import {
   brandColours,
   fontSize,
+  fontWeights,
   headingStyles,
   minBreakpointQuery,
   standardTransition,
 } from '../../styles';
 import { StructuredText } from './StructuredText';
 import { hasStructuredText } from '../../utils';
+import { LineHeight } from './LineHeight';
+import { FontWeight } from './FontWeight';
 
 export const StyledHtmlContent = styled.div`
   h2,
@@ -17,7 +20,9 @@ export const StyledHtmlContent = styled.div`
   h5,
   h6 {
     margin-bottom: 12px;
-    line-height: 1.5;
+    line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.5)};
+    font-weight: ${({ theme }) =>
+      FontWeight(theme.fontWeightValue, fontWeights.bold)};
 
     ${minBreakpointQuery.small`
       margin-bottom: 14px;
@@ -29,45 +34,45 @@ export const StyledHtmlContent = styled.div`
   }
 
   h3 {
-    ${fontSize(20)};
+    ${({ theme }) => fontSize(20, theme.fontSizeMultiplier)};
 
     ${minBreakpointQuery.small`
-      ${fontSize(22)};
+      ${({ theme }) => fontSize(22, theme.fontSizeMultiplier)};
     `}
   }
 
   h4 {
-    ${fontSize(19)};
+    ${({ theme }) => fontSize(19, theme.fontSizeMultiplier)};
 
     ${minBreakpointQuery.small`
-      ${fontSize(20)};
+      ${({ theme }) => fontSize(20, theme.fontSizeMultiplier)};
     `}
   }
 
   h5 {
-    ${fontSize(18)};
+    ${({ theme }) => fontSize(18, theme.fontSizeMultiplier)};
 
     ${minBreakpointQuery.small`
-      ${fontSize(19)};
+      ${({ theme }) => fontSize(19, theme.fontSizeMultiplier)};
     `}
   }
 
   h6 {
-    ${fontSize(17)};
+    ${({ theme }) => fontSize(17, theme.fontSizeMultiplier)};
 
     ${minBreakpointQuery.small`
-      ${fontSize(18)};
+      ${({ theme }) => fontSize(18, theme.fontSizeMultiplier)};
     `}
   }
 
   p {
     margin-bottom: 20px;
-    ${fontSize(15)};
-    line-height: 1.7;
+    ${({ theme }) => fontSize(15, theme.fontSizeMultiplier)};
+    line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.7)};
 
     ${minBreakpointQuery.small`
       margin-bottom: 24px;
-      ${fontSize(16)};
+      ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
     `}
 
     &:last-child {
@@ -100,12 +105,12 @@ export const StyledHtmlContent = styled.div`
 
     li {
       margin-bottom: 10px;
-      ${fontSize(15)};
-      line-height: 1.7;
+      ${({ theme }) => fontSize(15, theme.fontSizeMultiplier)};
+      line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.7)};
 
       ${minBreakpointQuery.small`
         margin-bottom: 12px;
-        ${fontSize(16)};
+        ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
       `}
 
       &:last-child {

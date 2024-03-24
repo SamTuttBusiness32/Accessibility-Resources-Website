@@ -2,10 +2,10 @@ import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import styled from 'styled-components';
 import { brandColours, standardColours } from '../styles';
-import { Container } from './ui';
+import { Container, TextAlignment } from './ui';
 
 const StyledFooter = styled.footer`
-  text-align: center;
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
   background-color: ${brandColours.primary};
   color: ${standardColours.white};
   padding: 15px 0;

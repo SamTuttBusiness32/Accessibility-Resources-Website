@@ -8,7 +8,7 @@ import {
   minBreakpointQuery,
   standardColours,
 } from '../styles';
-import { Container, HtmlContent } from './ui';
+import { Container, HtmlContent, LineHeight, TextAlignment } from './ui';
 
 const StyledBanner = styled.section`
   background-color: ${brandColours.primary};
@@ -33,18 +33,20 @@ const StyledContent = styled.div`
   padding: 30px 0;
 
   .textAlign {
-    text-align: center;
+    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
   }
 `;
 
 const StyledHeading = styled.h1`
-  ${fluidFontSize(
-    '30px',
-    '50px',
-    breakpointSizes.tiny,
-    breakpointSizes.xxxxlarge,
-  )};
-  line-height: 1.2;
+  ${({ theme }) =>
+    fluidFontSize(
+      30,
+      50,
+      breakpointSizes.tiny,
+      breakpointSizes.xxxxlarge,
+      theme.fontSizeMultiplier,
+    )};
+  line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.2)};
 `;
 
 const StyledText = styled(HtmlContent)`

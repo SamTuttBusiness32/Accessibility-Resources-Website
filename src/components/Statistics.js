@@ -12,18 +12,16 @@ import {
   sectionPaddings,
   standardColours,
 } from '../styles';
-import { Container, Heading } from './ui';
+import {
+  Container,
+  FontWeight,
+  Heading,
+  LineHeight,
+  TextAlignment,
+} from './ui';
 
 const StyledStatistics = styled.section`
-  .textAlignt {
-    text-align: center;
-  }
-  .textAlignRight {
-    ${maxBreakpointQuery.medium`
-      text-align: center;
-    `}
-  }
-
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
   ${({ invert }) => {
     if (invert) {
       return css`
@@ -116,30 +114,37 @@ const StyledValue = styled.p`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-  ${fluidFontSize(
-    '40px',
-    '60px',
-    breakpointSizes.tiny,
-    breakpointSizes.xxxxlarge,
-  )};
-  font-weight: ${fontWeights.bold};
-  line-height: 1.2;
+  ${({ theme }) =>
+    fluidFontSize(
+      40,
+      60,
+      breakpointSizes.tiny,
+      breakpointSizes.xxxxlarge,
+      theme.fontSizeMultiplier,
+    )};
+  font-weight: ${({ theme }) =>
+    FontWeight(theme.fontWeightValue, fontWeights.bold)};
+  line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.2)};
 `;
 
 const StyledCaption = styled.p`
-  ${fontSize(12)};
+  ${({ theme }) => fontSize(12, theme.fontSizeMultiplier)};
 
   ${minBreakpointQuery.small`
-    ${fontSize(14)};
+    ${({ theme }) => fontSize(14, theme.fontSizeMultiplier)};
   `}
 
   ${minBreakpointQuery.large`
-    ${fontSize(16)};
+    ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
   `}
 `;
 
 const StyledText = styled.p`
   margin-top: 40px;
+
+  ${minBreakpointQuery.medium`
+    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'right')};
+  `}
 
   ${minBreakpointQuery.large`
     margin-top: 80px;
@@ -149,25 +154,19 @@ const StyledText = styled.p`
 const Statistics = ({ heading, items, text, invert }) => (
   <StyledStatistics invert={invert}>
     <Container>
-      <div class="textAlign">
-        <StyledHeading invert={invert}>{heading}</StyledHeading>
-        <StyledItems>
-          {items.map(({ statistic, caption }) => (
-            <StyledItem>
-              <StyledStatistic value={statistic}>
-                <StyledValue>{statistic}%</StyledValue>
-              </StyledStatistic>
+      <StyledHeading invert={invert}>{heading}</StyledHeading>
+      <StyledItems>
+        {items.map(({ statistic, caption }) => (
+          <StyledItem>
+            <StyledStatistic value={statistic}>
+              <StyledValue>{statistic}%</StyledValue>
+            </StyledStatistic>
 
-              <StyledCaption>{caption}</StyledCaption>
-            </StyledItem>
-          ))}
-        </StyledItems>
-      </div>
-      {text && (
-        <div class="textAlignRight">
-          <StyledText>{text}</StyledText>
-        </div>
-      )}
+            <StyledCaption>{caption}</StyledCaption>
+          </StyledItem>
+        ))}
+      </StyledItems>
+      {text && <StyledText>{text}</StyledText>}
     </Container>
   </StyledStatistics>
 );

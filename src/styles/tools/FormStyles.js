@@ -9,25 +9,25 @@ import {
 export const commonFormElementStyles = () => {
   return css`
     width: 100%;
-    ${fontSize(14)};
+    ${({ theme }) => fontSize(14, theme.fontSizeMultiplier)};
     border: none;
     border-radius: 10px;
     padding: 13px 20px;
     margin-top: 10px;
 
     ${minBreakpointQuery.small`
-      ${fontSize(16)}
+      ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
     `}
   `;
 };
 
 export const labelStyles = () => {
   return css`
-    ${fontSize(14)};
+    ${({ theme }) => fontSize(14, theme.fontSizeMultiplier)};
     display: block;
 
     ${minBreakpointQuery.small`
-      ${fontSize(16)}
+      ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
     `}
   `;
 };
@@ -45,12 +45,12 @@ export const inputStyles = () => {
 
 export const buttonStyles = () => {
   return css`
-    ${fontSize(14)};
+    ${({ theme }) => fontSize(14, theme.fontSizeMultiplier)};
     padding-left: 50px;
     padding-right: 50px;
 
     ${minBreakpointQuery.small`
-      ${fontSize(16)}
+      ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
       padding-left: 60px;
       padding-right: 60px;
     `}

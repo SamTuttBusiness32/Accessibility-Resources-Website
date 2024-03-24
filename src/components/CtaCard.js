@@ -6,14 +6,14 @@ import {
   minBreakpointQuery,
   standardColours,
 } from '../styles';
-import { Button, HtmlContent } from './ui';
+import { Button, HtmlContent, TextAlignment } from './ui';
 
 const StyledCtaCard = styled.article`
   border-radius: 15px;
   overflow: hidden;
   background-color: ${standardColours.lightGrey};
   color: ${brandColours.primary};
-  text-align: center;
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
   display: flex;
   flex-direction: column;
 `;
@@ -41,11 +41,11 @@ const StyledContent = styled.div`
 
 const StyledHeading = styled.h3`
   ${minBreakpointQuery.small`
-    ${fontSize(18)};
+    ${({ theme }) => fontSize(18, theme.fontSizeMultiplier)};
   `}
 
   ${minBreakpointQuery.large`
-    ${fontSize(20)};
+    ${({ theme }) => fontSize(20, theme.fontSizeMultiplier)};
   `}
 `;
 

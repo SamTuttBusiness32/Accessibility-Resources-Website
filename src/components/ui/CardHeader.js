@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { brandColours, fontSize } from '../../styles';
+import { brandColours, fontSize, fontWeights } from '../../styles';
 
 const StyledCardHeader = styled.div``;
 
@@ -12,6 +12,8 @@ const StyledHeader = styled.header`
 
 const StyledHeading = styled.h2`
   ${fontSize(20)};
+  font-weight: ${fontWeights.bold};
+  line-height: 1.2;
 `;
 
 const StyledIconWraper = styled.div`
@@ -26,10 +28,13 @@ const StyledIconWraper = styled.div`
 const StyledIcon = styled.img`
   width: 100%;
   height: 100%;
+  opacity: 1 !important;
 `;
 
 const StyledText = styled.p`
   margin-top: 10px;
+  ${fontSize(16)};
+  line-height: 1.2;
 `;
 
 export const CardHeader = cardHeader => {

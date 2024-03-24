@@ -52,7 +52,8 @@ const StyledButton = styled(Button)`
   gap: 10px;
   align-items: center;
   padding: 12px;
-  width: 75px;
+  width: 78px;
+  border: solid 2px ${standardColours.white};
   transition: ${standardTransition('width')},
     ${standardTransition('background-color')};
 

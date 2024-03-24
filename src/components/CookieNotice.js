@@ -7,7 +7,7 @@ import {
   minBreakpointQuery,
   zIndexLayers,
 } from '../styles';
-import { Button, Container } from './ui';
+import { Button, Container, TextAlignment } from './ui';
 import { slugify } from '../utils';
 
 const StyledCookieNotice = styled.div`
@@ -31,7 +31,7 @@ const StyledInner = styled.div`
 `;
 
 const StyledText = styled.p`
-  text-align: center;
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
 
   ${maxBreakpointQuery.medium`
     margin-bottom: 15px;

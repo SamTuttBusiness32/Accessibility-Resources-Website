@@ -12,9 +12,16 @@ import {
   sectionPaddings,
   standardColours,
 } from '../styles';
-import { Container, Heading } from './ui';
+import {
+  Container,
+  FontWeight,
+  Heading,
+  LineHeight,
+  TextAlignment,
+} from './ui';
 
 const StyledChecklistStatistics = styled.section`
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
   ${({ invert }) => {
     if (invert) {
       return css`
@@ -32,7 +39,6 @@ const StyledChecklistStatistics = styled.section`
 `;
 
 const StyledHeading = styled(Heading)`
-  text-align: center;
   color: ${({ invert }) =>
     invert ? standardColours.white : brandColours.primary};
 `;
@@ -58,7 +64,6 @@ const StyledItems = styled.ul`
 `;
 
 const StyledItem = styled.li`
-  text-align: center;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -102,25 +107,28 @@ const StyledValue = styled.p`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-  ${fluidFontSize(
-    '30px',
-    '45px',
-    breakpointSizes.tiny,
-    breakpointSizes.xxxxlarge,
-  )};
-  font-weight: ${fontWeights.bold};
-  line-height: 1.2;
+  ${({ theme }) =>
+    fluidFontSize(
+      30,
+      45,
+      breakpointSizes.tiny,
+      breakpointSizes.xxxxlarge,
+      theme.fontSizeMultiplier,
+    )};
+  font-weight: ${({ theme }) =>
+    FontWeight(theme.fontWeightValue, fontWeights.bold)};
+  line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.2)};
 `;
 
 const StyledCaption = styled.p`
-  ${fontSize(12)};
+  ${({ theme }) => fontSize(12, theme.fontSizeMultiplier)};
 
   ${minBreakpointQuery.small`
-    ${fontSize(14)};
+    ${({ theme }) => fontSize(14, theme.fontSizeMultiplier)};
   `}
 
   ${minBreakpointQuery.large`
-    ${fontSize(16)};
+    ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
   `}
 `;
 

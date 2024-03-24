@@ -7,6 +7,8 @@ import {
   standardTransition,
 } from '../../styles';
 import { Link } from './Link';
+import { TextAlignment } from './TextAlignment';
+import { LineHeight } from './LineHeight';
 
 const commonButtonStyles = () => {
   return css`
@@ -14,9 +16,8 @@ const commonButtonStyles = () => {
     padding: 12px 20px;
     color: ${standardColours.white};
     background-color: ${brandColours.primary};
-    ${fontSize(16)};
-    line-height: 1.5;
-    text-align: center;
+    line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.5)};
+    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
     transition: ${standardTransition('background-color')};
     border-radius: 5px;
 

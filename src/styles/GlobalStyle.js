@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import { brandFonts, elementColours, fontSize, fontWeights } from '../styles';
+import { FontWeight, LineHeight } from '../components/ui';
 
 const GlobalStyle = createGlobalStyle`
   *,
@@ -21,9 +22,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     color: ${elementColours.textColour};
     font-family: ${brandFonts.primary};
-    font-weight: ${fontWeights.regular};
-    ${fontSize(16)};
-    line-height: 1.3;
+    font-weight: ${({ theme }) =>
+      FontWeight(theme.fontWeightValue, fontWeights.regular)};
+    ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
+    line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.2)};
   }
 
   h1,
@@ -34,6 +36,17 @@ const GlobalStyle = createGlobalStyle`
   h6,
   p {
     margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong{
+    font-weight: ${({ theme }) =>
+      FontWeight(theme.fontWeightValue, fontWeights.bold)};
   }
 
   ul,
@@ -63,9 +76,10 @@ const GlobalStyle = createGlobalStyle`
   textarea {
     color: ${elementColours.textColour};
     font-family: ${brandFonts.primary};
-    font-weight: ${fontWeights.regular};
-    ${fontSize(16)};
-    line-height: 1.3;
+    font-weight: ${({ theme }) =>
+      FontWeight(theme.fontWeightValue, fontWeights.regular)};
+    ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
+    line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.3)};
   }
 
   button {

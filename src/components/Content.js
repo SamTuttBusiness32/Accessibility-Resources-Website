@@ -1,10 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { brandColours, minBreakpointQuery } from '../styles';
-import { Container, HtmlContent } from './ui';
+import { Container, HtmlContent, TextAlignment } from './ui';
 
 const StyledContent = styled.section`
   margin: 30px 0;
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'left')};
 
   ${minBreakpointQuery.large`
     margin: 45px 0;
@@ -61,9 +62,7 @@ const Content = ({ content, twoColumns, highlight, contain }) => (
   <StyledContent>
     <Container narrow={contain && !highlight}>
       <StyledInner $twoColumns={twoColumns} $highlight={highlight}>
-        <div class="textAlign">
-          <HtmlContent content={content} />
-        </div>
+        <HtmlContent content={content} />
       </StyledInner>
     </Container>
   </StyledContent>

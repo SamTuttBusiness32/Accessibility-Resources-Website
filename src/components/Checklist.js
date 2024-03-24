@@ -9,12 +9,14 @@ import {
   standardColours,
   visuallyHidden,
 } from '../styles';
-import { Button, Container, Heading } from './ui';
+import { Button, Container, FontWeight, Heading, TextAlignment } from './ui';
 import { slugify } from '../utils';
 import ChecklistStatistics from './ChecklistStatistics';
 import Content from './Content';
 
-const StyledChecklist = styled.section``;
+const StyledChecklist = styled.section`
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
+`;
 
 const StyledButtonWrapper = styled.div`
   background-color: ${brandColours.primary};
@@ -46,7 +48,6 @@ const StyledInner = styled.div`
 `;
 
 const StyledHeading = styled(Heading)`
-  text-align: center;
   margin-bottom: 30px;
 
   ${minBreakpointQuery.large`
@@ -97,8 +98,8 @@ const StyledItemText = styled.span`
   position: relative;
   display: block;
   padding-left: 14px;
-  font-weight: ${fontWeights.bold};
-  text-align: center;
+  font-weight: ${({ theme }) =>
+    FontWeight(theme.fontWeightValue, fontWeights.bold)};
 `;
 
 const StyledCheckboxLabelText = styled.span`

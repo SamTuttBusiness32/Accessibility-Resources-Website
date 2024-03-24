@@ -9,7 +9,7 @@ import {
   standardColours,
   visuallyHidden,
 } from '../styles';
-import { Container, Heading, HtmlContent } from './ui';
+import { Container, Heading, HtmlContent, LineHeight } from './ui';
 
 const StyledAccordion = styled.section`
   ${sectionPaddings()};
@@ -45,18 +45,18 @@ const StyledItem = styled.article`
 const StyledSubHeading = styled.h3`
   position: relative;
   padding-right: 30px;
-  ${fontSize(20)};
-  line-height: 1.5;
+  ${({ theme }) => fontSize(20, theme.fontSizeMultiplier)};
+  line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.5)};
   cursor: pointer;
 
   ${minBreakpointQuery.small`
     padding-right: 35px;
-    ${fontSize(22)};
+    ${({ theme }) => fontSize(22, theme.fontSizeMultiplier)};
   `}
 
   ${minBreakpointQuery.large`
     padding-right: 40px;
-    ${fontSize(24)};
+    ${({ theme }) => fontSize(24, theme.fontSizeMultiplier)};
   `}
 
   &:after {
@@ -65,15 +65,15 @@ const StyledSubHeading = styled.h3`
     top: 50%;
     right: 0;
     color: ${brandColours.primary};
-    ${fontSize(30)};
+    ${({ theme }) => fontSize(30, theme.fontSizeMultiplier)};
     transform: translateY(-50%);
 
     ${minBreakpointQuery.small`
-      ${fontSize(35)};
+      ${({ theme }) => fontSize(35, theme.fontSizeMultiplier)};
     `}
 
     ${minBreakpointQuery.large`
-      ${fontSize(40)};
+      ${({ theme }) => fontSize(40, theme.fontSizeMultiplier)};
     `}
   }
 `;

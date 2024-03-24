@@ -3,12 +3,14 @@ import { useStaticQuery, graphql } from 'gatsby';
 import styled, { css } from 'styled-components';
 import {
   brandColours,
+  fontSize,
+  fontWeights,
   minBreakpointQuery,
   standardColours,
   standardTransition,
   zIndexLayers,
 } from '../styles';
-import { CardHeader, HtmlContent } from './ui';
+import { CardFooter, CardHeader, HtmlContent, TextAlignment } from './ui';
 
 const StyledAccessibilityOverlay = styled.div`
   position: fixed;
@@ -19,7 +21,7 @@ const StyledAccessibilityOverlay = styled.div`
   height: 100vh;
   margin-top: 90px;
   padding-top: 124px;
-  max-width: 520px;
+  max-width: 600px;
   width: 100%;
   transition: ${standardTransition('left')};
 
@@ -65,6 +67,19 @@ const StyledInner = styled.div`
   height: 100%;
 `;
 
+const StyledText = styled(HtmlContent)`
+  color: ${standardColours.white};
+  text-align: center;
+
+  p {
+    line-height: 1.2;
+    letter-spacing: 0;
+    word-spacing: 0;
+    font-weight: ${fontWeights.regular};
+    ${fontSize(16)}
+  }
+`;
+
 const StyledItems = styled.div`
   margin-top: 20px;
   display: grid;
@@ -83,61 +98,6 @@ const StyledItems = styled.div`
   `}
 `;
 
-const StyledTextSizeItem = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-top: 10px;
-  gap: 10px;
-`;
-
-const StyledTextSizeIconWraper = styled.button`
-  width: 50px;
-  height: 50px;
-  padding: 14px;
-  border: solid 1px ${brandColours.primary};
-  border-radius: 50%;
-  position: relative;
-  margin-bottom: 5px;
-  background-color: ${standardColours.white};
-  display: flex;
-  align-items: center;
-
-  &:nth-child(2n) {
-    padding: 11px; /* Padding for every 2nd element */
-  }
-
-  &:nth-child(3n) {
-    padding: 8px; /* Padding for every 3rd element */
-  }
-
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -10px;
-    width: 100%;
-    height: 1px;
-    background-color: ${brandColours.primary};
-    transition: ${standardTransition('height')};
-
-    ${({ $active }) => {
-      if ($active) {
-        return css`
-          height: 5px;
-        `;
-      }
-    }}
-  }
-`;
-
-const StyledTextSizeIcon = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
 const StyledItem = styled.div`
   background-color: ${standardColours.white};
   border-radius: 5px;
@@ -150,6 +110,10 @@ const StyledItemInner = styled.div`
   flex-direction: column;
   height: 100%;
   padding: 20px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  word-spacing: 0;
+  font-weight: ${fontWeights.regular};
 `;
 
 const StyledTextSizeContent = styled.div`
@@ -159,6 +123,8 @@ const StyledTextSizeContent = styled.div`
 const StyledTextSizeText = styled.p`
   margin-top: 10px;
   text-align: center;
+  ${fontSize(16)};
+  line-height: 1.2;
 `;
 
 const AccessibilityOverlay = ({
@@ -171,6 +137,16 @@ const AccessibilityOverlay = ({
   setColourValue,
   alignTextValue,
   setAlignTextValue,
+  textSpacingValue,
+  setTextSpacingValue,
+  lineHeightValue,
+  setLineHeightValue,
+  hideImagesValue,
+  setHideImagesValue,
+  highlightLinksValue,
+  setHighlightLinksValue,
+  fontWeightValue,
+  setFontWeightValue,
 }) => {
   const {
     datoCmsAccessibilityOverlay: { text },
@@ -198,8 +174,13 @@ const AccessibilityOverlay = ({
 
   const fontSizeOptions = [1, 1.1, 1.2]; // Define your font size options
   const saturationOptions = [1, 0.5, 3, 0]; // Define your saturation options
-  const colourOptions = [1, 2, 3, 4, 5]; // Define your saturation options
   const alignTextOptions = [1, 2, 3, 4, 5]; // Define your saturation options
+  const lineHeightOptions = [1, 2, 3, 4]; // Define your saturation options
+  const textSpacingOptions = [1, 2, 3, 4]; // Define your saturation options
+  const hideImagesOptions = [1, 2]; // Define your saturation options
+  const highlightLinksOptions = [1, 2]; // Define your saturation options
+  const colourOptions = [1, 2, 3, 4, 5]; // Define your saturation options
+  const fontWeightOptions = [1, 2, 3]; // Define your saturation options
 
   const handleFontSizeClick = option => {
     setFontSizeMultiplier(option);
@@ -209,18 +190,38 @@ const AccessibilityOverlay = ({
     setSaturationValue(option);
   };
 
+  const handleLineHeightClick = option => {
+    setLineHeightValue(option);
+  };
+
+  const handleTextSpacingClick = option => {
+    setTextSpacingValue(option);
+  };
+
   const handleAlignTextClick = option => {
     setAlignTextValue(option);
+  };
+
+  const handleHideImagesClick = option => {
+    setHideImagesValue(option);
+  };
+
+  const handleHighlightLinksClick = option => {
+    setHighlightLinksValue(option);
   };
 
   const handleColourClick = option => {
     setColourValue(option);
   };
 
+  const handleFontWeightClick = option => {
+    setFontWeightValue(option);
+  };
+
   return (
     <StyledAccessibilityOverlay $overlayActive={overlayActive}>
       <StyledInner $overlayActive={overlayActive}>
-        <HtmlContent content={text} />
+        <StyledText content={text} />
         <StyledItems>
           {nodes.map((item, id) => (
             <StyledItem key={id}>
@@ -244,20 +245,11 @@ const AccessibilityOverlay = ({
                         ? 'Larger Text'
                         : 'Largest Text'}
                     </StyledTextSizeText>
-                    <StyledTextSizeItem>
-                      {fontSizeOptions.map((option, index) => (
-                        <StyledTextSizeIconWraper
-                          key={index}
-                          $active={option === fontSizeMultiplier}
-                        >
-                          <StyledTextSizeIcon
-                            src={nodes[id].icon.url}
-                            alt={`Text size ${option}x`}
-                          />
-                        </StyledTextSizeIconWraper>
-                      ))}
-                    </StyledTextSizeItem>
                   </StyledTextSizeContent>
+                  <CardFooter
+                    options={fontSizeOptions}
+                    value={fontSizeMultiplier}
+                  />
                 </StyledItemInner>
               ) : nodes[id].title === 'Saturation' ? (
                 <StyledItemInner
@@ -281,22 +273,66 @@ const AccessibilityOverlay = ({
                         ? 'No Saturation'
                         : 'Standard Saturation'}
                     </StyledTextSizeText>
-                    <StyledTextSizeItem>
-                      {saturationOptions.map((option, index) => (
-                        <div key={index}>
-                          {index !== 0 && (
-                            <StyledTextSizeIconWraper
-                              $active={option === saturationValue}
-                            >
-                              <StyledTextSizeIcon
-                                src={nodes[id].icon.url}
-                                alt={`Saturation ${option}x`}
-                              />
-                            </StyledTextSizeIconWraper>
-                          )}
-                        </div>
-                      ))}
-                    </StyledTextSizeItem>
+                  </StyledTextSizeContent>
+                  <CardFooter
+                    options={saturationOptions}
+                    value={saturationValue}
+                  />
+                </StyledItemInner>
+              ) : nodes[id].title === 'Text Spacing' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex =
+                      textSpacingOptions.indexOf(textSpacingValue);
+                    const nextIndex =
+                      (currentIndex + 1) % textSpacingOptions.length;
+                    const nextOption = textSpacingOptions[nextIndex];
+                    handleTextSpacingClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {textSpacingValue === 2
+                        ? 'Small Spacing'
+                        : textSpacingValue === 3
+                        ? 'Mid Spacing'
+                        : textSpacingValue === 4
+                        ? 'Large Spacing'
+                        : 'Standard Spacing'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                  <CardFooter
+                    options={textSpacingOptions}
+                    value={textSpacingValue}
+                  />
+                </StyledItemInner>
+              ) : nodes[id].title === 'Line Height' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex =
+                      lineHeightOptions.indexOf(lineHeightValue);
+                    const nextIndex =
+                      (currentIndex + 1) % lineHeightOptions.length;
+                    const nextOption = lineHeightOptions[nextIndex];
+                    handleLineHeightClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {lineHeightValue === 2
+                        ? 'Small Line Height'
+                        : lineHeightValue === 3
+                        ? 'Mid Line Height'
+                        : lineHeightValue === 4
+                        ? 'Large Line Height'
+                        : 'Standard Line Height'}
+                    </StyledTextSizeText>
+                    <CardFooter
+                      options={lineHeightOptions}
+                      value={lineHeightValue}
+                    />
                   </StyledTextSizeContent>
                 </StyledItemInner>
               ) : nodes[id].title === 'Align Text' ? (
@@ -324,6 +360,56 @@ const AccessibilityOverlay = ({
                         : 'Standard'}
                     </StyledTextSizeText>
                   </StyledTextSizeContent>
+                  <CardFooter
+                    options={alignTextOptions}
+                    value={alignTextValue}
+                  />
+                </StyledItemInner>
+              ) : nodes[id].title === 'Hide Images' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex =
+                      hideImagesOptions.indexOf(hideImagesValue);
+                    const nextIndex =
+                      (currentIndex + 1) % hideImagesOptions.length;
+                    const nextOption = hideImagesOptions[nextIndex];
+                    handleHideImagesClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {hideImagesValue === 2 ? 'Images Hidden' : 'Images Shown'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                  <CardFooter
+                    options={hideImagesOptions}
+                    value={hideImagesValue}
+                  />
+                </StyledItemInner>
+              ) : nodes[id].title === 'Highlight Links' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex =
+                      highlightLinksOptions.indexOf(highlightLinksValue);
+                    const nextIndex =
+                      (currentIndex + 1) % highlightLinksOptions.length;
+                    const nextOption = highlightLinksOptions[nextIndex];
+                    handleHighlightLinksClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {highlightLinksValue === 2
+                        ? 'Links Highlighted'
+                        : 'Normal Links'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                  <CardFooter
+                    options={highlightLinksOptions}
+                    value={highlightLinksValue}
+                  />
                 </StyledItemInner>
               ) : nodes[id].title === 'Colour' ? (
                 <StyledItemInner
@@ -348,6 +434,33 @@ const AccessibilityOverlay = ({
                         : 'Standard'}
                     </StyledTextSizeText>
                   </StyledTextSizeContent>
+                  <CardFooter options={colourOptions} value={colourValue} />
+                </StyledItemInner>
+              ) : nodes[id].title === 'Font Weight' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex =
+                      fontWeightOptions.indexOf(fontWeightValue);
+                    const nextIndex =
+                      (currentIndex + 1) % fontWeightOptions.length;
+                    const nextOption = fontWeightOptions[nextIndex];
+                    handleFontWeightClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {fontWeightValue === 2
+                        ? 'Regular'
+                        : fontWeightValue === 3
+                        ? 'Bold'
+                        : 'Standard'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                  <CardFooter
+                    options={fontWeightOptions}
+                    value={fontWeightValue}
+                  />
                 </StyledItemInner>
               ) : (
                 <StyledItemInner>

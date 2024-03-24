@@ -8,7 +8,13 @@ import {
   standardTransition,
   visuallyHidden,
 } from '../styles';
-import { Container, Heading, HtmlContent } from './ui';
+import {
+  Container,
+  Heading,
+  HtmlContent,
+  LineHeight,
+  TextAlignment,
+} from './ui';
 
 const StyledTabs = styled.section`
   ${sectionMargins()};
@@ -16,7 +22,7 @@ const StyledTabs = styled.section`
 
 const StyledHeading = styled(Heading)`
   margin-bottom: 20px;
-  text-align: center;
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
 
   ${minBreakpointQuery.small`
     margin-bottom: 30px;
@@ -44,7 +50,7 @@ const StyledTab = styled.button`
   padding: 20px 10px;
   height: 100%;
   width: 100%;
-  line-height: 1.5;
+  line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.5)};
   background: none;
   border: none;
   border-bottom: 2px solid ${brandColours.tertiary};
@@ -61,7 +67,7 @@ const StyledTab = styled.button`
   }}
 
   ${minBreakpointQuery.medium`
-    ${fontSize(18)};
+    ${({ theme }) => fontSize(18, theme.fontSizeMultiplier)};
   `}
 `;
 

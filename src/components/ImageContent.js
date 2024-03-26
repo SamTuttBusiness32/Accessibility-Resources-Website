@@ -150,6 +150,8 @@ const StyledText = styled(HtmlContent)`
 
 const StyledButton = styled(Button)`
   margin-top: 20px;
+  width: 100%;
+  border-radius: 0;
 
   ${minBreakpointQuery.small`
     margin-top: 25px;

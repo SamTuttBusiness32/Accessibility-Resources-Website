@@ -74,8 +74,12 @@ const StyledItem = styled.li`
 `;
 
 const StyledLink = styled(Link)`
-  transition: ${standardTransition('color')},
-    ${standardTransition('border-color')};
+  transition: ${({ theme }) =>
+    `${standardTransition(
+      'color',
+      theme.animationDelayValue,
+    )}, ${standardTransition('border-color', theme.animationDelayValue)}`};
+
   border-bottom: solid 3px ${standardColours.transparent};
 
   ${maxBreakpointQuery.mlarge`

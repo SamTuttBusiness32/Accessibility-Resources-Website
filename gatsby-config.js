@@ -35,6 +35,18 @@ module.exports = {
               family: `Montserrat`,
               variants: [`400`, `700`],
             },
+            {
+              family: `Atkinson Hyperlegible`,
+              variants: [`400`, `700`],
+            },
+            {
+              family: `Noto Sans`,
+              variants: [`400`, `700`],
+            },
+            {
+              family: `Lexend`,
+              variants: [`400`, `700`],
+            },
           ],
         },
         formats: ['woff2'],

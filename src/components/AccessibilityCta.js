@@ -15,7 +15,8 @@ const StyledAccessibilityCta = styled.div`
   position: fixed;
   z-index: ${zIndexLayers.sixth};
   left: 20px;
-  transition: ${standardTransition('top')};
+  transition: ${({ theme }) =>
+    standardTransition('top', theme.animationDelayValue)};
 
   ${({ $overlayActive }) => {
     if (!$overlayActive) {
@@ -43,8 +44,9 @@ const StyledImage = styled(Svg)`
   border: solid 1px ${standardColours.white};
   border-radius: 50%;
   padding: 8px;
-  transition: ${standardTransition('fill')},
-    ${standardTransition('border-color')};
+  transition: ${({ theme }) =>
+    `${standardTransition('fill', theme.animationDelayValue)},
+    ${standardTransition('border-color', theme.animationDelayValue)}`};
 `;
 
 const StyledButton = styled(Button)`
@@ -54,14 +56,16 @@ const StyledButton = styled(Button)`
   padding: 12px;
   width: 78px;
   border: solid 2px ${standardColours.white};
-  transition: ${standardTransition('width')},
-    ${standardTransition('background-color')};
+  transition: ${({ theme }) =>
+    `${standardTransition('width', theme.animationDelayValue)},
+    ${standardTransition('background-color', theme.animationDelayValue)}`};
 
   &:after {
     content: ${({ $overlayActive }) => ($overlayActive ? "'Close'" : "'Open'")};
     display: block;
     position: relative;
-    transition: ${standardTransition('color')};
+    transition: ${({ theme }) =>
+      standardTransition('color', theme.animationDelayValue)};
     color: ${standardColours.white};
   }
 
@@ -103,8 +107,8 @@ const StyledButton = styled(Button)`
   }}
 `;
 
-const AccessibilityCta = ({ overlayActive, setOverlayActive }) => (
-  <StyledAccessibilityCta $overlayActive={overlayActive}>
+const AccessibilityCta = ({ overlayActive, setOverlayActive, ...props }) => (
+  <StyledAccessibilityCta $overlayActive={overlayActive} {...props}>
     <StyledButton
       $overlayActive={overlayActive}
       onClick={() => setOverlayActive(!overlayActive)}

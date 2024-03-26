@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import styled, { css } from 'styled-components';
 import {
   brandColours,
+  brandFonts,
   fontSize,
   fontWeights,
   minBreakpointQuery,
@@ -23,7 +24,9 @@ const StyledAccessibilityOverlay = styled.div`
   padding-top: 124px;
   max-width: 600px;
   width: 100%;
-  transition: ${standardTransition('left')};
+  transition: ${({ theme }) =>
+    standardTransition('left', theme.animationDelayValue)};
+  font-family: ${brandFonts.primary};
 
   ${minBreakpointQuery.mlarge`
     margin-top: 80px;
@@ -63,8 +66,16 @@ const StyledAccessibilityOverlay = styled.div`
 
 const StyledInner = styled.div`
   padding: 20px;
+  padding-top: 0;
   padding-right: 10px;
   height: 100%;
+  overflow-y: scroll;
+  height: calc(100% - 90px);
+  margin-right: 10px;
+
+  ${minBreakpointQuery.mlarge`
+    height: calc(100% - 80px);
+  `}
 `;
 
 const StyledText = styled(HtmlContent)`
@@ -83,7 +94,6 @@ const StyledText = styled(HtmlContent)`
 const StyledButtonWrapper = styled.div`
   background-color: ${brandColours.primary};
   display: flex;
-  padding-right: 20px;
   gap: 20px;
   margin-top: 20px;
 `;
@@ -109,18 +119,10 @@ const StyledItems = styled.div`
   margin-top: 20px;
   display: grid;
   gap: 20px;
-  height: calc(100% - 204px);
-  padding-right: 10px;
-  padding-bottom: 10px;
-  overflow-y: scroll;
 
   ${minBreakpointQuery.small`
     grid-template-columns: repeat(2, 1fr);
   `};
-
-  ${minBreakpointQuery.mlarge`
-    height: calc(100% - 194px);
-  `}
 `;
 
 const StyledItem = styled.div`
@@ -172,6 +174,10 @@ const AccessibilityOverlay = ({
   setHighlightLinksValue,
   fontWeightValue,
   setFontWeightValue,
+  animationDelayValue,
+  setAnimationDelayValue,
+  fontValue,
+  setFontValue,
 }) => {
   const {
     datoCmsAccessibilityOverlay: { text },
@@ -206,6 +212,8 @@ const AccessibilityOverlay = ({
   const highlightLinksOptions = [1, 2]; // Define your saturation options
   const colourOptions = [1, 2, 3, 4, 5]; // Define your saturation options
   const fontWeightOptions = [1, 2, 3]; // Define your saturation options
+  const animationDelayOptions = [1, 2, 3];
+  const fontOptions = [1, 2, 3, 4]; // Define your saturation options
 
   const handleFontSizeClick = option => {
     setFontSizeMultiplier(option);
@@ -243,6 +251,14 @@ const AccessibilityOverlay = ({
     setFontWeightValue(option);
   };
 
+  const handleAnimationDelayClick = option => {
+    setAnimationDelayValue(option);
+  };
+
+  const handleFontClick = option => {
+    setFontValue(option);
+  };
+
   // Function to handle saving values to local storage when the "Save" button is clicked
   const handleSaveClick = () => {};
 
@@ -257,6 +273,8 @@ const AccessibilityOverlay = ({
     setHideImagesValue(1);
     setHighlightLinksValue(1);
     setFontWeightValue(1);
+    setAnimationDelayValue(1);
+    setFontValue(1);
   };
 
   return (
@@ -506,6 +524,55 @@ const AccessibilityOverlay = ({
                     options={fontWeightOptions}
                     value={fontWeightValue}
                   />
+                </StyledItemInner>
+              ) : nodes[id].title === 'Toggle Animations' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex =
+                      animationDelayOptions.indexOf(animationDelayValue);
+                    const nextIndex =
+                      (currentIndex + 1) % animationDelayOptions.length;
+                    const nextOption = animationDelayOptions[nextIndex];
+                    handleAnimationDelayClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {animationDelayValue === 2
+                        ? 'Slow Delay'
+                        : animationDelayValue === 3
+                        ? 'No Delay'
+                        : 'Standard Delay'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                  <CardFooter
+                    options={animationDelayOptions}
+                    value={animationDelayValue}
+                  />
+                </StyledItemInner>
+              ) : nodes[id].title === 'Font' ? (
+                <StyledItemInner
+                  onClick={() => {
+                    const currentIndex = fontOptions.indexOf(fontValue);
+                    const nextIndex = (currentIndex + 1) % fontOptions.length;
+                    const nextOption = fontOptions[nextIndex];
+                    handleFontClick(nextOption);
+                  }}
+                >
+                  <CardHeader {...item} />
+                  <StyledTextSizeContent>
+                    <StyledTextSizeText>
+                      {fontValue === 2
+                        ? 'Atkinson Hyperlegible'
+                        : fontValue === 3
+                        ? 'Noto Sans'
+                        : fontValue === 4
+                        ? 'Lexend'
+                        : 'Montserrat'}
+                    </StyledTextSizeText>
+                  </StyledTextSizeContent>
+                  <CardFooter options={fontOptions} value={fontValue} />
                 </StyledItemInner>
               ) : (
                 <StyledItemInner>

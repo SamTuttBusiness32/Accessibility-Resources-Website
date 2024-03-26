@@ -21,7 +21,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     color: ${elementColours.textColour};
-    font-family: ${brandFonts.primary};
     font-weight: ${({ theme }) =>
       FontWeight(theme.fontWeightValue, fontWeights.regular)};
     ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
@@ -75,7 +74,6 @@ const GlobalStyle = createGlobalStyle`
   select,
   textarea {
     color: ${elementColours.textColour};
-    font-family: ${brandFonts.primary};
     font-weight: ${({ theme }) =>
       FontWeight(theme.fontWeightValue, fontWeights.regular)};
     ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};

@@ -18,7 +18,8 @@ const commonButtonStyles = () => {
     background-color: ${brandColours.primary};
     line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.5)};
     text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
-    transition: ${standardTransition('background-color')};
+    transition: ${({ theme }) =>
+      standardTransition('background-color', theme.animationDelayValue)};
     border-radius: 5px;
 
     &:hover {

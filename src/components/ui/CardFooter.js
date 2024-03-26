@@ -14,7 +14,8 @@ const StyledItems = styled.div`
   gap: 5px;
   margin-top: 10px;
   opacity: ${({ $active }) => ($active ? 1 : 0)};
-  transition: ${standardTransition('opacity')};
+  transition: ${({ theme }) =>
+    standardTransition('opacity', theme.animationDelayValue)};
 `;
 
 const StyledItem = styled.span`
@@ -23,8 +24,11 @@ const StyledItem = styled.span`
   border-radius: 50%;
   background-color: ${standardColours.white};
   border: solid 1px ${standardColours.darkGrey};
-  transition: ${standardTransition('background-color')},
-    ${standardTransition('border-color')};
+  transition: ${({ theme }) =>
+    `${standardTransition(
+      'border-color',
+      theme.animationDelayValue,
+    )}, ${standardTransition('background-color', theme.animationDelayValue)}`};
 
   ${({ $active }) => {
     if ($active) {

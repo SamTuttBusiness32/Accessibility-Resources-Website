@@ -84,7 +84,8 @@ export const StyledHtmlContent = styled.div`
     position: relative;
     color: ${brandColours.primary};
     border-bottom: 1px solid transparent;
-    transition: ${standardTransition('border-color')};
+    transition: ${({ theme }) =>
+      standardTransition('border-color', theme.animationDelayValue)};
 
     &:hover {
       border-bottom-color: ${brandColours.primary};

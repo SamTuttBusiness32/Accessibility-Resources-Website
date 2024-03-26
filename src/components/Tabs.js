@@ -54,8 +54,11 @@ const StyledTab = styled.button`
   background: none;
   border: none;
   border-bottom: 2px solid ${brandColours.tertiary};
-  transition: ${standardTransition('color')},
-    ${standardTransition('border-color')};
+  transition: ${({ theme }) =>
+    `${standardTransition(
+      'color',
+      theme.animationDelayValue,
+    )}, ${standardTransition('border-color', theme.animationDelayValue)}`};
 
   ${({ active }) => {
     if (active) {

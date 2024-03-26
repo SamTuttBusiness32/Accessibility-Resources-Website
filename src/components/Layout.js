@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
+import { ThemeProvider } from 'styled-components';
+import { brandFonts, standardTransition } from '../styles';
 import { HelmetDatoCms } from 'gatsby-source-datocms';
 import { createGlobalStyle } from 'styled-components';
 import GlobalStyle from '../styles/GlobalStyle';
@@ -9,12 +11,23 @@ import CookieNotice from './CookieNotice';
 import AccessibilityCta from './AccessibilityCta';
 import AccessibilityOverlay from './AccessibilityOverlay';
 import cursorT from '../images/cursor-t.svg';
-import { ThemeProvider } from 'styled-components';
-import { standardTransition } from '../styles';
 
 const GlobalFontSize = createGlobalStyle`
   html {
     font-size: 62.5%;
+    font-family: ${props => {
+      switch (props.$fontValue) {
+        case 2:
+          return brandFonts.secondary;
+        case 3:
+          return brandFonts.tertiary;
+        case 4:
+          return brandFonts.quaternary;
+        default:
+          return brandFonts.primary;
+      }
+    }};
+
     filter: ${props => {
       switch (props.$colourValue) {
         case 2:
@@ -79,7 +92,10 @@ const GlobalFontSize = createGlobalStyle`
           return '1';
       }
     }};
-    transition: ${standardTransition('opacity')};
+    transition: ${({ theme }) =>
+      standardTransition('opacity', theme.animationDelayValue)};
+
+    
   }
 
   ${props => {
@@ -91,11 +107,15 @@ const GlobalFontSize = createGlobalStyle`
         font-weight: bold !important;
         fill: yellow !important;
         border-color: yellow !important;
-        transition:${standardTransition('color')},${standardTransition(
-          'background-color',
-        )},${standardTransition('fill')},${standardTransition(
-          'border-color',
-        )} !important;
+        transition: ${({ theme }) =>
+          `${standardTransition('color', theme.animationDelayValue)},
+          ${standardTransition('background-color', theme.animationDelayValue)},
+          ${standardTransition('fill', theme.animationDelayValue)},
+          ${standardTransition(
+            'border-color',
+            theme.animationDelayValue,
+          )}`} !important;
+
 
         &:after{
           color: yellow !important;
@@ -155,6 +175,10 @@ const Layout = ({ seo, noIndex, children }) => {
   const [fontWeightValue, setFontWeightValue] = useState(
     getStoredValue('fontWeightValue', 1),
   );
+  const [animationDelayValue, setAnimationDelayValue] = useState(
+    getStoredValue('animationDelayValue', 1),
+  );
+  const [fontValue, setFontValue] = useState(getStoredValue('fontValue', 1));
 
   // UseEffect to update localStorage when state changes
   useEffect(() => {
@@ -173,6 +197,11 @@ const Layout = ({ seo, noIndex, children }) => {
       JSON.stringify(highlightLinksValue),
     );
     localStorage.setItem('fontWeightValue', JSON.stringify(fontWeightValue));
+    localStorage.setItem(
+      'animationDelayValue',
+      JSON.stringify(animationDelayValue),
+    );
+    localStorage.setItem('fontValue', JSON.stringify(fontValue));
   }, [
     fontSizeMultiplier,
     saturationValue,
@@ -183,6 +212,8 @@ const Layout = ({ seo, noIndex, children }) => {
     hideImagesValue,
     highlightLinksValue,
     fontWeightValue,
+    animationDelayValue,
+    fontValue,
   ]);
 
   return (
@@ -192,6 +223,7 @@ const Layout = ({ seo, noIndex, children }) => {
         alignTextValue,
         lineHeightValue,
         fontWeightValue,
+        animationDelayValue,
       }}
     >
       <HelmetDatoCms seo={seo} favicon={faviconMetaTags}>
@@ -205,6 +237,7 @@ const Layout = ({ seo, noIndex, children }) => {
         $textSpacingValue={textSpacingValue}
         $hideImagesValue={hideImagesValue}
         $highlightLinksValue={highlightLinksValue}
+        $fontValue={fontValue}
       />
       <GlobalStyle />
       <Header />
@@ -236,6 +269,10 @@ const Layout = ({ seo, noIndex, children }) => {
         setHighlightLinksValue={setHighlightLinksValue}
         fontWeightValue={fontWeightValue}
         setFontWeightValue={setFontWeightValue}
+        fontValue={fontValue}
+        setFontValue={setFontValue}
+        animationDelayValue={animationDelayValue}
+        setAnimationDelayValue={setAnimationDelayValue}
       />
     </ThemeProvider>
   );

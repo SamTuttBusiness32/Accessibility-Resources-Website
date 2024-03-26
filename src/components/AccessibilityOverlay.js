@@ -22,6 +22,7 @@ const StyledAccessibilityOverlay = styled.div`
   height: 100vh;
   margin-top: 90px;
   padding-top: 124px;
+  padding-bottom: 20px;
   max-width: 600px;
   width: 100%;
   transition: ${({ theme }) =>
@@ -65,8 +66,7 @@ const StyledAccessibilityOverlay = styled.div`
 `;
 
 const StyledInner = styled.div`
-  padding: 20px;
-  padding-top: 0;
+  padding-left: 20px;
   padding-right: 10px;
   height: 100%;
   overflow-y: scroll;

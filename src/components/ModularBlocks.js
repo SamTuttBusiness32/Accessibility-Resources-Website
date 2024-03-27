@@ -4,10 +4,14 @@ import Content from './Content';
 import Ctas from './Ctas';
 import ImageContent from './ImageContent';
 import Statistics from './Statistics';
+import AccessibilityFunctionsGuide from './AccessibilityFunctionsGuide';
 
 const ModularBlocks = ({ items }) =>
   items.map(item => (
     <React.Fragment key={item.id}>
+      {item.model.apiKey === 'accessibility_functions_guide_modular_block' && (
+        <AccessibilityFunctionsGuide heading={item.heading} text={item.text} />
+      )}
       {item.model.apiKey === 'content_modular_block' && (
         <Content
           content={item.content}
@@ -53,6 +57,23 @@ const ModularBlocks = ({ items }) =>
 export default ModularBlocks;
 
 export const ModularBlockFragments = graphql`
+  fragment AccessibilityFunctionsGuideModularBlockFragment on DatoCmsAccessibilityFunctionsGuideModularBlock {
+    id
+    model {
+      apiKey
+    }
+    heading
+    text {
+      value
+      links {
+        id: originalId
+        text
+        pageUrl {
+          ...LinkFragment
+        }
+      }
+    }
+  }
   fragment ContentModularBlockFragment on DatoCmsContentModularBlock {
     id
     model {

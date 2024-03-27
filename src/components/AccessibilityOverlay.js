@@ -16,11 +16,11 @@ import { Button, CardFooter, CardHeader, HtmlContent } from './ui';
 const StyledAccessibilityOverlay = styled.div`
   position: fixed;
   background-color: ${standardColours.transparentBlack(0.8)};
-  z-index: ${zIndexLayers.fifth};
+  z-index: ${zIndexLayers.fourth};
   top: 0;
   left: -100%;
   height: 100vh;
-  margin-top: 92px;
+  margin-top: 90px;
   width: 100%;
   transition: ${({ theme }) =>
     standardTransition('left', theme.animationDelayValue)};
@@ -28,7 +28,7 @@ const StyledAccessibilityOverlay = styled.div`
   cursor: pointer;
 
   ${minBreakpointQuery.mlarge`
-    margin-top: 82px;
+    margin-top: 80px;
   `}
 
   ${({ $overlayActive }) => {
@@ -113,7 +113,7 @@ const StyledButton = styled(Button)`
   font-weight: ${fontWeights.regular};
   text-align: center;
   ${fontSize(16)}
-  border: solid 2px #003131;
+  border: solid 2px ${brandColours.tertiary};
   border-radius: 4px;
 
   &:hover {

@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { minBreakpointQuery, standardColours, zIndexLayers } from '../styles';
+import {
+  brandColours,
+  minBreakpointQuery,
+  standardColours,
+  zIndexLayers,
+} from '../styles';
 import { Container } from './ui';
 import Logo from './Logo';
 import Navigation from './Navigation';
@@ -10,9 +15,9 @@ const StyledHeader = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #eaf6ff;
-  border-bottom: solid 2px #003131;
-  z-index: ${zIndexLayers.fifth};
+  border-bottom: solid 2px ${brandColours.tertiary};
+  z-index: ${zIndexLayers.sixth};
+  background-color: ${brandColours.secondary};
 `;
 
 const StyledInner = styled.div`

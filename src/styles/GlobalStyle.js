@@ -1,5 +1,11 @@
 import { createGlobalStyle } from 'styled-components';
-import { brandFonts, elementColours, fontSize, fontWeights } from '../styles';
+import {
+  brandColours,
+  brandFonts,
+  elementColours,
+  fontSize,
+  fontWeights,
+} from '../styles';
 import { FontWeight, LineHeight } from '../components/ui';
 
 const GlobalStyle = createGlobalStyle`
@@ -21,6 +27,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     color: ${elementColours.textColour};
+    background-color: ${brandColours.secondary};
     font-weight: ${({ theme }) =>
       FontWeight(theme.fontWeightValue, fontWeights.regular)};
     ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};

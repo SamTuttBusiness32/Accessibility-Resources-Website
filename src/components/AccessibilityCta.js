@@ -13,7 +13,7 @@ import settingsIcon from '../images/gear-solid.inline.svg';
 
 const StyledAccessibilityCta = styled.div`
   position: fixed;
-  z-index: ${zIndexLayers.sixth};
+  z-index: ${zIndexLayers.fifth};
   left: 20px;
   transition: ${({ theme }) =>
     standardTransition('top', theme.animationDelayValue)};

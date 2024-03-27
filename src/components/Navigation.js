@@ -46,9 +46,9 @@ const StyledList = styled.ul`
     left: 0;
     z-index: ${zIndexLayers.fourth};
     display: ${({ $displayNav }) => ($displayNav ? 'block' : 'none')};
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background-color: ${brandColours.secondary};
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: ${brandColours.tertiary};
   `}
 `;
 
@@ -78,7 +78,10 @@ const StyledLink = styled(Link)`
     `${standardTransition(
       'color',
       theme.animationDelayValue,
-    )}, ${standardTransition('border-color', theme.animationDelayValue)}`};
+    )}, ${standardTransition(
+      'border-color',
+      theme.animationDelayValue,
+    )}, ${standardTransition('background-color', theme.animationDelayValue)}`};
 
   border-bottom: solid 3px ${standardColours.transparent};
 
@@ -86,12 +89,20 @@ const StyledLink = styled(Link)`
     display: block;
     padding: 10px 30px;
     color: ${standardColours.white};
+    border-top: solid 3px ${standardColours.transparent};
   `}
 
   &:hover,
   &.current-page {
-    color: ${brandColours.primary};
-    border-color: ${brandColours.primary};
+    ${minBreakpointQuery.mlarge`
+      border-color: ${brandColours.primary};
+    `}
+
+    ${maxBreakpointQuery.mlarge`
+      background-color: ${brandColours.primary};
+      color: ${standardColours.white};
+      border-color: ${standardColours.white};
+    `}
   }
 `;
 

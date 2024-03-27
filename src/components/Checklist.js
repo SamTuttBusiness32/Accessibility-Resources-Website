@@ -7,6 +7,7 @@ import {
   minBreakpointQuery,
   sectionMargins,
   standardColours,
+  standardTransition,
   visuallyHidden,
 } from '../styles';
 import { Button, Container, FontWeight, Heading, TextAlignment } from './ui';
@@ -36,7 +37,8 @@ const StyledButton = styled(Button)`
   width: 100%;
   background-color: ${standardColours.white};
   color: ${brandColours.primary};
-  border-radius: 0;
+  border: solid 2px ${brandColours.tertiary};
+  border-radius: 4px;
 
   &:hover {
     color: ${standardColours.white};
@@ -74,6 +76,28 @@ const StyledItem = styled.div`
   color: ${brandColours.primary};
   display: flex;
   align-items: center;
+  border: solid 2px ${brandColours.tertiary};
+  border-radius: 4px;
+
+  transition: ${({ theme }) =>
+    `${standardTransition(
+      'color',
+      theme.animationDelayValue,
+    )},  ${standardTransition('background-color', theme.animationDelayValue)}`};
+
+  &:hover {
+    color: ${standardColours.white};
+    background-color: ${brandColours.tertiary};
+  }
+
+  ${({ $active }) => {
+    if ($active) {
+      return css`
+        color: ${standardColours.white};
+        background-color: ${brandColours.tertiary};
+      `;
+    }
+  }}
 `;
 
 const StyledCheckboxWrapper = styled.div`
@@ -355,6 +379,7 @@ const Checklist = ({ checkboxOptions }) => {
                 {checkboxOptions.map((parent, parentIndex) => (
                   <StyledItem
                     key={parentIndex}
+                    $active={parentIndex === activeCategory}
                     onClick={() => setActiveCategory(parentIndex)}
                   >
                     <StyledCheckboxWrapper>
@@ -390,6 +415,7 @@ const Checklist = ({ checkboxOptions }) => {
                     {parent.treeChildren.map((child, childIndex) => (
                       <StyledItem
                         key={childIndex}
+                        $active={childIndex === activeSubcategory}
                         onClick={() => setActiveSubcategory(childIndex)}
                       >
                         <StyledCheckboxWrapper>
@@ -427,6 +453,7 @@ const Checklist = ({ checkboxOptions }) => {
                           child.treeChildren.map((subChild, subChildIndex) => (
                             <StyledItem
                               key={subChildIndex}
+                              $active={subChildIndex === activeItem}
                               onClick={() => setActiveItem(subChildIndex)}
                             >
                               <StyledCheckboxWrapper>

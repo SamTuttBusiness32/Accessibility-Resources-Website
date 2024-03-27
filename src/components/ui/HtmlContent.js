@@ -34,10 +34,14 @@ export const StyledHtmlContent = styled.div`
   }
 
   h3 {
-    ${({ theme }) => fontSize(20, theme.fontSizeMultiplier)};
+    ${({ theme }) => fontSize(24, theme.fontSizeMultiplier)};
 
     ${minBreakpointQuery.small`
-      ${({ theme }) => fontSize(22, theme.fontSizeMultiplier)};
+      ${({ theme }) => fontSize(28, theme.fontSizeMultiplier)};
+    `}
+
+    ${minBreakpointQuery.large`
+      ${({ theme }) => fontSize(32, theme.fontSizeMultiplier)};
     `}
   }
 

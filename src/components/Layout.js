@@ -50,7 +50,7 @@ const GlobalFontSize = createGlobalStyle`
         case 3:
           return '0.2em';
         case 4:
-          return '0.3em';
+          return '0.4em';
         default:
           return '0';
       }

@@ -32,8 +32,7 @@ const StyledStatistics = styled.section`
     } else {
       return css`
         ${sectionPaddings(`40px`, `80px`)};
-        color: ${brandColours.primary};
-        background-color: #eaf6ff;
+        background-color: ${standardColours.white};
       `;
     }
   }}
@@ -129,7 +128,7 @@ const StyledStatistic = styled.div`
     position: absolute;
     inset: 12px;
     border-radius: 50%;
-    background: #eaf6ff;
+    background: ${standardColours.white};
   }
 
   ${minBreakpointQuery.small`

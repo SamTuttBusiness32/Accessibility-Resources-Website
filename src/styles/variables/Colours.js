@@ -16,10 +16,11 @@ export const standardColours = {
 };
 
 export const brandColours = {
-  primary: '#008080', // Cyan
-  secondary: '#FF9900', // Orange
+  primary: '#008080', // Blue
+  secondary: '#EAF6FF', // Light Blue
+  tertiary: '#003131', // Dark Blue
 };
 
 export const elementColours = {
-  textColour: standardColours.darkGrey,
+  textColour: brandColours.primary,
 };

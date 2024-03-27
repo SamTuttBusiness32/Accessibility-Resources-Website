@@ -58,6 +58,7 @@ export const DefaultPageTemplateQuery = graphql`
         alt
       }
       modularBlocks {
+        ...AccessibilityFunctionsGuideModularBlockFragment
         ...ContentModularBlockFragment
         ...CtasModularBlockFragment
         ...StatisticsModularBlockFragment

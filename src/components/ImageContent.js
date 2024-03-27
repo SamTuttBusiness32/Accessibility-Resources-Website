@@ -20,7 +20,7 @@ const StyledImageContent = styled.section`
     } else {
       return css`
         color: ${brandColours.primary};
-        ${sectionMargins()};
+        ${sectionMargins('40px', '80px')}
       `;
     }
   }}
@@ -30,6 +30,7 @@ const StyledImageContent = styled.section`
 const StyledInner = styled.div`
   display: grid;
   gap: 30px;
+  color: ${brandColours.primary};
 
   ${minBreakpointQuery.smedium`
     grid-template-columns: repeat(2, 1fr);
@@ -130,7 +131,7 @@ const StyledHeading = styled(Heading)`
       `;
     } else {
       return `
-      color: ${brandColours.primary};
+        color: ${brandColours.primary};
       `;
     }
   }}
@@ -162,7 +163,7 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-const ImageContent = ({ image, heading, text, link, flip, version, theme }) => (
+const ImageContent = ({ image, heading, text, link, flip, version }) => (
   <StyledImageContent version={version}>
     <Container wide={version === 2}>
       <StyledInner>

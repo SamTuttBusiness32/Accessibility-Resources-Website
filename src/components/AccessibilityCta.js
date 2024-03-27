@@ -55,7 +55,7 @@ const StyledButton = styled(Button)`
   align-items: center;
   padding: 12px;
   width: 78px;
-  border: solid 2px ${standardColours.white};
+  border: solid 2px #003131;
   transition: ${({ theme }) =>
     `${standardTransition('width', theme.animationDelayValue)},
     ${standardTransition('background-color', theme.animationDelayValue)}`};
@@ -96,11 +96,16 @@ const StyledButton = styled(Button)`
         }
 
         &:hover:after {
-          color: ${brandColours.primary};
+          color: ${standardColours.white};
         }
 
         &:hover {
-          background-color: ${standardColours.white};
+          background-color: ${brandColours.primary};
+
+          ${StyledImage} {
+            fill: ${standardColours.white};
+            border-color: ${standardColours.white};
+          }
         }
       `;
     }

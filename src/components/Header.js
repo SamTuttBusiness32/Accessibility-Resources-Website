@@ -10,7 +10,8 @@ const StyledHeader = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  background-color: ${standardColours.lightGrey};
+  background-color: #eaf6ff;
+  border-bottom: solid 2px #003131;
   z-index: ${zIndexLayers.fifth};
 `;
 

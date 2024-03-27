@@ -38,11 +38,11 @@ const StyledText = styled.p`
 `;
 
 export const CardHeader = cardHeader => {
-  const { title, text, icon } = cardHeader;
+  const { title, text, icon, ...props } = cardHeader;
   return (
     <StyledCardHeader>
       <StyledHeader>
-        <StyledIconWraper>
+        <StyledIconWraper {...props}>
           <StyledIcon src={icon.url} alt={icon.alt} />
         </StyledIconWraper>
         <StyledHeading>{title}</StyledHeading>

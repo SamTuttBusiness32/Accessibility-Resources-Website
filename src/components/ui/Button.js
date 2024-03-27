@@ -19,11 +19,12 @@ const commonButtonStyles = () => {
     line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.5)};
     text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
     transition: ${({ theme }) =>
-      standardTransition('background-color', theme.animationDelayValue)};
+      `${standardTransition('color', theme.animationDelayValue)},
+      ${standardTransition('background-color', theme.animationDelayValue)}`};
     border-radius: 5px;
 
     &:hover {
-      background-color: ${brandColours.primary};
+      background-color: #003131;
     }
   `;
 };

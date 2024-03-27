@@ -22,8 +22,8 @@ const StyledItem = styled.span`
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: ${standardColours.white};
-  border: solid 1px ${standardColours.darkGrey};
+  background-color: ${brandColours.primary};
+  border: solid 1px ${standardColours.white};
   transition: ${({ theme }) =>
     `${standardTransition(
       'border-color',
@@ -33,15 +33,15 @@ const StyledItem = styled.span`
   ${({ $active }) => {
     if ($active) {
       return css`
-        background-color: ${brandColours.primary};
-        border-color: ${brandColours.primary};
+        background-color: ${standardColours.white};
+        border-color: ${standardColours.white};
       `;
     }
   }}
 `;
 
 export const CardFooter = CardFooter => {
-  const { options, value } = CardFooter;
+  const { options, value, ...props } = CardFooter;
   return (
     <StyledCardFooter>
       <StyledItems $active={options[0] !== value}>

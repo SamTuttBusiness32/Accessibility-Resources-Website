@@ -31,8 +31,9 @@ const StyledStatistics = styled.section`
       `;
     } else {
       return css`
-        ${sectionMargins(`30px`, `60px`)};
+        ${sectionPaddings(`40px`, `80px`)};
         color: ${brandColours.primary};
+        background-color: #eaf6ff;
       `;
     }
   }}
@@ -43,10 +44,26 @@ const StyledHeading = styled(Heading)`
     invert ? standardColours.white : brandColours.primary};
 `;
 
+const StyledText = styled.p`
+  margin-top: 10px;
+
+  ${minBreakpointQuery.medium`
+    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
+  `}
+
+  ${minBreakpointQuery.large`
+    margin-top: 15px;
+  `}
+`;
+
 const StyledItems = styled.ul`
   display: grid;
-  margin-top: 40px;
+  margin-top: 30px;
   gap: 20px;
+
+  ${minBreakpointQuery.small`
+    margin-top: 40px;
+  `}
 
   ${minBreakpointQuery.medium`
     grid-template-columns: repeat(3, 1fr);
@@ -57,7 +74,7 @@ const StyledItems = styled.ul`
   `}
 
   ${minBreakpointQuery.large`
-    margin-top: 80px;
+    margin-top: 50px;
   `}
 
   ${minBreakpointQuery.xlarge`
@@ -72,17 +89,24 @@ const StyledItem = styled.li`
   align-items: center;
 
   ${maxBreakpointQuery.medium`
-    max-width: 250px;
     margin: 0 auto;
+  `}
+
+  ${minBreakpointQuery.small`
+    gap: 25px;
+  `}
+
+  ${minBreakpointQuery.large`
+    gap: 30px;
   `}
 `;
 
 const StyledStatistic = styled.div`
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 175px;
+  height: 175px;
   border-radius: 50%;
-  background: #444
+  background: #003131
     linear-gradient(to right, transparent 50%, ${brandColours.primary} 50%);
 
   &:before {
@@ -92,7 +116,8 @@ const StyledStatistic = styled.div`
     margin-left: 50%;
     transform-origin: left;
     border-radius: 0 100% 100% 0/50%;
-    background: ${({ value }) => (value > 50 ? brandColours.primary : `#444`)};
+    background: ${({ value }) =>
+      value > 50 ? brandColours.primary : `#003131`};
     transform: ${({ value }) =>
       value > 50
         ? `rotate(calc(((${value} - 50) * 0.01turn)))`
@@ -104,8 +129,23 @@ const StyledStatistic = styled.div`
     position: absolute;
     inset: 12px;
     border-radius: 50%;
-    background: ${standardColours.white};
+    background: #eaf6ff;
   }
+
+  ${minBreakpointQuery.small`
+    width: 200px;
+    height: 200px;
+  `}
+
+  ${minBreakpointQuery.medium`
+    width: 225px;
+    height: 225px;
+  `}
+
+  ${minBreakpointQuery.large`
+    width: 250px;
+    height: 250px;
+  `}
 `;
 
 const StyledValue = styled.p`
@@ -139,22 +179,11 @@ const StyledCaption = styled.p`
   `}
 `;
 
-const StyledText = styled.p`
-  margin-top: 40px;
-
-  ${minBreakpointQuery.medium`
-    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'right')};
-  `}
-
-  ${minBreakpointQuery.large`
-    margin-top: 80px;
-  `}
-`;
-
 const Statistics = ({ heading, items, text, invert }) => (
   <StyledStatistics invert={invert}>
     <Container>
       <StyledHeading invert={invert}>{heading}</StyledHeading>
+      {text && <StyledText>{text}</StyledText>}
       <StyledItems>
         {items.map(({ statistic, caption }) => (
           <StyledItem>
@@ -166,7 +195,6 @@ const Statistics = ({ heading, items, text, invert }) => (
           </StyledItem>
         ))}
       </StyledItems>
-      {text && <StyledText>{text}</StyledText>}
     </Container>
   </StyledStatistics>
 );

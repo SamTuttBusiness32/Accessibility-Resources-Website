@@ -5,6 +5,7 @@ import Ctas from './Ctas';
 import ImageContent from './ImageContent';
 import Statistics from './Statistics';
 import AccessibilityFunctionsGuide from './AccessibilityFunctionsGuide';
+import ImageContentCards from './ImageContentCards';
 
 const ModularBlocks = ({ items }) =>
   items.map(item => (
@@ -41,6 +42,14 @@ const ModularBlocks = ({ items }) =>
           link={item.link}
           flip={item.flip}
           version={2}
+        />
+      )}
+      {item.model.apiKey === 'image_content_cards_modular_block' && (
+        <ImageContentCards
+          heading={item.heading}
+          text={item.text}
+          items={item.imageContentCards}
+          incrementImages={item.incrementImages}
         />
       )}
       {item.model.apiKey === 'statistics_modular_block' && (
@@ -177,6 +186,42 @@ export const ModularBlockFragments = graphql`
       }
     }
     flip
+  }
+
+  fragment ImageContentCardsModularBlockFragment on DatoCmsImageContentCardsModularBlock {
+    id
+    model {
+      apiKey
+    }
+    heading
+    text {
+      value
+      links {
+        id: originalId
+        text
+        pageUrl {
+          ...LinkFragment
+        }
+      }
+    }
+    imageContentCards {
+      heading
+      content {
+        value
+        links {
+          id: originalId
+          text
+          pageUrl {
+            ...LinkFragment
+          }
+        }
+      }
+      image {
+        url
+        alt
+      }
+    }
+    incrementImages
   }
 
   fragment StatisticsModularBlockFragment on DatoCmsStatisticsModularBlock {

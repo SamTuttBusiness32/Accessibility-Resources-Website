@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import Banner from '../components/Banner';
 import Checklist from '../components/Checklist';
+import ModularBlocks from '../components/ModularBlocks';
 
 const ChecklistPage = () => {
   const {
@@ -12,6 +13,7 @@ const ChecklistPage = () => {
       bannerHeading,
       bannerText,
       bannerImage,
+      modularBlocks,
     },
     allDatoCmsChecklist: { nodes },
   } = useStaticQuery(graphql`
@@ -40,6 +42,10 @@ const ChecklistPage = () => {
             imgixParams: { fit: "crop", w: "1920", h: "580" }
           )
           alt
+        }
+        modularBlocks {
+          ...ContentModularBlockFragment
+          ...ImageContentCardsModularBlockFragment
         }
       }
       allDatoCmsChecklist(
@@ -77,6 +83,7 @@ const ChecklistPage = () => {
           text={bannerText}
           image={bannerImage}
         />
+        <ModularBlocks items={modularBlocks} />
         <Checklist checkboxOptions={nodes} />
       </main>
     </Layout>

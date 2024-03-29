@@ -106,16 +106,17 @@ const StyledCheckboxWrapper = styled.div`
 `;
 
 const StyledCheckboxLabel = styled.label`
-  height: 14px;
-  width: 14px;
+  height: 16px;
+  width: 16px;
   display: flex;
 `;
 
 const StyledCheckbox = styled.input`
   margin: 0;
-  height: 14px;
-  width: 14px;
+  height: 16px;
+  width: 16px;
   flex-shrink: 0;
+  accent-color: ${brandColours.primary};
 `;
 
 const StyledItemText = styled.span`

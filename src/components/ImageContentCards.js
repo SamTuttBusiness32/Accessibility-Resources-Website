@@ -4,37 +4,26 @@ import {
   brandColours,
   breakpointSizes,
   fluidFontSize,
-  fontSize,
-  fontWeights,
   maxBreakpointQuery,
   minBreakpointQuery,
-  sectionMargins,
   sectionPaddings,
   standardColours,
 } from '../styles';
-import {
-  Container,
-  FontWeight,
-  Heading,
-  HtmlContent,
-  LineHeight,
-  TextAlignment,
-} from './ui';
+import { Container, Heading, HtmlContent, TextAlignment } from './ui';
 
 const StyledImageContentCards = styled.section`
-  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
   ${sectionPaddings(`40px`, `80px`)};
   background-color: ${standardColours.white};
+`;
+
+const StyledHeader = styled.header`
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
 `;
 
 const StyledHeading = styled(Heading)``;
 
 const StyledText = styled(HtmlContent)`
   margin-top: 10px;
-
-  ${minBreakpointQuery.medium`
-    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
-  `}
 
   ${minBreakpointQuery.large`
     margin-top: 15px;
@@ -50,10 +39,6 @@ const StyledItems = styled.ul`
     margin-top: 40px;
   `}
 
-  ${minBreakpointQuery.medium`
-    grid-template-columns: repeat(3, 1fr);
-  `}
-
   ${minBreakpointQuery.mlarge`
     gap: 30px;
   `}
@@ -61,20 +46,20 @@ const StyledItems = styled.ul`
   ${minBreakpointQuery.large`
     margin-top: 50px;
   `}
-
-  ${minBreakpointQuery.xlarge`
-    gap: 40px;
-  `}
 `;
 
 const StyledItem = styled.li`
   display: flex;
-  flex-direction: column;
   gap: 20px;
   align-items: center;
+  border-radius: 4px;
+  padding: 30px;
+  background-color: ${brandColours.secondary};
+  border-radius: 12px;
 
   ${maxBreakpointQuery.medium`
     margin: 0 auto;
+    flex-direction: column;
   `}
 
   ${minBreakpointQuery.small`
@@ -87,28 +72,71 @@ const StyledItem = styled.li`
 `;
 
 const StyledImages = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 10px;
+  column-gap: 20px;
+  justify-items: center;
+  width: 170px;
+  flex-shrink: 0;
+`;
+
+const StyledImageWrapper = styled.div`
   display: flex;
-  width: 100%;
+  ${({ index }) => {
+    if (index === 0) {
+      return css`
+        grid-area: 1/1/1/3;
+      `;
+    }
+  }}
 `;
 
 const StyledImage = styled.img`
-  width: 100%;
+  width: 75px;
+`;
+
+const StyledItemHeading = styled.h3`
+  ${({ theme }) =>
+    fluidFontSize(
+      22,
+      32,
+      breakpointSizes.tiny,
+      breakpointSizes.xxxxlarge,
+      theme.fontSizeMultiplier,
+    )};
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
+`;
+
+const StyledContent = styled(HtmlContent)`
+  margin-top: 10px;
+
+  ${minBreakpointQuery.small`
+    margin-top: 15px;
+  `}
 `;
 
 const ImageContentCards = ({ heading, items, text, incrementImages }) => (
   <StyledImageContentCards>
     <Container>
-      <StyledHeading>{heading}</StyledHeading>
-      <StyledText content={text} />
+      <StyledHeader>
+        <StyledHeading>{heading}</StyledHeading>
+        <StyledText content={text} />
+      </StyledHeader>
       <StyledItems>
         {items.map(({ heading, content }, id) => (
           <StyledItem key={id}>
-            <h3>{heading}</h3>
             <StyledImages>
               {items.slice(0, id + 1).map(({ image }, index) => (
-                <StyledImage key={index} src={image.url} alt={image.alt} />
+                <StyledImageWrapper key={index} index={index}>
+                  <StyledImage src={image.url} alt={image.alt} />
+                </StyledImageWrapper>
               ))}
             </StyledImages>
+            <div>
+              <StyledItemHeading>{heading}</StyledItemHeading>
+              <StyledContent content={content} />
+            </div>
           </StyledItem>
         ))}
       </StyledItems>

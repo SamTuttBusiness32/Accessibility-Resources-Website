@@ -34,6 +34,11 @@ const StyledItems = styled.ul`
   display: grid;
   gap: 30px;
   margin-top: 50px;
+  max-width: 1200px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: auto;
+  margin-right: auto;
 
   ${minBreakpointQuery.small`
     gap: 45px;
@@ -130,17 +135,17 @@ const AccessibilityFunctionsGuide = ({ heading, text }) => {
           <Heading>{heading}</Heading>
           <StyledText content={text} />
         </StyledHeader>
-        <StyledItems>
-          {nodes.map((item, id) => (
-            <StyledItem>
-              <StyledContent content={item.content} />
-              <StyledItemInner key={id}>
-                <CardHeader {...item} />
-              </StyledItemInner>
-            </StyledItem>
-          ))}
-        </StyledItems>
       </Container>
+      <StyledItems>
+        {nodes.map((item, id) => (
+          <StyledItem>
+            <StyledContent content={item.content} />
+            <StyledItemInner key={id}>
+              <CardHeader {...item} />
+            </StyledItemInner>
+          </StyledItem>
+        ))}
+      </StyledItems>
     </StyledAccessibilityFunctionsGuide>
   );
 };

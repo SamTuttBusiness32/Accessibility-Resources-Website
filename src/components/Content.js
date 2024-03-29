@@ -1,15 +1,16 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { brandColours, minBreakpointQuery } from '../styles';
-import { Container, HtmlContent, TextAlignment } from './ui';
+import {
+  brandColours,
+  minBreakpointQuery,
+  sectionPaddings,
+  standardColours,
+} from '../styles';
+import { Container, HtmlContent } from './ui';
 
 const StyledContent = styled.section`
-  margin: 30px 0;
-  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'left')};
-
-  ${minBreakpointQuery.large`
-    margin: 45px 0;
-  `}
+  background-color: ${standardColours.white};
+  ${sectionPaddings('40px', '80px')}
 `;
 
 const StyledInner = styled.div`

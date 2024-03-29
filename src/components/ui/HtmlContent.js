@@ -12,6 +12,7 @@ import { StructuredText } from './StructuredText';
 import { hasStructuredText } from '../../utils';
 import { LineHeight } from './LineHeight';
 import { FontWeight } from './FontWeight';
+import { TextAlignment } from './TextAlignment';
 
 export const StyledHtmlContent = styled.div`
   h2,
@@ -23,6 +24,7 @@ export const StyledHtmlContent = styled.div`
     line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.5)};
     font-weight: ${({ theme }) =>
       FontWeight(theme.fontWeightValue, fontWeights.bold)};
+    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
 
     ${minBreakpointQuery.small`
       margin-bottom: 14px;

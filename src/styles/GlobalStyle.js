@@ -6,7 +6,7 @@ import {
   fontSize,
   fontWeights,
 } from '../styles';
-import { FontWeight, LineHeight } from '../components/ui';
+import { FontWeight, LineHeight, TextAlignment } from '../components/ui';
 
 const GlobalStyle = createGlobalStyle`
   *,
@@ -32,6 +32,7 @@ const GlobalStyle = createGlobalStyle`
       FontWeight(theme.fontWeightValue, fontWeights.regular)};
     ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};
     line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.2)};
+    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'left')};
   }
 
   h1,

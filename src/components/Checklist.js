@@ -14,6 +14,7 @@ import { Button, Container, FontWeight, Heading, TextAlignment } from './ui';
 import { slugify } from '../utils';
 import ChecklistStatistics from './ChecklistStatistics';
 import Content from './Content';
+import downArrow from '../images/down-arrow.svg';
 
 const StyledChecklist = styled.section`
   text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
@@ -78,7 +79,6 @@ const StyledItem = styled.div`
   align-items: center;
   border: solid 2px ${brandColours.tertiary};
   border-radius: 4px;
-
   transition: ${({ theme }) =>
     `${standardTransition(
       'color',
@@ -90,11 +90,35 @@ const StyledItem = styled.div`
     background-color: ${brandColours.tertiary};
   }
 
+  &:after {
+    content: '';
+    background: url(${downArrow}) no-repeat;
+    background-size: 100%;
+    height: 6px;
+    width: 12px;
+    display: block;
+    position: relative;
+    margin-left: 5px;
+    transform: rotate(-90deg);
+    flex-grow: 1;
+    flex-shrink: 0;
+    transition: ${({ theme }) =>
+      `${standardTransition(
+        'transform',
+        theme.animationDelayValue,
+      )},  ${standardTransition('filter', theme.animationDelayValue)}`};
+  }
+
   ${({ $active }) => {
     if ($active) {
       return css`
         color: ${standardColours.white};
         background-color: ${brandColours.tertiary};
+
+        &:after {
+          filter: brightness(0) invert(1);
+          transform: rotate(0);
+        }
       `;
     }
   }}

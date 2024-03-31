@@ -5,7 +5,9 @@ import { buildUrl } from '../../utils';
 
 const commonLinkStyles = () => {
   return css`
-    display: inline-block;
+    display: flex;
+    gap: 8px;
+    align-items: center;
   `;
 };
 
@@ -17,7 +19,11 @@ const StyledLinkExternal = styled.a`
   ${commonLinkStyles()};
 `;
 
-export const Link = ({ to, children, ...props }) => {
+const StyledIcon = styled.img`
+  height: 20px;
+`;
+
+export const Link = ({ to, icon, children, ...props }) => {
   const isExternal = to.url || to.emailAddress;
   const LinkComponent = isExternal ? StyledLinkExternal : StyledLinkInternal;
   const slug = typeof to === 'string' ? to : to && to.slug;
@@ -36,6 +42,7 @@ export const Link = ({ to, children, ...props }) => {
       {...props}
     >
       {children}
+      {icon && <StyledIcon src={icon.url} alt={icon.alt} loading="lazy" />}
     </LinkComponent>
   );
 };
@@ -44,12 +51,24 @@ export const LinkFragment = graphql`
   fragment LinkFragment on Node {
     ... on DatoCmsHome {
       slug
+      icon {
+        url
+        alt
+      }
     }
     ... on DatoCmsChecklistArchive {
       slug
+      icon {
+        url
+        alt
+      }
     }
     ... on DatoCmsLogin {
       slug
+      icon {
+        url
+        alt
+      }
     }
     ... on DatoCmsPage {
       slug
@@ -61,6 +80,10 @@ export const LinkFragment = graphql`
             slug
           }
         }
+      }
+      icon {
+        url
+        alt
       }
     }
     ... on DatoCmsCategory {

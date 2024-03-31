@@ -10,6 +10,7 @@ const ChecklistPage = () => {
     datoCmsChecklistArchive: {
       seoMetaTags,
       title,
+      icon,
       bannerHeading,
       bannerText,
       bannerImage,
@@ -23,6 +24,10 @@ const ChecklistPage = () => {
           ...GatsbyDatoCmsSeoMetaTags
         }
         title
+        icon {
+          url
+          alt
+        }
         bannerHeading
         bannerText {
           value
@@ -80,6 +85,7 @@ const ChecklistPage = () => {
       <main>
         <Banner
           heading={bannerHeading ? bannerHeading : title}
+          icon={icon}
           text={bannerText}
           image={bannerImage}
         />

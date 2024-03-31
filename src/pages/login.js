@@ -6,7 +6,7 @@ import LoginForm from '../components/LoginForm';
 
 const LoginPage = () => {
   const {
-    datoCmsLogin: { seoMetaTags, bannerText, bannerImage },
+    datoCmsLogin: { seoMetaTags, icon, bannerText, bannerImage },
   } = useStaticQuery(graphql`
     query LoginPageQuery {
       datoCmsLogin {
@@ -14,6 +14,10 @@ const LoginPage = () => {
           ...GatsbyDatoCmsSeoMetaTags
         }
         title
+        icon {
+          url
+          alt
+        }
         bannerHeading
         bannerText {
           value
@@ -48,7 +52,12 @@ const LoginPage = () => {
   return (
     <Layout seo={seoMetaTags}>
       <main>
-        <Banner heading="Login" text={bannerText} image={bannerImage} />
+        <Banner
+          heading="Login"
+          icon={icon}
+          text={bannerText}
+          image={bannerImage}
+        />
         <LoginForm isLogin={true} />
       </main>
     </Layout>

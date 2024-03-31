@@ -82,14 +82,17 @@ const StyledLink = styled(Link)`
       'border-color',
       theme.animationDelayValue,
     )}, ${standardTransition('background-color', theme.animationDelayValue)}`};
-
+  padding-bottom: 4px;
   border-bottom: solid 3px ${standardColours.transparent};
 
   ${maxBreakpointQuery.mlarge`
-    display: block;
     padding: 10px 30px;
     color: ${standardColours.white};
     border-top: solid 3px ${standardColours.transparent};
+
+    img{
+      filter: brightness(0) invert(1);
+    }
   `}
 
   &:hover,
@@ -138,7 +141,11 @@ const Navigation = () => {
       <StyledList $displayNav={displayNav}>
         {navigation.map(({ text, pageUrl }, id) => (
           <StyledItem key={id}>
-            <StyledLink to={pageUrl} activeClassName="current-page">
+            <StyledLink
+              to={pageUrl}
+              icon={pageUrl.icon}
+              activeClassName="current-page"
+            >
               {text}
             </StyledLink>
           </StyledItem>

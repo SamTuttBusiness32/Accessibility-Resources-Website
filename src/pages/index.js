@@ -9,6 +9,7 @@ const IndexPage = () => {
     datoCmsHome: {
       seoMetaTags,
       title,
+      icon,
       bannerHeading,
       bannerText,
       bannerImage,
@@ -21,6 +22,10 @@ const IndexPage = () => {
           ...GatsbyDatoCmsSeoMetaTags
         }
         title
+        icon {
+          url
+          alt
+        }
         bannerHeading
         bannerText {
           value
@@ -57,6 +62,7 @@ const IndexPage = () => {
       <main>
         <Banner
           heading={bannerHeading ? bannerHeading : title}
+          icon={icon}
           text={bannerText}
           image={bannerImage}
         />

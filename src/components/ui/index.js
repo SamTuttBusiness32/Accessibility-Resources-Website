@@ -5,6 +5,7 @@ export * from './Container';
 export * from './FontWeight';
 export * from './Heading';
 export * from './HtmlContent';
+export * from './IconHeading';
 export * from './LineHeight';
 export * from './Link';
 export * from './Slider';

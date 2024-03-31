@@ -1,14 +1,8 @@
 import React from 'react';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
-import {
-  brandColours,
-  breakpointSizes,
-  fluidFontSize,
-  minBreakpointQuery,
-  standardColours,
-} from '../styles';
-import { Container, HtmlContent, LineHeight, TextAlignment } from './ui';
+import { brandColours, minBreakpointQuery, standardColours } from '../styles';
+import { Container, HtmlContent, IconHeading, TextAlignment } from './ui';
 
 const StyledBanner = styled.section`
   background-color: ${brandColours.primary};
@@ -31,23 +25,10 @@ const StyledOuter = styled.div`
 
 const StyledContent = styled.div`
   padding: 30px 0;
-
-  .textAlign {
-    text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
-  }
+  text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
 `;
 
-const StyledHeading = styled.h1`
-  ${({ theme }) =>
-    fluidFontSize(
-      30,
-      50,
-      breakpointSizes.tiny,
-      breakpointSizes.xxxxlarge,
-      theme.fontSizeMultiplier,
-    )};
-  line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.2)};
-`;
+const StyledHeading = styled(IconHeading)``;
 
 const StyledText = styled(HtmlContent)`
   margin-top: 18px;
@@ -82,15 +63,13 @@ const StyledImage = styled(GatsbyImage)`
   `}
 `;
 
-const Banner = ({ heading, text, image }) => (
+const Banner = ({ heading, icon, text, image }) => (
   <StyledBanner>
     <StyledOuter>
       <Container>
         <StyledContent>
-          <div class="textAlign">
-            <StyledHeading>{heading}</StyledHeading>
-            <StyledText content={text} />
-          </div>
+          <StyledHeading icon={icon}>{heading}</StyledHeading>
+          <StyledText content={text} />
         </StyledContent>
       </Container>
     </StyledOuter>

@@ -10,6 +10,7 @@ const DefaultPageTemplate = ({
       seoMetaTags,
       noIndex,
       title,
+      icon,
       bannerHeading,
       bannerText,
       bannerImage,
@@ -21,6 +22,7 @@ const DefaultPageTemplate = ({
     <main>
       <Banner
         heading={bannerHeading ? bannerHeading : title}
+        icon={icon}
         text={bannerText}
         image={bannerImage}
       />
@@ -37,6 +39,10 @@ export const DefaultPageTemplateQuery = graphql`
       }
       noIndex
       title
+      icon {
+        url
+        alt
+      }
       bannerHeading
       bannerText {
         value

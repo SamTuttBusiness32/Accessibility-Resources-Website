@@ -63,6 +63,19 @@ export const LinkFragment = graphql`
         alt
       }
     }
+    ... on DatoCmsGuideArchive {
+      slug
+      icon {
+        url
+        alt
+      }
+    }
+    ... on DatoCmsGuide {
+      slug
+      internal {
+        type
+      }
+    }
     ... on DatoCmsLogin {
       slug
       icon {

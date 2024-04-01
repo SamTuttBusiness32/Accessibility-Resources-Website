@@ -34,11 +34,9 @@ const Footer = () => {
 
   return (
     <StyledFooter>
-      <Container wide={true}>
+      <Container>
         <StyledInner>
-          <p>
-            &copy; {new Date().getFullYear()} {siteName}
-          </p>
+          <p>{siteName}</p>
           <p>Website by Sam Tutt</p>
         </StyledInner>
       </Container>

@@ -46,15 +46,13 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const StyledInner = styled.div`
-  ${sectionMargins(`30px`, `60px`)};
-`;
+const StyledInner = styled.div``;
 
 const StyledHeading = styled(Heading)`
-  margin-bottom: 30px;
+  margin: 30px 0;
 
   ${minBreakpointQuery.large`
-    margin-bottom: 45px;
+    margin: 45px 0;
   `}
 `;
 

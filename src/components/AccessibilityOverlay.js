@@ -12,6 +12,7 @@ import {
   zIndexLayers,
 } from '../styles';
 import { Button, CardFooter, CardHeader, HtmlContent } from './ui';
+import AccessibilitySettingsForm from './AccessibilitySettingsForm';
 
 const StyledAccessibilityOverlay = styled.div`
   position: fixed;
@@ -98,7 +99,8 @@ const StyledText = styled(HtmlContent)`
 `;
 
 const StyledButtonWrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 `;
 
@@ -319,9 +321,6 @@ const AccessibilityOverlay = ({
     setFontValue(option);
   };
 
-  // Function to handle saving values to local storage when the "Save" button is clicked
-  const handleSaveClick = () => {};
-
   const handleResetClick = () => {
     // Reset all values to 1
     setFontSizeMultiplier(1);
@@ -355,7 +354,19 @@ const AccessibilityOverlay = ({
           <StyledText content={text} />
           <StyledButtonWrapper>
             <StyledButton onClick={handleResetClick}>Reset</StyledButton>
-            <StyledButton onClick={handleSaveClick}>Save</StyledButton>
+            <AccessibilitySettingsForm
+              fontSizeMultiplier={fontSizeMultiplier}
+              saturationValue={saturationValue}
+              colourValue={colourValue}
+              alignTextValue={alignTextValue}
+              textSpacingValue={textSpacingValue}
+              lineHeightValue={lineHeightValue}
+              hideImagesValue={hideImagesValue}
+              highlightLinksValue={highlightLinksValue}
+              fontWeightValue={fontWeightValue}
+              animationDelayValue={animationDelayValue}
+              fontValue={fontValue}
+            />
           </StyledButtonWrapper>
           <StyledItems>
             {nodes.map((item, id) => (

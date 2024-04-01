@@ -10,6 +10,7 @@ const StyledBanner = styled.section`
   display: grid;
   align-items: center;
   justify-items: center;
+  padding-bottom: 50px;
 
   margin-top: 90px;
 

@@ -4,8 +4,11 @@ const fs = require(`fs`);
 exports.createPages = ({ graphql, actions }) => {
   const { createPage, createRedirect } = actions;
   const DefaultPageTemplate = path.resolve(`src/templates/default-page.js`);
-  const CategoryDetailPageTemplate = path.resolve(
-    `src/templates/category-detail-page.js`,
+  const GuideListingPageTemplate = path.resolve(
+    `src/templates/guide-listing-page.js`,
+  );
+  const GuideDetailPageTemplate = path.resolve(
+    `src/templates/guide-detail-page.js`,
   );
 
   return graphql(`
@@ -42,6 +45,17 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       }
+      datoCmsGuideArchive {
+        slug
+      }
+      allDatoCmsGuide {
+        edges {
+          node {
+            id
+            slug
+          }
+        }
+      }
       datoCmsSeo {
         redirects {
           fromPath
@@ -55,7 +69,13 @@ exports.createPages = ({ graphql, actions }) => {
       throw result.errors;
     }
 
-    const { allDatoCmsPage, allDatoCmsCategory, datoCmsSeo } = result.data;
+    const {
+      allDatoCmsPage,
+      allDatoCmsCategory,
+      allDatoCmsGuide,
+      datoCmsGuideArchive,
+      datoCmsSeo,
+    } = result.data;
 
     if (allDatoCmsPage) {
       allDatoCmsPage.edges.forEach(
@@ -108,14 +128,19 @@ exports.createPages = ({ graphql, actions }) => {
       );
     }
 
-    allDatoCmsCategory.edges.forEach(({ node: { slug, id } }) => {
+    allDatoCmsGuide.edges.forEach(({ node: { slug, id } }) => {
       createPage({
-        path: `/category/${slug}/`,
-        component: CategoryDetailPageTemplate,
+        path: `${datoCmsGuideArchive.slug}/${slug}/`,
+        component: GuideDetailPageTemplate,
         context: {
           id: id,
         },
       });
+    });
+
+    createPage({
+      path: `${datoCmsGuideArchive.slug}/`,
+      component: GuideListingPageTemplate,
     });
 
     if (datoCmsSeo) {

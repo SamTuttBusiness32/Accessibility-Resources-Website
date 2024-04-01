@@ -12,6 +12,10 @@ export const buildUrl = (slug, page) => {
       }
 
       url += `${page.treeParent.slug}/`;
+    } else if (page.internal && page.internal.type) {
+      if (page.internal.type === 'DatoCmsGuide') {
+        url += 'guides/';
+      }
     }
   }
 

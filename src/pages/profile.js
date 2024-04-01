@@ -2,23 +2,14 @@ import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import Banner from '../components/Banner';
-import ModularBlocks from '../components/ModularBlocks';
-import Footer from '../components/Footer';
+import UserProfile from '../components/UserProfile';
 
-const IndexPage = () => {
+const ProfilePage = () => {
   const {
-    datoCmsHome: {
-      seoMetaTags,
-      title,
-      icon,
-      bannerHeading,
-      bannerText,
-      bannerImage,
-      modularBlocks,
-    },
+    datoCmsLogin: { seoMetaTags, icon, bannerText, bannerImage },
   } = useStaticQuery(graphql`
-    query IndexPageQuery {
-      datoCmsHome {
+    query ProfilePageQuery {
+      datoCmsLogin {
         seoMetaTags {
           ...GatsbyDatoCmsSeoMetaTags
         }
@@ -62,15 +53,15 @@ const IndexPage = () => {
     <Layout seo={seoMetaTags}>
       <main>
         <Banner
-          heading={bannerHeading ? bannerHeading : title}
+          heading="Profile"
           icon={icon}
           text={bannerText}
           image={bannerImage}
         />
-        <ModularBlocks items={modularBlocks} />
+        <UserProfile />
       </main>
     </Layout>
   );
 };
 
-export default IndexPage;
+export default ProfilePage;

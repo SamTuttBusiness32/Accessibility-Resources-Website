@@ -96,12 +96,16 @@ const LoginForm = ({ isLogin }) => {
           console.log('Authorization successful');
           // Parse response body as JSON
           const userData = await response.json();
-          // Store user data in localStorage
-          const userDataArray = {
-            username: userData.userName,
-            email: userData.email,
-          };
-          localStorage.setItem('userDataArray', JSON.stringify(userDataArray));
+          const userDataWithoutSettings = { ...userData };
+          delete userDataWithoutSettings.settings;
+          localStorage.setItem(
+            'userData',
+            JSON.stringify(userDataWithoutSettings),
+          );
+          localStorage.setItem(
+            'userSettings',
+            JSON.stringify(userData.settings),
+          );
           navigate('/profile');
         } else {
           // Handle errors

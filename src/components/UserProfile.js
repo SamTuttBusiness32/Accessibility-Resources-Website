@@ -6,13 +6,13 @@ const StyledUserProfile = styled.section``;
 
 const UserProfile = () => {
   // Retrieve userDataArray from localStorage
-  const userDataArray = JSON.parse(localStorage.getItem('userDataArray'));
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
-  if (userDataArray) {
-    const { username, email } = userDataArray;
+  if (userData) {
+    const { userName: username, email } = userData;
     return (
       <>
-        {userDataArray && Object.keys(userDataArray).length !== 0 ? (
+        {userData && Object.keys(userData).length !== 0 ? (
           <StyledUserProfile>
             <Container narrow={true}>
               <h2>{`${username}'s Profile`}</h2>

@@ -6,10 +6,10 @@ import UserProfile from '../components/UserProfile';
 
 const ProfilePage = () => {
   const {
-    datoCmsLogin: { seoMetaTags, icon, bannerText, bannerImage },
+    datoCmsProfile: { seoMetaTags, icon, bannerText, bannerImage },
   } = useStaticQuery(graphql`
     query ProfilePageQuery {
-      datoCmsLogin {
+      datoCmsProfile {
         seoMetaTags {
           ...GatsbyDatoCmsSeoMetaTags
         }
@@ -37,13 +37,6 @@ const ProfilePage = () => {
             imgixParams: { fit: "crop", w: "1920", h: "580" }
           )
           alt
-        }
-        modularBlocks {
-          ...ContentModularBlockFragment
-          ...CtasModularBlockFragment
-          ...ImageContentModularBlockV1Fragment
-          ...ImageContentModularBlockV2Fragment
-          ...StatisticsModularBlockFragment
         }
       }
     }

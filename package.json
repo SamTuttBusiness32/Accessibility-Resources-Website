@@ -6,6 +6,7 @@
   "author": "Attach Digital <development@attachdigital.co.uk>",
   "dependencies": {
     "babel-plugin-styled-components": "^2.1.4",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "gatsby": "^5.12.6",
     "gatsby-plugin-canonical-urls": "^5.12.0",

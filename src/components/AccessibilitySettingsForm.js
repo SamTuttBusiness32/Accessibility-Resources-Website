@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { brandColours, standardColours, fontWeights } from '../styles';
+import {
+  brandColours,
+  standardColours,
+  fontWeights,
+  visuallyHidden,
+} from '../styles';
 import { Button } from './ui';
-import { navigate } from 'gatsby';
 
 const StyledAccessibilitySettingsForm = styled.form`
   width: 100%;
@@ -28,6 +32,10 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const StyledLabel = styled.label`
+  ${visuallyHidden()};
+`;
+
 const AccessibilitySettingsForm = ({
   fontSizeMultiplier,
   saturationValue,
@@ -41,13 +49,17 @@ const AccessibilitySettingsForm = ({
   animationDelayValue,
   fontValue,
 }) => {
-  const userDataArray = JSON.parse(localStorage.getItem('userDataArray'));
+  const userData = JSON.parse(localStorage.getItem('userData'))
+    ? JSON.parse(localStorage.getItem('userData'))
+    : '';
+
+  const { userName: username } = userData;
 
   const handleSaveClick = async e => {
     e.preventDefault();
     try {
       const formData = {
-        userName: userDataArray.username,
+        userName: username,
         fontSizeMultiplier,
         saturationValue,
         colourValue,
@@ -71,6 +83,8 @@ const AccessibilitySettingsForm = ({
 
       if (response.ok) {
         console.log('Settings saved successfully');
+        const userData = await response.json();
+        localStorage.setItem('userSettings', JSON.stringify(userData));
         // Optionally, you can redirect the user after successful save
       } else {
         console.error('Failed to save settings');
@@ -82,63 +96,63 @@ const AccessibilitySettingsForm = ({
 
   return (
     <StyledAccessibilitySettingsForm>
-      <label>
+      <StyledLabel>
         Font Size Multiplier:
         <input
           type="text"
           name="fontSizeMultiplier"
           value={fontSizeMultiplier}
         />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Saturation Value:
         <input type="text" name="saturationValue" value={saturationValue} />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Text Spacing Value:
         <input type="text" name="textSpacingValue" value={textSpacingValue} />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Align Text Value:
         <input type="text" name="alignTextValue" value={alignTextValue} />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Colour Value:
         <input type="text" name="colourValue" value={colourValue} />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Line Height Value:
         <input type="text" name="lineHeightValue" value={lineHeightValue} />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Hide Images Value:
         <input type="text" name="hideImagesValue" value={hideImagesValue} />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Highlight Links Value:
         <input
           type="text"
           name="highlightLinksValue"
           value={highlightLinksValue}
         />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Font Weight Value:
         <input type="text" name="fontWeightValue" value={fontWeightValue} />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Animation Delay Value:
         <input
           type="text"
           name="animationDelayValue"
           value={animationDelayValue}
         />
-      </label>
-      <label>
+      </StyledLabel>
+      <StyledLabel>
         Font Value:
         <input type="text" name="fontValue" value={fontValue} />
-      </label>
-      <StyledButton onClick={handleSaveClick} disabled={!userDataArray}>
+      </StyledLabel>
+      <StyledButton onClick={handleSaveClick} disabled={!username}>
         Save
       </StyledButton>
     </StyledAccessibilitySettingsForm>

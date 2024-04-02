@@ -70,19 +70,7 @@ const GlobalFontSize = createGlobalStyle`
     }};
     
   }
-  /* body{
-    cursor: url(${cursorT}), auto !important;
-  }
-  button{
-    cursor: url(${cursorT}), auto !important;
-  }
-  a{
-    cursor: url(${cursorT}), auto !important;
-  }
-  input{
-    cursor: url(${cursorT}), auto !important;
-  } */
-
+  
   img{
     opacity: ${props => {
       switch (props.$hideImagesValue) {
@@ -94,8 +82,6 @@ const GlobalFontSize = createGlobalStyle`
     }};
     transition: ${({ theme }) =>
       standardTransition('opacity', theme.animationDelayValue)};
-
-    
   }
 
   ${props => {
@@ -115,7 +101,6 @@ const GlobalFontSize = createGlobalStyle`
             'border-color',
             theme.animationDelayValue,
           )}`} !important;
-
 
         &:after{
           color: yellow !important;
@@ -140,45 +125,69 @@ const Layout = ({ seo, noIndex, children }) => {
       }
     }
   `);
+
   // Function to get stored value from localStorage or use default
   const getStoredValue = (key, defaultValue) => {
     const storedValue = localStorage.getItem(key);
     return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
   };
+  const userSettings = JSON.parse(localStorage.getItem('userSettings'))
+    ? JSON.parse(localStorage.getItem('userSettings'))
+    : '';
 
-  // Set initial state values using stored values or defaults
+  // Set initial state values using stored values or defaults or userSettings
   const [overlayActive, setOverlayActive] = useState(false);
   const [fontSizeMultiplier, setFontSizeMultiplier] = useState(
-    getStoredValue('fontSizeMultiplier', 1),
+    userSettings
+      ? userSettings.fontSizeMultiplier
+      : getStoredValue('fontSizeMultiplier', 1),
   );
   const [saturationValue, setSaturationValue] = useState(
-    getStoredValue('saturationValue', 1),
+    userSettings
+      ? userSettings.saturationValue
+      : getStoredValue('saturationValue', 1),
   );
   const [textSpacingValue, setTextSpacingValue] = useState(
-    getStoredValue('textSpacingValue', 1),
+    userSettings
+      ? userSettings.textSpacingValue
+      : getStoredValue('textSpacingValue', 1),
   );
   const [alignTextValue, setAlignTextValue] = useState(
-    getStoredValue('alignTextValue', 1),
+    userSettings
+      ? userSettings.alignTextValue
+      : getStoredValue('alignTextValue', 1),
   );
   const [colourValue, setColourValue] = useState(
-    getStoredValue('colourValue', 1),
+    userSettings ? userSettings.colourValue : getStoredValue('colourValue', 1),
   );
   const [lineHeightValue, setLineHeightValue] = useState(
-    getStoredValue('lineHeightValue', 1),
+    userSettings
+      ? userSettings.lineHeightValue
+      : getStoredValue('lineHeightValue', 1),
   );
   const [hideImagesValue, setHideImagesValue] = useState(
-    getStoredValue('hideImagesValue', 1),
+    userSettings
+      ? userSettings.hideImagesValue
+      : getStoredValue('hideImagesValue', 1),
   );
   const [highlightLinksValue, setHighlightLinksValue] = useState(
-    getStoredValue('highlightLinksValue', 1),
+    userSettings
+      ? userSettings.highlightLinksValue
+      : getStoredValue('highlightLinksValue', 1),
   );
   const [fontWeightValue, setFontWeightValue] = useState(
-    getStoredValue('fontWeightValue', 1),
+    userSettings
+      ? userSettings.fontWeightValue
+      : getStoredValue('fontWeightValue', 1),
   );
   const [animationDelayValue, setAnimationDelayValue] = useState(
-    getStoredValue('animationDelayValue', 1),
+    userSettings
+      ? userSettings.animationDelayValue
+      : getStoredValue('animationDelayValue', 1),
   );
-  const [fontValue, setFontValue] = useState(getStoredValue('fontValue', 1));
+  const [fontValue, setFontValue] = useState(
+    userSettings ? userSettings.fontValue : getStoredValue('fontValue', 1),
+  );
 
   // UseEffect to update localStorage when state changes
   useEffect(() => {

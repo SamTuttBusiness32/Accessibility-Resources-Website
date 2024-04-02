@@ -112,6 +112,8 @@ const StyledLink = styled(Link)`
 const Navigation = () => {
   const {
     datoCmsHeader: { navigation },
+    datoCmsLogin,
+    datoCmsProfile,
   } = useStaticQuery(graphql`
     query NavigationQuery {
       datoCmsHeader {
@@ -123,10 +125,28 @@ const Navigation = () => {
           }
         }
       }
+      datoCmsLogin {
+        title
+        icon {
+          url
+          alt
+        }
+        slug
+      }
+      datoCmsProfile {
+        title
+        icon {
+          url
+          alt
+        }
+        slug
+      }
     }
   `);
 
   const [displayNav, setDisplayNav] = useState(false);
+
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
   return (
     <StyledNavigation>
@@ -150,6 +170,15 @@ const Navigation = () => {
             </StyledLink>
           </StyledItem>
         ))}
+        <StyledItem>
+          <StyledLink
+            to={userData ? datoCmsProfile.slug : datoCmsLogin.slug}
+            icon={userData ? datoCmsProfile.icon : datoCmsLogin.icon}
+            activeClassName="current-page"
+          >
+            {userData ? datoCmsProfile.title : datoCmsLogin.title}
+          </StyledLink>
+        </StyledItem>
       </StyledList>
     </StyledNavigation>
   );

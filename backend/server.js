@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2'); // Change to mysql2
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 
 const app = express();
@@ -36,72 +37,123 @@ app.post('/api/login', (req, res) => {
   // Extract form data
   const { userName, password } = formData;
 
-  // Query the database to authenticate the user
+  // Query the database to retrieve the hashed password for the provided username
   connection.query(
-    'SELECT * FROM users WHERE userName = ? AND password = ?',
-    [userName, password],
+    'SELECT * FROM users WHERE userName = ?',
+    [userName],
     (selectErr, selectResult) => {
       if (selectErr) {
-        console.error('Error authenticating user:', selectErr);
-        res.status(500).send('Error authenticating user');
+        console.error('Error retrieving user data:', selectErr);
+        res.status(500).send('Error retrieving user data');
         return;
       }
 
-      // If user is not found or password is incorrect, return an error
+      // If no user found, return an error
       if (selectResult.length === 0) {
         res.status(400).send('Invalid username or password');
         return;
       }
 
-      // If authentication is successful, send user data in response
-      const userData = selectResult[0]; // Assuming user data is in the first row of selectResult
-      res.status(200).json(userData);
+      // Retrieve the hashed password from the database
+      const hashedPassword = selectResult[0].password;
+
+      // Compare the hashed password with the provided password
+      bcrypt.compare(password, hashedPassword, (compareErr, compareResult) => {
+        if (compareErr) {
+          console.error('Error comparing passwords:', compareErr);
+          res.status(500).send('Error comparing passwords');
+          return;
+        }
+
+        // If passwords don't match, return an error
+        if (!compareResult) {
+          res.status(400).send('Invalid username or password');
+          return;
+        }
+
+        // Passwords match, authentication successful
+        const userData = { ...selectResult[0] };
+        delete userData.password; // Exclude password field from userData
+
+        // Fetch user settings from accessibility_settings table
+        connection.query(
+          'SELECT * FROM accessibility_settings WHERE userName = ?',
+          [userName],
+          (settingsErr, settingsResult) => {
+            if (settingsErr) {
+              console.error('Error retrieving user settings:', settingsErr);
+              res.status(500).send('Error retrieving user settings');
+              return;
+            }
+
+            // Add settings data to userData
+            if (settingsResult.length > 0) {
+              userData.settings = settingsResult[0]; // Assuming there's only one row per user
+              delete userData.settings.userName; // Exclude password field from userData
+            }
+
+            // Proceed with sending user data in response
+            res.status(200).json(userData);
+          },
+        );
+      });
     },
   );
 });
 
 // Route for handling form submission
+
 app.post('/api/signup', (req, res) => {
   const formData = req.body;
 
   // Extract form data
   const { userName, email, password } = formData;
 
-  // Check if the username already exists
-  connection.query(
-    'SELECT * FROM users WHERE userName = ?',
-    [userName],
-    (selectErr, selectResult) => {
-      if (selectErr) {
-        console.error('Error checking username:', selectErr);
-        res.status(500).send('Error checking username');
-        return;
-      }
+  // Hash the password using bcrypt
+  bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
+    if (hashErr) {
+      console.error('Error hashing password:', hashErr);
+      res.status(500).send('Error hashing password');
+      return;
+    }
 
-      // If the username already exists, return a custom error message
-      if (selectResult.length > 0) {
-        res.status(400).send('Username already exists');
-        return;
-      }
+    // Check if the username already exists
+    connection.query(
+      'SELECT * FROM users WHERE userName = ?',
+      [userName],
+      (selectErr, selectResult) => {
+        if (selectErr) {
+          console.error('Error checking username:', selectErr);
+          res.status(500).send('Error checking username');
+          return;
+        }
 
-      // Insert form data into MySQL if the username doesn't exist
-      connection.query(
-        'INSERT INTO users (userName, email, password) VALUES (?, ?, ?)',
-        [userName, email, password],
-        (insertErr, insertResult) => {
-          if (insertErr) {
-            console.error('Error inserting data into MySQL:', insertErr);
-            res.status(500).send('Error inserting data into MySQL');
-            return;
-          }
-          console.log('Data inserted into MySQL');
-          res.sendStatus(200); // Respond with success status
-        },
-      );
-    },
-  );
+        // If the username already exists, return a custom error message
+        if (selectResult.length > 0) {
+          res.status(400).send('Username already exists');
+          return;
+        }
+
+        // Insert form data into MySQL if the username doesn't exist
+        connection.query(
+          'INSERT INTO users (userName, email, password) VALUES (?, ?, ?)',
+          [userName, email, hashedPassword],
+          (insertErr, insertResult) => {
+            if (insertErr) {
+              console.error('Error inserting data into MySQL:', insertErr);
+              res.status(500).send('Error inserting data into MySQL');
+              return;
+            }
+            console.log('Data inserted into MySQL');
+            res.sendStatus(200); // Respond with success status
+          },
+        );
+      },
+    );
+  });
 });
 
+// Route for handling form submission
 app.post('/api/settings', (req, res) => {
   const formData = req.body;
 
@@ -148,12 +200,23 @@ app.post('/api/settings', (req, res) => {
           fontValue,
           userName,
         ],
-        (err, results) => {
+        (err, updateResults) => {
           if (err) {
             res.status(500).json({ error: 'Internal Server Error' });
             return;
           }
-          res.status(200).json({ message: 'Settings updated successfully' });
+          // Fetch and send updated settings data
+          connection.query(
+            'SELECT * FROM accessibility_settings WHERE userName = ?',
+            [userName],
+            (err, updatedSettings) => {
+              if (err) {
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+              }
+              res.status(200).json(updatedSettings[0]); // Assuming there's only one row per user
+            },
+          );
         },
       );
     } else {
@@ -175,18 +238,28 @@ app.post('/api/settings', (req, res) => {
           animationDelayValue,
           fontValue,
         ],
-        (err, results) => {
+        (err, insertResults) => {
           if (err) {
             res.status(500).json({ error: 'Internal Server Error' });
             return;
           }
-          res.status(200).json({ message: 'Settings saved successfully' });
+          // Fetch and send updated settings data
+          connection.query(
+            'SELECT * FROM accessibility_settings WHERE userName = ?',
+            [userName],
+            (err, updatedSettings) => {
+              if (err) {
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+              }
+              res.status(200).json(updatedSettings[0]); // Assuming there's only one row per user
+            },
+          );
         },
       );
     }
   });
 });
-
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

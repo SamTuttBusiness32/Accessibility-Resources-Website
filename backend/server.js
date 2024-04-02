@@ -3,9 +3,18 @@ const mysql = require('mysql2'); // Change to mysql2
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
 
 const app = express();
 const port = 3000;
+const upload = multer({ dest: 'uploads/' });
+
+cloudinary.config({
+  cloud_name: 'dphg24y9z',
+  api_key: '676433398454284',
+  api_secret: 'eIjGf6d8fuQ-eL2LuuEQ4HmwlXc',
+});
 
 // MySQL connection configuration
 const connection = mysql.createConnection({
@@ -30,75 +39,88 @@ app.use(bodyParser.json());
 // Use cors middleware
 app.use(cors());
 
-// Route for handling login
 app.post('/api/login', (req, res) => {
   const formData = req.body;
 
   // Extract form data
   const { userName, password } = formData;
 
-  // Query the database to retrieve the hashed password for the provided username
-  connection.query(
-    'SELECT * FROM users WHERE userName = ?',
-    [userName],
-    (selectErr, selectResult) => {
-      if (selectErr) {
-        console.error('Error retrieving user data:', selectErr);
-        res.status(500).send('Error retrieving user data');
+  // Query the database to retrieve the user data and checklist data for the provided username
+  const userQuery = 'SELECT * FROM users WHERE userName = ?';
+  connection.query(userQuery, [userName], (err, userResult) => {
+    if (err) {
+      console.error('Error retrieving user data:', err);
+      res.status(500).send('Error retrieving user data');
+      return;
+    }
+
+    // If no user found, return an error
+    if (userResult.length === 0) {
+      res.status(400).send('Invalid username or password');
+      return;
+    }
+
+    // Retrieve the hashed password from the database
+    const hashedPassword = userResult[0].password;
+
+    // Compare the hashed password with the provided password
+    bcrypt.compare(password, hashedPassword, (compareErr, compareResult) => {
+      if (compareErr) {
+        console.error('Error comparing passwords:', compareErr);
+        res.status(500).send('Error comparing passwords');
         return;
       }
 
-      // If no user found, return an error
-      if (selectResult.length === 0) {
+      // If passwords don't match, return an error
+      if (!compareResult) {
         res.status(400).send('Invalid username or password');
         return;
       }
 
-      // Retrieve the hashed password from the database
-      const hashedPassword = selectResult[0].password;
+      // Passwords match, authentication successful
+      const userData = { ...userResult[0] };
+      delete userData.password; // Exclude password field from userData
 
-      // Compare the hashed password with the provided password
-      bcrypt.compare(password, hashedPassword, (compareErr, compareResult) => {
-        if (compareErr) {
-          console.error('Error comparing passwords:', compareErr);
-          res.status(500).send('Error comparing passwords');
-          return;
-        }
+      // Query the database to retrieve the checklist data for the provided username
+      const checklistQuery = 'SELECT * FROM checklist WHERE userName = ?';
+      connection.query(
+        checklistQuery,
+        [userName],
+        (checklistErr, checklistResult) => {
+          if (checklistErr) {
+            console.error('Error retrieving checklist data:', checklistErr);
+            res.status(500).send('Error retrieving checklist data');
+            return;
+          }
 
-        // If passwords don't match, return an error
-        if (!compareResult) {
-          res.status(400).send('Invalid username or password');
-          return;
-        }
+          // Query the database to retrieve the settings data for the provided username
+          const settingsQuery =
+            'SELECT * FROM accessibility_settings WHERE userName = ?';
+          connection.query(
+            settingsQuery,
+            [userName],
+            (settingsErr, settingsResult) => {
+              if (settingsErr) {
+                console.error('Error retrieving settings data:', settingsErr);
+                res.status(500).send('Error retrieving settings data');
+                return;
+              }
 
-        // Passwords match, authentication successful
-        const userData = { ...selectResult[0] };
-        delete userData.password; // Exclude password field from userData
+              // Prepare response data
+              const responseData = {
+                userData: userData,
+                checklistData: checklistResult[0], // Assuming there's only one checklist row per user
+                settingsData: settingsResult[0], // Assuming there's only one settings row per user
+              };
 
-        // Fetch user settings from accessibility_settings table
-        connection.query(
-          'SELECT * FROM accessibility_settings WHERE userName = ?',
-          [userName],
-          (settingsErr, settingsResult) => {
-            if (settingsErr) {
-              console.error('Error retrieving user settings:', settingsErr);
-              res.status(500).send('Error retrieving user settings');
-              return;
-            }
-
-            // Add settings data to userData
-            if (settingsResult.length > 0) {
-              userData.settings = settingsResult[0]; // Assuming there's only one row per user
-              delete userData.settings.userName; // Exclude password field from userData
-            }
-
-            // Proceed with sending user data in response
-            res.status(200).json(userData);
-          },
-        );
-      });
-    },
-  );
+              // Send response with user, checklist, and settings data
+              res.status(200).json(responseData);
+            },
+          );
+        },
+      );
+    });
+  });
 });
 
 // Route for handling form submission
@@ -260,6 +282,136 @@ app.post('/api/settings', (req, res) => {
     }
   });
 });
+
+app.post('/api/checklist', (req, res) => {
+  const {
+    userName,
+    parentChecked,
+    childChecked,
+    subChildChecked,
+    parentPercentages,
+  } = req.body;
+
+  // Here you can fetch additional user data from your database
+  // For demonstration, let's assume you have a 'users' table
+  const userQuery = 'SELECT * FROM users WHERE userName = ?';
+  connection.query(userQuery, [userName], (userErr, userResult) => {
+    if (userErr) {
+      console.error('Error fetching user data:', userErr);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+
+    if (userResult.length === 0) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    const userData = {
+      userName: userResult[0].userName,
+      // Include other user data as needed
+    };
+
+    // Combine user data with checklist data
+    const combinedData = {
+      ...userData,
+      parentChecked,
+      childChecked,
+      subChildChecked,
+      parentPercentages,
+    };
+
+    // Check if the data with the same userName is defined in the checklist table
+    const checkExistingQuery = 'SELECT * FROM checklist WHERE userName = ?';
+    connection.query(
+      checkExistingQuery,
+      [userName],
+      (checkErr, checkResult) => {
+        if (checkErr) {
+          console.error('Error checking existing data:', checkErr);
+          res.status(500).json({ error: 'Internal server error' });
+          return;
+        }
+
+        if (checkResult.length > 0) {
+          // Data already exists, perform an UPDATE operation
+          const updateQuery = `UPDATE checklist 
+                             SET parentChecked = ?, 
+                                 childChecked = ?, 
+                                 subChildChecked = ?, 
+                                 parentPercentages = ? 
+                             WHERE userName = ?`;
+          connection.query(
+            updateQuery,
+            [
+              JSON.stringify(combinedData.parentChecked),
+              JSON.stringify(combinedData.childChecked),
+              JSON.stringify(combinedData.subChildChecked),
+              JSON.stringify(combinedData.parentPercentages),
+              userName,
+            ],
+            (updateErr, updateResult) => {
+              if (updateErr) {
+                console.error('Error updating checklist data:', updateErr);
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+              }
+              console.log('Checklist data updated successfully');
+              res.status(200).json({ success: true, userData: combinedData });
+            },
+          );
+        } else {
+          // Data does not exist, perform an INSERT operation
+          const insertQuery = `INSERT INTO checklist 
+                             (userName, parentChecked, childChecked, subChildChecked, parentPercentages) 
+                             VALUES (?, ?, ?, ?, ?)`;
+          connection.query(
+            insertQuery,
+            [
+              combinedData.userName,
+              JSON.stringify(combinedData.parentChecked),
+              JSON.stringify(combinedData.childChecked),
+              JSON.stringify(combinedData.subChildChecked),
+              JSON.stringify(combinedData.parentPercentages),
+            ],
+            (insertErr, insertResult) => {
+              if (insertErr) {
+                console.error(
+                  'Error saving checklist data to database:',
+                  insertErr,
+                );
+                res.status(500).json({ error: 'Internal server error' });
+                return;
+              }
+              console.log('Checklist data saved successfully8');
+              res.status(200).json({ success: true, userData: combinedData });
+            },
+          );
+        }
+      },
+    );
+  });
+});
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  const file = req.file.path;
+  const username = req.body.username; // Extract username from request body
+  const folder = 'Profile Pictures'; // Set the folder name
+
+  // Upload the image to Cloudinary
+  cloudinary.uploader.upload(
+    file,
+    { folder: folder, tags: [username] },
+    (error, result) => {
+      if (error) {
+        return res.status(500).json({ error: 'Upload failed' });
+      }
+      // Return the secure URL of the uploaded image
+      res.status(200).json({ url: result.secure_url });
+    },
+  );
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

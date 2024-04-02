@@ -8,6 +8,7 @@ const StyledHeader = styled.header`
   display: flex;
   gap: 10px;
   align-items: center;
+  text-align: left;
 `;
 
 const StyledHeading = styled.h2`
@@ -35,6 +36,7 @@ const StyledText = styled.p`
   margin-top: 10px;
   ${fontSize(16)};
   line-height: 1.2;
+  text-align: left;
 `;
 
 export const CardHeader = cardHeader => {

@@ -335,7 +335,7 @@ const Checklist = ({ checkboxOptions }) => {
     );
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const data = [];
@@ -372,6 +372,76 @@ const Checklist = ({ checkboxOptions }) => {
     });
 
     setParentPercentages(data);
+
+    try {
+      const userDataFromLocalStorage = JSON.parse(
+        localStorage.getItem('userData'),
+      );
+
+      // Prepare data to send to the server
+      const dataToSend = {
+        userName: userDataFromLocalStorage.userName,
+        parentChecked,
+        childChecked,
+        subChildChecked,
+        parentPercentages,
+      };
+
+      console.log(dataToSend);
+
+      // Make a POST request to your backend API using fetch
+      const response = await fetch('http://localhost:3000/api/checklist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error saving checklist data: ${response.statusText}`);
+      }
+
+      const userData = await response.json();
+
+      if (
+        !userData ||
+        typeof userData.parentChecked === 'undefined' ||
+        typeof userData.childChecked === 'undefined' ||
+        typeof userData.subChildChecked === 'undefined' ||
+        typeof userData.parentPercentages === 'undefined'
+      ) {
+        throw new Error('Invalid data received from server');
+      }
+
+      console.log('Checklist data saved successfully6');
+      console.log('UserData:', userData.userData);
+
+      localStorage.setItem(
+        'parentChecked',
+        JSON.stringify(userData.parentChecked),
+      );
+      localStorage.setItem(
+        'childChecked',
+        JSON.stringify(userData.childChecked),
+      );
+      localStorage.setItem(
+        'subChildChecked',
+        JSON.stringify(userData.subChildChecked),
+      );
+      localStorage.setItem(
+        'parentPercentages',
+        JSON.stringify(userData.parentPercentages),
+      );
+
+      // Update local state
+      setParentChecked(userData.parentChecked);
+      setChildChecked(userData.childChecked);
+      setSubChildChecked(userData.subChildChecked);
+      setParentPercentages(userData.parentPercentages);
+    } catch (error) {
+      console.error('Error saving checklist data:', error);
+    }
   };
 
   return (

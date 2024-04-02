@@ -3,7 +3,6 @@ import { useStaticQuery, graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import Banner from '../components/Banner';
 import ModularBlocks from '../components/ModularBlocks';
-import Footer from '../components/Footer';
 
 const IndexPage = () => {
   const {
@@ -16,6 +15,7 @@ const IndexPage = () => {
       bannerImage,
       modularBlocks,
     },
+    allCloudinaryMedia,
   } = useStaticQuery(graphql`
     query IndexPageQuery {
       datoCmsHome {
@@ -53,6 +53,12 @@ const IndexPage = () => {
           ...ImageContentModularBlockV1Fragment
           ...ImageContentModularBlockV2Fragment
           ...StatisticsModularBlockFragment
+        }
+      }
+      allCloudinaryMedia(filter: { folder: { eq: "Profile Pictures" } }) {
+        nodes {
+          url
+          folder
         }
       }
     }

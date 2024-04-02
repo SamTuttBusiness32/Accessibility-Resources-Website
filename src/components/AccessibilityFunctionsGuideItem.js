@@ -33,6 +33,7 @@ const StyledAccessibilityFunctionsGuideItem = styled.article`
 `;
 
 const StyledHeading = styled.h3`
+  width: 100%;
   text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
   margin-bottom: 15px;
   ${({ theme }) => fontSize(24, theme.fontSizeMultiplier)};

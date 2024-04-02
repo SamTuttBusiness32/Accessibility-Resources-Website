@@ -46,9 +46,18 @@ const StyledGuideCard = styled.article`
   }
 `;
 
+const StyledLink = styled(Link)`
+  height: 100%;
+`;
+
 const StyledInner = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
+`;
+
+const StyledImage = styled(GatsbyImage)`
+  flex-shrink: 0;
 `;
 
 const StyledContent = styled.div`
@@ -59,15 +68,15 @@ const GuideCard = GuideCard => {
   const { title, text, image } = GuideCard;
   return (
     <StyledGuideCard>
-      <Link to={GuideCard}>
+      <StyledLink to={GuideCard}>
         <StyledInner>
-          <GatsbyImage image={image.gatsbyImageData} alt={image.alt} />
+          <StyledImage image={image.gatsbyImageData} alt={image.alt} />
           <StyledContent>
             <StyledHeading>{title}</StyledHeading>
             <HtmlContent content={text} />
           </StyledContent>
         </StyledInner>
-      </Link>
+      </StyledLink>
     </StyledGuideCard>
   );
 };

@@ -75,7 +75,8 @@ export const StyledHtmlContent = styled.div`
     margin-bottom: 20px;
     ${({ theme }) => fontSize(15, theme.fontSizeMultiplier)};
     line-height: ${({ theme }) => LineHeight(theme.lineHeightValue, 1.7)};
-
+    font-weight: ${({ theme }) =>
+      FontWeight(theme.fontWeightValue, fontWeights.regular)};
     ${minBreakpointQuery.small`
       margin-bottom: 24px;
       ${({ theme }) => fontSize(16, theme.fontSizeMultiplier)};

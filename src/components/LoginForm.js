@@ -96,15 +96,28 @@ const LoginForm = ({ isLogin }) => {
           console.log('Authorization successful');
           // Parse response body as JSON
           const userData = await response.json();
-          const userDataWithoutSettings = { ...userData };
-          delete userDataWithoutSettings.settings;
-          localStorage.setItem(
-            'userData',
-            JSON.stringify(userDataWithoutSettings),
-          );
+          console.log(userData);
+
+          localStorage.setItem('userData', JSON.stringify(userData.userData));
           localStorage.setItem(
             'userSettings',
-            JSON.stringify(userData.settings),
+            JSON.stringify(userData.settingsData),
+          );
+          localStorage.setItem(
+            'parentChecked',
+            JSON.stringify(userData.checklistData.parentChecked),
+          );
+          localStorage.setItem(
+            'childChecked',
+            JSON.stringify(userData.checklistData.childChecked),
+          );
+          localStorage.setItem(
+            'subChildChecked',
+            JSON.stringify(userData.checklistData.subChildChecked),
+          );
+          localStorage.setItem(
+            'parentPercentages',
+            JSON.stringify(userData.checklistData.parentPercentages),
           );
           navigate('/profile');
         } else {

@@ -406,10 +406,10 @@ const Checklist = ({ checkboxOptions }) => {
 
       if (
         !userData ||
-        typeof userData.parentChecked === 'undefined' ||
-        typeof userData.childChecked === 'undefined' ||
-        typeof userData.subChildChecked === 'undefined' ||
-        typeof userData.parentPercentages === 'undefined'
+        !userData.parentChecked ||
+        !userData.childChecked ||
+        !userData.subChildChecked ||
+        !userData.parentPercentages
       ) {
         throw new Error('Invalid data received from server');
       }

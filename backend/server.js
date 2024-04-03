@@ -384,7 +384,7 @@ app.post('/api/checklist', (req, res) => {
                 return;
               }
               console.log('Checklist data saved successfully8');
-              res.status(200).json({ success: true, userData: combinedData });
+              res.status(200).json({ userData: combinedData });
             },
           );
         }

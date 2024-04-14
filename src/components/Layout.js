@@ -128,8 +128,12 @@ const Layout = ({ seo, noIndex, children }) => {
 
   // Function to get stored value from localStorage or use default
   const getStoredValue = (key, defaultValue) => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+    if (typeof window !== 'undefined') {
+      const storedValue = localStorage.getItem(key);
+      return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
+    } else {
+      return defaultValue;
+    }
   };
 
   const [userSettings, setUserSettings] = useState();

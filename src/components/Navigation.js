@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import styled from 'styled-components';
 import {
@@ -145,8 +145,11 @@ const Navigation = () => {
   `);
 
   const [displayNav, setDisplayNav] = useState(false);
+  const [userData, setUserData] = useState();
 
-  const userData = JSON.parse(localStorage.getItem('userData'));
+  useEffect(() => {
+    setUserData(JSON.parse(localStorage.getItem('userData')));
+  }, []);
 
   return (
     <StyledNavigation>

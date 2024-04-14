@@ -21,7 +21,7 @@ const NotFoundPage = () => {
   return (
     <Layout noIndex={true}>
       <main>
-        <Banner heading={title} />
+        <h1>404</h1>
         <ModularBlocks items={modularBlocks} />
       </main>
     </Layout>

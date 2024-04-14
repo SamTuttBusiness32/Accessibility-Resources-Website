@@ -17,7 +17,7 @@ export const standardColours = {
 
 export const brandColours = {
   primary: '#008080', // Blue
-  secondary: '#EAF6FF', // Light Blue
+  secondary: '#F4FAFF', // Light Blue
   tertiary: '#003131', // Dark Blue
 };
 

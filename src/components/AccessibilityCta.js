@@ -117,6 +117,7 @@ const AccessibilityCta = ({ overlayActive, setOverlayActive, ...props }) => (
     <StyledButton
       $overlayActive={overlayActive}
       onClick={() => setOverlayActive(!overlayActive)}
+      aria-label="Open Accessibility Functions"
     >
       <StyledImage image={settingsIcon} />
     </StyledButton>

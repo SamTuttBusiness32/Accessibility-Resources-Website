@@ -42,7 +42,13 @@ export const Link = ({ to, icon, children, ...props }) => {
       {...props}
     >
       {children}
-      {icon && <StyledIcon src={icon.url} alt={icon.alt} loading="lazy" />}
+      {icon && (
+        <StyledIcon
+          src={icon.url}
+          alt={`${icon.alt} Page Link`}
+          loading="lazy"
+        />
+      )}
     </LinkComponent>
   );
 };

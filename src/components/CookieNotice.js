@@ -5,6 +5,7 @@ import {
   brandColours,
   maxBreakpointQuery,
   minBreakpointQuery,
+  standardColours,
   zIndexLayers,
 } from '../styles';
 import { Button, Container, TextAlignment } from './ui';
@@ -32,6 +33,7 @@ const StyledInner = styled.div`
 
 const StyledText = styled.p`
   text-align: ${({ theme }) => TextAlignment(theme.alignTextValue, 'center')};
+  color: ${standardColours.white};
 
   ${maxBreakpointQuery.medium`
     margin-bottom: 15px;

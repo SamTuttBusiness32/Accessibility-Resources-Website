@@ -155,7 +155,7 @@ const AccessibilitySettingsForm = ({
         Font Value:
         <input type="text" name="fontValue" value={fontValue} />
       </StyledLabel>
-      <StyledButton onClick={handleSaveClick} disabled={!userData.userName}>
+      <StyledButton onClick={handleSaveClick} disabled={!userData}>
         Save
       </StyledButton>
     </StyledAccessibilitySettingsForm>

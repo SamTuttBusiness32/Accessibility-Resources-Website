@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   brandColours,
@@ -49,9 +49,14 @@ const AccessibilitySettingsForm = ({
   animationDelayValue,
   fontValue,
 }) => {
-  const userData = JSON.parse(localStorage.getItem('userData'))
-    ? JSON.parse(localStorage.getItem('userData'))
-    : '';
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('userData'))
+      ? JSON.parse(localStorage.getItem('userData'))
+      : '';
+    setUserData(userData);
+  }, []);
 
   const { userName: username } = userData;
 

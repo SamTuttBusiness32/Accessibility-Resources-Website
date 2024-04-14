@@ -131,9 +131,15 @@ const Layout = ({ seo, noIndex, children }) => {
     const storedValue = localStorage.getItem(key);
     return storedValue !== null ? JSON.parse(storedValue) : defaultValue;
   };
-  const userSettings = JSON.parse(localStorage.getItem('userSettings'))
-    ? JSON.parse(localStorage.getItem('userSettings'))
-    : '';
+
+  const [userSettings, setUserSettings] = useState();
+
+  useEffect(() => {
+    const userSettings = JSON.parse(localStorage.getItem('userSettings'))
+      ? JSON.parse(localStorage.getItem('userSettings'))
+      : '';
+    setUserSettings(userSettings);
+  }, []);
 
   // Set initial state values using stored values or defaults or userSettings
   const [overlayActive, setOverlayActive] = useState(false);

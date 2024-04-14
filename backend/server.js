@@ -20,8 +20,8 @@ cloudinary.config({
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'WishSQLNish32',
-  database: 'sys',
+  password: 'root',
+  database: 'accessibility',
 });
 
 // Connect to MySQL

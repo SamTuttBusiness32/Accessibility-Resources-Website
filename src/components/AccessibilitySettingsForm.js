@@ -58,13 +58,11 @@ const AccessibilitySettingsForm = ({
     setUserData(userData);
   }, []);
 
-  const { userName: username } = userData;
-
   const handleSaveClick = async e => {
     e.preventDefault();
     try {
       const formData = {
-        userName: username,
+        userName: userData.userName,
         fontSizeMultiplier,
         saturationValue,
         colourValue,
@@ -157,7 +155,7 @@ const AccessibilitySettingsForm = ({
         Font Value:
         <input type="text" name="fontValue" value={fontValue} />
       </StyledLabel>
-      <StyledButton onClick={handleSaveClick} disabled={!username}>
+      <StyledButton onClick={handleSaveClick} disabled={!userData.userName}>
         Save
       </StyledButton>
     </StyledAccessibilitySettingsForm>
